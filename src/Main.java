@@ -3,6 +3,6 @@ public class Main {
         System.out.println("hello world!");
         System.out.println("this must yes");
         System.out.println("It works");
-        System.out.println("Hallo");
+        System.out.println("HALLO");
     }
 }
