@@ -4,5 +4,12 @@ public class Main {
         System.out.println("this must yes");
         System.out.println("It works");
         System.out.println("HALLO");
+        for (int i = 0; i < 100; i++) {
+            test();
+        }
+    }
+
+    public static void test() {
+        System.out.println("you have tested");
     }
 }
