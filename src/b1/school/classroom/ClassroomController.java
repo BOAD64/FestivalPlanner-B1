@@ -1,6 +1,7 @@
 package b1.school.classroom;
 
 import b1.Controller;
+import b1.Main;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -12,9 +13,8 @@ public class ClassroomController implements Controller {
     private ArrayList<Classroom> classrooms;
 
 
-
     public ClassroomController() {
-        this.classroomView;
+        this.classroomView = new ClassroomView();
         this.classrooms = new ArrayList<>();
     }
 
@@ -35,12 +35,17 @@ public class ClassroomController implements Controller {
         return null;
     }
 
+    public ClassroomView getClassroomView() {
+        return classroomView;
+    }
+
     public ArrayList<Classroom> getClassroomList() {
         return classrooms;
     }
 
     @Override
     public void show() {
-
+        classroomView.addClassrooms(this.classrooms);
+        classroomView.getStage().show();
     }
 }
