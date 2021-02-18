@@ -29,17 +29,27 @@ public class ClassroomView implements View {
         //object for stage
         Label classroomCodeLabel = new Label("Lokaalcode:");
         Label classroomCapacityLabel = new Label("Capaciteit: ");
+        Label classroomWidthLabel = new Label("Width: ");
+        Label classroomLengthLabel = new Label("Length: ");
 
         TextField classroomCode = new TextField(this.classroom.getRoomCode());
         TextField classroomCapacity = new TextField("" + this.classroom.getCapacity());
+        TextField classroomWidth = new TextField("" + this.classroom.getWidth());
+        TextField classroomLength = new TextField("" + this.classroom.getLength());
 
         Button applyButton = new Button("Apply");
         Button okButton = new Button("Ok");
 
         //ordering
         VBox vBox = new VBox();
-        vBox.getChildren().addAll(classroomCodeLabel, classroomCode, classroomCapacityLabel, classroomCapacity, applyButton, okButton);
-        vBox.setSpacing(20);
+        vBox.getChildren().addAll(
+                classroomCodeLabel, classroomCode,
+                classroomCapacityLabel, classroomCapacity,
+                classroomLengthLabel, classroomLength,
+                classroomWidthLabel, classroomWidth,
+                applyButton, okButton
+        );
+        vBox.setSpacing(10);
         HBox hBox = new HBox();
         hBox.getChildren().addAll(vBox);
         hBox.setSpacing(20);
@@ -48,13 +58,20 @@ public class ClassroomView implements View {
 
         //button actions
         applyButton.setOnAction( event -> {
-            //read text fields
-            //save on classroom
+            //read and save from text fields
+            this.classroom.setCapacity(Integer.parseInt(classroomCapacity.getText()));
+            this.classroom.setRoomCode(classroomCode.getText());
+            this.classroom.setLength(Double.parseDouble(classroomLength.getText()));
+            this.classroom.setWidth(Double.parseDouble(classroomWidth.getText()));
         });
         okButton.setOnAction( event -> {
-            //read text fields
-            //save on classroom
+            //read and save from text fields
+            this.classroom.setCapacity(Integer.parseInt(classroomCapacity.getText()));
+            this.classroom.setRoomCode(classroomCode.getText());
+            this.classroom.setLength(Double.parseDouble(classroomLength.getText()));
+            this.classroom.setWidth(Double.parseDouble(classroomWidth.getText()));
             //exit window
+            stage.close();
         });
 
         //applying to stage

@@ -1,12 +1,13 @@
 package b1.school.classroom;
 
 
-public class Classroom {
+public class Classroom extends Room {
     private String roomCode;
     private int capacity;
 
 
-    public Classroom(String roomCode, int capacity) {
+    public Classroom(double width, double length, String roomCode, int capacity) {
+        super(width, length);
         this.roomCode = roomCode;
         this.capacity = capacity;
     }

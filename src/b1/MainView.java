@@ -11,7 +11,7 @@ import org.jfree.fx.FXGraphics2D;
 
 
 public class MainView extends Application {
-    Classroom c = new Classroom("lol34", 69);
+    Classroom c = new Classroom(420, 666, "lol34", 69);
     private ClassroomController classroomController = new ClassroomController(c);
 
     @Override
