@@ -9,8 +9,6 @@ public class Classroom {
     public Classroom(String roomCode, int capacity) {
         this.roomCode = roomCode;
         this.capacity = capacity;
-
-
     }
 
 

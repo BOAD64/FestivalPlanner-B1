@@ -18,19 +18,5 @@ public class Main {
     public static void startGUI(){
         Application.launch(MainView.class);
     }
-
-
-    public static void initialize(){
-
-        ClassroomController classroomController = new ClassroomController();
-        classroomController.addClassroom(new Classroom("LA136", 15));
-        classroomController.addClassroom(new Classroom("LA247", 10));
-
-        classroomController.show();
-
-    }
-
-
-
-
+    
 }

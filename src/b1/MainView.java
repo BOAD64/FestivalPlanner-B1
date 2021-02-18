@@ -11,18 +11,11 @@ import org.jfree.fx.FXGraphics2D;
 
 
 public class MainView extends Application {
-
-    private ClassroomController classroomController = new ClassroomController();
+    Classroom c = new Classroom("lol34", 69);
+    private ClassroomController classroomController = new ClassroomController(c);
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        classroomInit();
         classroomController.show();
-    }
-
-    public void classroomInit(){
-        this.classroomController.addClassroom(new Classroom("LA136", 15));
-        this.classroomController.addClassroom(new Classroom("LA136", 25));
-        this.classroomController.addClassroom(new Classroom("LA247", 10));
     }
 }
