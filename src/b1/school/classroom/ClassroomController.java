@@ -9,12 +9,16 @@ import java.util.List;
 
 public class ClassroomController implements Controller {
     private ClassroomView classroomView;
-    private List<Classroom> classrooms;
+    private ArrayList<Classroom> classrooms;
+
+
 
     public ClassroomController() {
-        this.classroomView = new ClassroomView();
+        this.classroomView;
         this.classrooms = new ArrayList<>();
     }
+
+
 
     public void addClassroom(Classroom classroom) {
         if (!this.classrooms.contains(classroom)) {
@@ -29,6 +33,10 @@ public class ClassroomController implements Controller {
             }
         }
         return null;
+    }
+
+    public ArrayList<Classroom> getClassroomList() {
+        return classrooms;
     }
 
     @Override
