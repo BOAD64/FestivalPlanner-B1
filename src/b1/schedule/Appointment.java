@@ -1,5 +1,7 @@
 package b1.schedule;
 
+import b1.school.person.Person;
+
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -16,7 +18,7 @@ public class Appointment {
         this.name = name;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.persons = new ArrayList<Person>();
+        this.persons = new ArrayList<>();
         this.location = location;
         this.description = description;
     }
@@ -27,7 +29,7 @@ public class Appointment {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -35,7 +37,7 @@ public class Appointment {
     }
 
     public LocalTime getStartTime() {
-        return startTime;
+        return this.startTime;
     }
 
     public void setStartTime(LocalTime startTime) {
@@ -43,7 +45,7 @@ public class Appointment {
     }
 
     public LocalTime getEndTime() {
-        return endTime;
+        return this.endTime;
     }
 
     public void setEndTime(LocalTime endTime) {
@@ -51,11 +53,11 @@ public class Appointment {
     }
 
     public ArrayList<Person> getPersons() {
-        return persons;
+        return this.persons;
     }
 
     public Room getLocation() {
-        return location;
+        return this.location;
     }
 
     public void setLocation(Room location) {
@@ -63,7 +65,7 @@ public class Appointment {
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     public void setDescription(String description) {
