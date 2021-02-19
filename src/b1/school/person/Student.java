@@ -8,4 +8,9 @@ public class Student {
         this.name = name;
         this.stundentnr = stundentnr;
     }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }

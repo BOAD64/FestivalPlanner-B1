@@ -2,8 +2,6 @@ package b1.school.classroom;
 
 import b1.Controller;
 
-import java.util.ArrayList;
-
 public class ClassroomController implements Controller {
     private ClassroomView classroomView;
     private Classroom classroom;

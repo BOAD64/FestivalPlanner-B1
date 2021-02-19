@@ -15,7 +15,7 @@ public class Main {
         startGUI();
     }
 
-    public static void startGUI(){
+    public static void startGUI() {
         Application.launch(MainView.class);
     }
     

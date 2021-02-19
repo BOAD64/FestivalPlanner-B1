@@ -3,12 +3,13 @@ package b1.school.group;
 import b1.school.person.Student;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Group {
-    private List<Student> students;
+    private String groupCode;
+    private ArrayList<Student> students;
 
-    public Group() {
+    public Group(String groupCode) {
+        this.groupCode = groupCode;
         this.students = new ArrayList<>();
     }
 
@@ -16,5 +17,21 @@ public class Group {
         if (!students.contains(student)) {
             this.students.add(student);
         }
+    }
+
+    public void setStudents(ArrayList<Student> students) {
+        this.students = students;
+    }
+
+    public ArrayList<Student> getStudentsList() {
+        return this.students;
+    }
+
+    public String getGroupCode() {
+        return this.groupCode;
+    }
+
+    public void setGroupCode(String groupCode) {
+        this.groupCode = groupCode;
     }
 }
