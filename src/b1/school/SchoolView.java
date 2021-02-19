@@ -159,4 +159,8 @@ public class SchoolView implements View {
     public Button getOkButton() {
         return okButton;
     }
+
+    public TextField getSchoolNameField() {
+        return schoolNameField;
+    }
 }

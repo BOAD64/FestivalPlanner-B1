@@ -52,7 +52,11 @@ public class MainView extends Application {
     }
 
     public void schoolTest() {
+        Classroom c = new Classroom(420, 666, "lol34", 69);
+        Classroom classroom = new Classroom(777, 3434, "holy", 45);
+
         School school = new School("haha reeee");
+        school.addClassroom(classroom);
         SchoolController schoolController = new SchoolController(school);
         schoolController.show();
     }

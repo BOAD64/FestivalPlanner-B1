@@ -63,6 +63,12 @@ public class School {
         this.teachers = teachers;
     }
 
+    public void addClassroom(Classroom classroom) {
+        if (!this.classrooms.contains(classroom)) {
+            this.classrooms.add(classroom);
+        }
+    }
+
     @Override
     public String toString(){
         return this.schoolName;

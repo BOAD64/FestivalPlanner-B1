@@ -64,7 +64,7 @@ public class GroupView implements View {
 
             /*
             StudentController studentController = new StudentControllor(selectedStudent);
-            studentController.getStage().show();
+            studentController.show();
             */
         });
         applyButton.setOnAction( event -> {
