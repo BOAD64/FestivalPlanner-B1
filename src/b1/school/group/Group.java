@@ -34,4 +34,9 @@ public class Group {
     public void setGroupCode(String groupCode) {
         this.groupCode = groupCode;
     }
+
+    @Override
+    public String toString(){
+        return this.groupCode;
+    }
 }

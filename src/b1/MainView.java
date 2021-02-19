@@ -16,7 +16,7 @@ public class MainView extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         groupTest();
-        classroomTest();
+        //classroomTest();
     }
 
     public void groupTest() {
