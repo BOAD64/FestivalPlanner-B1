@@ -15,5 +15,35 @@ public class SchoolController implements Controller {
     @Override
     public void show() {
         this.schoolView.getStage().show();
+        this.schoolView.getSelectClassroomButton().setOnAction(event -> openClassroom());
+        this.schoolView.getSelectGroupButton().setOnAction(event -> openGroup());
+        this.schoolView.getSelectStudentButton().setOnAction(event -> openStudent());
+        this.schoolView.getSelectTeacherButton().setOnAction(event -> openTeacher());
+        this.schoolView.getApplyButton().setOnAction(event -> apply());
+        this.schoolView.getOkButton().setOnAction(event -> ok());
+    }
+
+    private void openClassroom() {
+
+    }
+
+    private void openGroup() {
+
+    }
+
+    private void openTeacher() {
+
+    }
+
+    private void openStudent() {
+
+    }
+
+    private void apply() {
+
+    }
+
+    private void ok() {
+
     }
 }

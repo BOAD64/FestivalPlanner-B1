@@ -1,5 +1,7 @@
 package b1;
 
+import b1.school.School;
+import b1.school.SchoolController;
 import b1.school.classroom.Classroom;
 import b1.school.classroom.ClassroomController;
 import b1.school.group.Group;
@@ -16,7 +18,8 @@ public class MainView extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         groupTest();
-        //classroomTest();
+        classroomTest();
+        schoolTest();
     }
 
     public void groupTest() {
@@ -46,5 +49,11 @@ public class MainView extends Application {
         Classroom c = new Classroom(420, 666, "lol34", 69);
         ClassroomController classroomController = new ClassroomController(c);
         classroomController.show();
+    }
+
+    public void schoolTest() {
+        School school = new School("haha reeee");
+        SchoolController schoolController = new SchoolController(school);
+        schoolController.show();
     }
 }
