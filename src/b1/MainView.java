@@ -1,5 +1,7 @@
 package b1;
 
+import b1.school.classroom.Classroom;
+import b1.school.classroom.ClassroomController;
 import b1.school.group.Group;
 import b1.school.group.GroupController;
 import b1.school.person.Student;
@@ -10,11 +12,14 @@ import java.util.ArrayList;
 
 
 public class MainView extends Application {
-    //Classroom c = new Classroom(420, 666, "lol34", 69);
-    //private ClassroomController classroomController = new ClassroomController(c);
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        groupTest();
+        classroomTest();
+    }
+
+    public void groupTest() {
         Student student1 = new Student("biebom", 1);
         Student student2 = new Student("hibie", 2);
         Student student3 = new Student("harry", 3);
@@ -35,7 +40,11 @@ public class MainView extends Application {
 
         GroupController groupController = new GroupController(group);
         groupController.show();
+    }
 
-        //classroomController.show();
+    public void classroomTest() {
+        Classroom c = new Classroom(420, 666, "lol34", 69);
+        ClassroomController classroomController = new ClassroomController(c);
+        classroomController.show();
     }
 }

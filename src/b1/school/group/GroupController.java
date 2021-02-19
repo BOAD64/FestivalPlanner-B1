@@ -1,7 +1,6 @@
 package b1.school.group;
 
 import b1.Controller;
-import b1.school.classroom.ClassroomView;
 
 public class GroupController implements Controller {
     private Group group;
