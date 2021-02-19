@@ -13,6 +13,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -31,6 +32,10 @@ public class SchoolView implements View {
     private Button selectTeacherButton;
     private Button applyButton;
     private Button okButton;
+    private Button refreshClassroom;
+    private Button refreshGroup;
+    private Button refreshStudent;
+    private Button refreshTeacher;
 
 
     public SchoolView(School school) {
@@ -62,19 +67,38 @@ public class SchoolView implements View {
         this.applyButton = new Button("Apply");
         this.okButton = new Button("Ok");
 
+        this.refreshClassroom = new Button("Refresh");
+        this.refreshGroup = new Button("Refresh");
+        this.refreshStudent = new Button("Refresh");
+        this.refreshTeacher = new Button("Refresh");
+
+        HBox classroomButtons = new HBox();
+        classroomButtons.setSpacing(10);
+        HBox groupButtons = new HBox();
+        groupButtons.setSpacing(10);
+        HBox studentButtons = new HBox();
+        studentButtons.setSpacing(10);
+        HBox teacherButtons = new HBox();
+        teacherButtons.setSpacing(10);
+
+        classroomButtons.getChildren().addAll(selectClassroomButton, refreshClassroom);
+        groupButtons.getChildren().addAll(selectGroupButton, refreshGroup);
+        studentButtons.getChildren().addAll(selectStudentButton, refreshStudent);
+        teacherButtons.getChildren().addAll(selectTeacherButton, refreshTeacher);
+
         GridPane gridPane = new GridPane();
         gridPane.add(classroomLabel, 1, 1);
         gridPane.add(groupLabel, 2, 1);
         gridPane.add(this.classroomListView, 1, 2);
         gridPane.add(this.groupListView, 2, 2);
-        gridPane.add(this.selectClassroomButton, 1, 3);
-        gridPane.add(this.selectGroupButton, 2, 3);
+        gridPane.add(classroomButtons, 1, 3);
+        gridPane.add(groupButtons, 2, 3);
         gridPane.add(studentLabel, 1, 4);
         gridPane.add(teacherLabel, 2, 4);
         gridPane.add(this.studentListView, 1, 5);
         gridPane.add(this.teacherListView, 2, 5);
-        gridPane.add(this.selectStudentButton, 1, 6);
-        gridPane.add(this.selectTeacherButton, 2, 6);
+        gridPane.add(studentButtons, 1, 6);
+        gridPane.add(teacherButtons, 2, 6);
 
         VBox vBox = new VBox();
         vBox.getChildren().addAll(
@@ -93,28 +117,39 @@ public class SchoolView implements View {
     }
 
     private void createListViews(){
+        this.createClassroomListView();
+        this.createGroupListView();
+        this.createStudentListView();
+        this.createTeacherListView();
+    }
+
+    public void createClassroomListView(){
         this.classroomListView = new ListView<>();
-        this.groupListView = new ListView<>();
-        this.studentListView = new ListView<>();
-        this.teacherListView = new ListView<>();
-
         this.classroomListView.setPrefHeight(200);
-        this.groupListView.setPrefHeight(200);
-        this.studentListView.setPrefHeight(200);
-        this.teacherListView.setPrefHeight(200);
-
         for (Classroom classroom : this.school.getClassrooms()){
             this.classroomListView.getItems().add(classroom);
         }
+    }
 
+    public void createGroupListView(){
+        this.groupListView = new ListView<>();
+        this.groupListView.setPrefHeight(200);
         for (Group group : this.school.getGroups()){
             this.groupListView.getItems().add(group);
         }
+    }
 
+    public void createStudentListView(){
+        this.studentListView = new ListView<>();
+        this.studentListView.setPrefHeight(200);
         for (Student student : this.school.getStudents()){
             this.studentListView.getItems().add(student);
         }
+    }
 
+    public void createTeacherListView(){
+        this.teacherListView = new ListView<>();
+        this.teacherListView.setPrefHeight(200);
         for (Teacher teacher : this.school.getTeachers()){
             this.teacherListView.getItems().add(teacher);
         }
@@ -158,6 +193,22 @@ public class SchoolView implements View {
 
     public Button getOkButton() {
         return okButton;
+    }
+
+    public Button getRefreshClassroom() {
+        return refreshClassroom;
+    }
+
+    public Button getRefreshGroup() {
+        return refreshGroup;
+    }
+
+    public Button getRefreshStudent() {
+        return refreshStudent;
+    }
+
+    public Button getRefreshTeacher() {
+        return refreshTeacher;
     }
 
     public TextField getSchoolNameField() {

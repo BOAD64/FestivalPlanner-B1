@@ -19,5 +19,20 @@ public class ClassroomController implements Controller {
     @Override
     public void show() {
         classroomView.getStage().show();
+        this.classroomView.getOkButton().setOnAction(event -> this.okButton());
+        this.classroomView.getApplyButton().setOnAction(event -> this.applyButton());
     }
+
+    private void okButton(){
+        this.applyButton();
+        this.getClassroomView().getStage().close();
+    }
+
+    private void applyButton(){
+        this.classroom.setCapacity(Integer.parseInt(this.classroomView.getClassroomCapacity().getText()));
+        this.classroom.setRoomCode(this.classroomView.getClassroomCode().getText());
+        this.classroom.setLength(Double.parseDouble(this.getClassroomView().getClassroomLength().getText()));
+        this.classroom.setWidth(Double.parseDouble(this.getClassroomView().getClassroomWidth().getText()));
+    }
+
 }

@@ -20,45 +20,62 @@ public class SchoolController implements Controller {
 
     @Override
     public void show() {
-        this.schoolView.getStage().show();
+
         this.schoolView.getSelectClassroomButton().setOnAction(event -> openClassroom());
         this.schoolView.getSelectGroupButton().setOnAction(event -> openGroup());
         this.schoolView.getSelectStudentButton().setOnAction(event -> openStudent());
         this.schoolView.getSelectTeacherButton().setOnAction(event -> openTeacher());
         this.schoolView.getApplyButton().setOnAction(event -> apply());
         this.schoolView.getOkButton().setOnAction(event -> ok());
+
+        this.schoolView.getRefreshClassroom().setOnAction(event -> this.refreshClassroom());
+        this.schoolView.getRefreshGroup().setOnAction(event -> this.refreshGroup());
+        this.schoolView.getRefreshStudent().setOnAction(event -> this.refreshStudent());
+        this.schoolView.getRefreshTeacher().setOnAction(event -> this.refreshTeacher());
+        this.schoolView.getStage().show();
     }
 
     private void openClassroom() {
         Classroom classroom = this.schoolView.getClassroomListView().getSelectionModel().getSelectedItem();
-        ClassroomController classroomController = new ClassroomController(classroom);
-        classroomController.show();
+
+        if (!(classroom == null)) {
+            ClassroomController classroomController = new ClassroomController(classroom);
+            classroomController.show();
+        }
     }
 
     private void openGroup() {
         Group group = this.schoolView.getGroupListView().getSelectionModel().getSelectedItem();
-        GroupController groupController = new GroupController(group);
-        groupController.show();
+
+        if (!(group == null)) {
+            GroupController groupController = new GroupController(group);
+            groupController.show();
+        }
     }
 
     private void openTeacher() {
         //todo open teacher window
         Teacher teacher = this.schoolView.getTeacherListView().getSelectionModel().getSelectedItem();
 
-        /*
-        TeacherController teacherController = new TeachterController(teacher);
-        teacherController.show();
-         */
+        if (!(teacher == null)) {
+            /*
+            TeacherController teacherController = new TeachterController(teacher);
+            teacherController.show();
+            */
+        }
     }
 
     private void openStudent() {
         //todo open student window
         Student student = this.schoolView.getStudentListView().getSelectionModel().getSelectedItem();
 
-        /*
-        StudentController studentController = new StudentControllor(selectedStudent);
-        studentController.show();
-         */
+        if (!(student == null)){
+            /*
+            StudentController studentController = new StudentControllor(selectedStudent);
+            studentController.show();
+            */
+        }
+
     }
 
     private void apply() {
@@ -69,4 +86,21 @@ public class SchoolController implements Controller {
         this.school.setSchoolName(this.schoolView.getSchoolNameField().getText());
         this.schoolView.getStage().close();
     }
+
+    private void refreshClassroom(){
+        this.schoolView.getClassroomListView().refresh();
+    }
+
+    private void refreshGroup(){
+        this.schoolView.getGroupListView().refresh();
+    }
+
+    private void refreshStudent(){
+        this.schoolView.getStudentListView().refresh();
+    }
+
+    private void refreshTeacher(){
+        this.schoolView.getTeacherListView().refresh();
+    }
+
 }
