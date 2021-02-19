@@ -1,44 +1,41 @@
 package b1;
 
+import b1.school.group.Group;
+import b1.school.group.GroupController;
+import b1.school.person.Student;
 import javafx.application.Application;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.stage.Stage;
-import org.jfree.fx.FXGraphics2D;
+
+import java.util.ArrayList;
 
 
 public class MainView extends Application {
+    //Classroom c = new Classroom(420, 666, "lol34", 69);
+    //private ClassroomController classroomController = new ClassroomController(c);
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Canvas canvas = new Canvas(1920, 1080);
-        draw(new FXGraphics2D(canvas.getGraphicsContext2D()));
-        primaryStage.setScene(new Scene(new Group(canvas)));
-        primaryStage.setTitle("TEST TEST TEST");
-        primaryStage.show();
-    }
+        Student student1 = new Student("biebom", 1);
+        Student student2 = new Student("hibie", 2);
+        Student student3 = new Student("harry", 3);
+        Student student4 = new Student("gg", 4);
+        Student student5 = new Student("lolosr", 5);
+        Student student6 = new Student("hybra", 6);
 
-    public void draw(FXGraphics2D graphics) {
-        graphics.translate(500, 500);
-        graphics.scale(1,-1);
+        ArrayList<Student> students = new ArrayList<>();
+        students.add(student1);
+        students.add(student2);
+        students.add(student3);
+        students.add(student4);
+        students.add(student5);
+        students.add(student6);
 
-        //frame
-        graphics.drawLine(0,0,100,0);
-        graphics.drawLine(0,0,0,80);
-        graphics.drawLine(100,0,100,80);
-        graphics.drawLine(0,80,50,150);
-        graphics.drawLine(50,150,100,80);
+        Group group = new Group("gudgrup");
+        group.setStudents(students);
 
-        //door
-        graphics.drawLine(10,0,10,50);
-        graphics.drawLine(40,0,40,50);
-        graphics.drawLine(10,50,40,50);
+        GroupController groupController = new GroupController(group);
+        groupController.show();
 
-        //window
-        graphics.drawLine(50,20,90,20);
-        graphics.drawLine(50,60,90,60);
-        graphics.drawLine(50,20,50,60);
-        graphics.drawLine(90,20,90,60);
+        //classroomController.show();
     }
 }
