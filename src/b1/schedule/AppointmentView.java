@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 
 public class AppointmentView implements View {
 
-    private final Stage stage;
+    private Stage stage;
 
     private TextField nameField;
     private Spinner<Integer> beginTimeHour;
@@ -28,15 +28,14 @@ public class AppointmentView implements View {
     private Button cancelButton;
 
     public AppointmentView() {
-        this.stage = new Stage();
     }
 
     @Override
     public Stage getStage() {
-//        this.stage.setHeight(375);
-//        this.stage.setWidth(350);
-
-        this.createStage();
+        if(this.stage == null) {
+            this.stage = new Stage();
+            this.createStage();
+        }
 
         return this.stage;
     }
@@ -89,6 +88,41 @@ public class AppointmentView implements View {
 
         Scene scene = new Scene(vBox);
         this.stage.setScene(scene);
+    }
 
+    public TextField getNameField() {
+        return nameField;
+    }
+
+    public Spinner<Integer> getBeginTimeHour() {
+        return beginTimeHour;
+    }
+
+    public Spinner<Integer> getBeginTimeMinute() {
+        return beginTimeMinute;
+    }
+
+    public Spinner<Integer> getEndTimeHour() {
+        return endTimeHour;
+    }
+
+    public Spinner<Integer> getEndTimeMinute() {
+        return endTimeMinute;
+    }
+
+    public TextField getLocationField() {
+        return locationField;
+    }
+
+    public TextArea getDescriptionField() {
+        return descriptionField;
+    }
+
+    public Button getSaveButton() {
+        return saveButton;
+    }
+
+    public Button getCancelButton() {
+        return cancelButton;
     }
 }

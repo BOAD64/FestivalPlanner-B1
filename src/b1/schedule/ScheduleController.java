@@ -63,6 +63,8 @@ public class ScheduleController implements Controller
     }
 
     private void onAppointmentClick(AppointmentShape appointmentShape) {
-        System.out.println(appointmentShape.getAppointment().getName());
+        AppointmentController controller = new AppointmentController(appointmentShape.getAppointment());
+        controller.show();
+        this.view.draw();
     }
 }

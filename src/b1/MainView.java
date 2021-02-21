@@ -16,7 +16,7 @@ public class MainView extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-//        new ScheduleController(new Schedule()).show();
-        new AppointmentController(new Appointment()).show();
+        new ScheduleController(new Schedule()).show();
+//        new AppointmentController(new Appointment()).show();
     }
 }
