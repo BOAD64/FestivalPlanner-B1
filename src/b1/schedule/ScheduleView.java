@@ -2,44 +2,75 @@ package b1.schedule;
 
 import b1.View;
 import javafx.beans.value.ChangeListener;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 public class ScheduleView implements View
 {
-    private Stage stage;
     private Appointment[][] appointments;
+    private final ArrayList<AppointmentShape> appointmentShapes;
 
+    private final Stage stage;
     private Canvas canvas;
     private FXGraphics2D fxGraphics2D;
 
-    private final int STARTTIME = 3600*7;
-    private final int ENDTIME = 3600*23;
+    private final int START_TIME = 3600 * 7;
+    private final int END_TIME = 3600 * 23;
 
     public ScheduleView() {
         this.stage = new Stage();
+        this.appointmentShapes = new ArrayList<AppointmentShape>();
     }
 
     public Appointment[][] getAppointments() {
-        return appointments;
+        return this.appointments;
     }
 
     public void setAppointments(Appointment[][] appointments) {
         this.appointments = appointments;
     }
 
+    public Canvas getCanvas() {
+        return this.canvas;
+    }
+
+    public ArrayList<AppointmentShape> getAppointmentShapes() {
+        return this.appointmentShapes;
+    }
+
     public void draw() {
+        this.appointmentShapes.clear();
         this.fxGraphics2D.setBackground(Color.white);
         this.fxGraphics2D.clearRect(0, 0, (int) Math.round(this.canvas.getWidth()), (int) Math.round(this.canvas.getHeight()));
 
-        double columnWidth = getColumnWidth();
+        int columnWidth = (int)Math.round(this.getColumnWidth());
+
+        this.drawBackground(this.appointments.length, columnWidth);
+
+        Appointment[] currentAppointmentList;
         for (int i = 0; i < this.appointments.length; i++) {
-            this.drawColumn(this.appointments[i], (int) Math.round(columnWidth * i), (int)Math.round(columnWidth));
+
+            currentAppointmentList = this.appointments[i];
+            if (currentAppointmentList == null) {
+                continue;
+            }
+
+            for (int j = 0; j < currentAppointmentList.length; j++) {
+                this.appointmentShapes.add(this.generateAppointmentShape(currentAppointmentList[j], columnWidth * i, columnWidth));
+            }
+
+            for (int j = 0; j < this.appointmentShapes.size(); j++) {
+                this.drawAppointment(this.appointmentShapes.get(j));
+            }
         }
     }
 
@@ -70,33 +101,60 @@ public class ScheduleView implements View
         this.stage.setScene(scene);
     }
 
-    private void drawColumn(Appointment[] appointments, int offsetX, int width) {
+    private void drawBackground(int appointmentCount, int columnWidth)
+    {
         this.fxGraphics2D.setColor(Color.LIGHT_GRAY);
-        this.fxGraphics2D.drawLine(offsetX, 0, offsetX, (int) this.canvas.getHeight());
-
-        if(appointments == null)
+        int hourCount = (this.END_TIME - this.START_TIME) / 3600;
+        int hourHeight = (int)Math.round(this.canvas.getHeight() / ((this.END_TIME - this.START_TIME) / 3600.0));
+        for(int i = 0; i < hourCount; i++)
         {
-            return;
+            this.fxGraphics2D.drawLine(0, hourHeight*i, (int)Math.round(this.canvas.getWidth()), hourHeight*i);
         }
 
-        for(int i = 0; i < appointments.length; i++)
-        {
-            this.drawAppointment(appointments[i], offsetX, width);
+        this.fxGraphics2D.setColor(Color.GRAY);
+        for(int i = 0; i < appointmentCount; i++) {
+            this.fxGraphics2D.drawLine(i*columnWidth, 0, i*columnWidth, (int) this.canvas.getHeight());
         }
     }
 
-    private void drawAppointment(Appointment appointment, int offsetX, int width)
+    private AppointmentShape generateAppointmentShape(Appointment appointment, int offsetX, int width)
     {
         int y = this.getAppointmentY(appointment);
         int y2 = this.getAppointmentY2(appointment);
+        int height = (y2 - y);
 
-        this.fxGraphics2D.setColor(Color.YELLOW);
-        this.fxGraphics2D.fillRect(offsetX,  y, width, (y2-y));
+        return new AppointmentShape(appointment, offsetX, y, width, height);
+    }
 
+    private AppointmentShape drawAppointment(AppointmentShape appointmentRectangle) {
+        Color backColor = Color.YELLOW;
+        Appointment appointment = appointmentRectangle.getAppointment();
+
+        for(AppointmentShape appointmentShape : this.appointmentShapes)
+        {
+            if(appointmentRectangle.intersects(appointmentShape))
+            {
+                backColor = Color.RED;
+            }
+        }
+
+        this.fxGraphics2D.setColor(backColor);
+        this.fxGraphics2D.fill(appointmentRectangle);
         this.fxGraphics2D.setColor(Color.BLACK);
-        this.fxGraphics2D.drawRect(offsetX,  y, width, (y2-y));
+        this.fxGraphics2D.draw(appointmentRectangle);
 
-        this.fxGraphics2D.drawString(appointment.getName(), offsetX+10, y+10);
+        if (appointmentRectangle.getHeight() > 14) {
+            this.fxGraphics2D.drawString(appointment.getName(), (int)appointmentRectangle.getX() + 10,
+                    (int)appointmentRectangle.getY() + 10);
+        }
+
+        if(appointmentRectangle.getHeight()  > 29)
+        {
+            this.fxGraphics2D.drawString(appointment.getStartTime().toString() +" - "+appointment.getEndTime().toString(),
+                    (int)appointmentRectangle.getX() + 10, (int)appointmentRectangle.getMaxY() - 10);
+        }
+
+        return appointmentRectangle;
     }
 
     private double getColumnWidth() {
@@ -109,16 +167,14 @@ public class ScheduleView implements View
         return columnWidth;
     }
 
-    private int getAppointmentY(Appointment appointment)
-    {
+    private int getAppointmentY(Appointment appointment) {
         int startSeconds = appointment.getStartTime().getHour() * 3600 + appointment.getStartTime().getMinute() * 60 + appointment.getStartTime().getSecond();
-        return (int)Math.round(this.canvas.getHeight() / (this.ENDTIME - this.STARTTIME) * (startSeconds - this.STARTTIME));
+        return (int) Math.round(this.canvas.getHeight() / (this.END_TIME - this.START_TIME) * (startSeconds - this.START_TIME));
     }
 
-    private int getAppointmentY2(Appointment appointment)
-    {
+    private int getAppointmentY2(Appointment appointment) {
         int endSeconds = appointment.getEndTime().getHour() * 3600 + appointment.getEndTime().getMinute() * 60 + appointment.getEndTime().getSecond();
-        return (int)Math.round(this.canvas.getHeight() / (this.ENDTIME - this.STARTTIME) * (endSeconds - this.STARTTIME)) ;
+        return (int) Math.round(this.canvas.getHeight() / (this.END_TIME - this.START_TIME) * (endSeconds - this.START_TIME));
     }
 
     private ChangeListener<Number> onStageResize() {
