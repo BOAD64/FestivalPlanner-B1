@@ -134,7 +134,7 @@ public class ScheduleView implements View
         return new AppointmentShape(appointment, offsetX, y, width, height);
     }
 
-    private AppointmentShape drawAppointment(AppointmentShape appointmentRectangle) {
+    private void drawAppointment(AppointmentShape appointmentRectangle) {
         Color backColor = Color.YELLOW;
         Appointment appointment = appointmentRectangle.getAppointment();
 
@@ -163,8 +163,6 @@ public class ScheduleView implements View
             this.fxGraphics2D.drawString(appointment.getStartTime().toString() +" - "+appointment.getEndTime().toString(),
                     (int)appointmentRectangle.getX() + 10, (int)appointmentRectangle.getMaxY() - 10);
         }
-
-        return appointmentRectangle;
     }
 
     private double getColumnWidth() {
