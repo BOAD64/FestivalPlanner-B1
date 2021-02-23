@@ -12,7 +12,7 @@ public class SchoolFile
 
     public static School getSchool() {
         if (school == null) {
-            if(filePath.isEmpty()){
+            if(filePath == null || filePath.isEmpty()){
                 return null;
             }
             school = readFile(filePath);

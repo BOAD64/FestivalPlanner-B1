@@ -2,8 +2,11 @@ package b1.schedule;
 
 import b1.Controller;
 import b1.io.SchoolFile;
+import b1.school.School;
+import b1.school.group.StudentGroup;
 import b1.school.person.Person;
 import b1.school.person.Student;
+import b1.school.person.Teacher;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -24,11 +27,17 @@ public class ScheduleController implements Controller
 
     private AppointmentAbstract[][] testAppointments() {
         AppointmentAbstract[][] appointments = new AppointmentAbstract[5][];
+        Teacher teacher = new Teacher();
+        StudentGroup testGroup = new StudentGroup();
+        testGroup.getStudents().add(new Student());
 
-        GeneralAppointment appointment1 = new GeneralAppointment("Hoeloeloe", LocalTime.of(10, 30, 0), LocalTime.of(11, 0, 0), null, "test");
-        GeneralAppointment appointment2 = new GeneralAppointment("Hallo", LocalTime.of(10, 45, 0), LocalTime.of(11, 15, 0), null, "Moet rood zijn");
-        appointment1.getPersons().add(SchoolFile.getSchool().getPersons().get(0));
-        appointment1.getPersons().add(SchoolFile.getSchool().getPersons().get(1));
+
+        Lesson appointment1 = new Lesson("Hoeloeloe", LocalTime.of(10, 30, 0), LocalTime.of(11, 0, 0), null, "test", testGroup, teacher);
+        Lesson appointment2 = new Lesson("Hallo", LocalTime.of(10, 45, 0), LocalTime.of(11, 15, 0), null, "Moet rood zijn", testGroup, teacher);
+        School school = SchoolFile.getSchool();
+        ArrayList<Person> persons = school.getPersons();
+        appointment1.getPersons().add(persons.get(0));
+        appointment1.getPersons().add(persons.get(1));
 
         appointments[0] = new AppointmentAbstract[]{appointment1, appointment2};
         return appointments;
@@ -67,7 +76,17 @@ public class ScheduleController implements Controller
     }
 
     private void onAppointmentClick(AppointmentShape appointmentShape) {
-        GeneralAppointmentController controller = new GeneralAppointmentController((GeneralAppointment) appointmentShape.getAppointment());
+        AppointmentControllerAbstract controller;
+        if(appointmentShape.getAppointment() instanceof GeneralAppointment){
+            controller = new GeneralAppointmentController((GeneralAppointment) appointmentShape.getAppointment());
+        }
+        else if(appointmentShape.getAppointment() instanceof Lesson) {
+            controller = new LessonController((Lesson) appointmentShape.getAppointment());
+        }
+        else{
+            return;
+        }
+
         controller.show();
         this.view.draw();
     }
