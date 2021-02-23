@@ -29,20 +29,10 @@ public class StudentView extends PersonView {
     private void createStage() {
         this.addTags();
         this.addInputField();
-        super.tagsVBox.setSpacing(5);
-        super.inputFieldVBox.setSpacing(5);
-        super.mainVBox.setSpacing(25);
-        super.mainVBox.setAlignment(Pos.TOP_CENTER);
 
-        HBox mainHBox = new HBox();
-        mainHBox.getChildren().addAll(super.tagsVBox, super.inputFieldVBox);
-        mainHBox.setSpacing(5);
-        mainHBox.setAlignment(Pos.TOP_CENTER);
+        super.initMainBox();
 
-        mainVBox.getChildren().add(mainHBox);
-        super.createButtons();
-
-        Scene scene = new Scene(mainVBox);
+        Scene scene = new Scene(super.mainVBox);
         super.stage.setHeight(375);
         super.stage.setWidth(350);
         super.stage.setResizable(false);

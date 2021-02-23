@@ -4,8 +4,8 @@ public class Teacher extends Person {
 
     private String subject;
 
-    public Teacher(String name, short age, String gender, short idNumber, String subject) {
-        super(name, age, gender, idNumber);
+    public Teacher(String name, short age, String gender, String subject) {
+        super(name, age, gender);
         this.subject = subject;
     }
 
@@ -24,6 +24,6 @@ public class Teacher extends Person {
 
     @Override
     public String toString() {
-        return this.name + ", " + this.age + ", " + this.gender + ", " + this.idNumber + ", " + this.subject;
+        return this.name + ", " + this.age + ", " + this.gender + ", " + this.subject;
     }
 }

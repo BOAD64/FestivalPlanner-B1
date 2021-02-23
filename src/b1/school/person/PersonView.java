@@ -9,6 +9,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 abstract class PersonView implements View {
 
     Stage stage;
@@ -23,7 +25,17 @@ abstract class PersonView implements View {
     TextField ageField;
     TextField genderField;
 
-    void createButtons() {
+    void initMainBox() {
+        HBox mainHBox = new HBox();
+        mainHBox.getChildren().addAll(this.tagsVBox, this.inputFieldVBox);
+        mainHBox.setSpacing(5);
+        mainHBox.setAlignment(Pos.TOP_CENTER);
+
+        this.mainVBox.getChildren().add(mainHBox);
+        this.createButtons();
+    }
+
+    private void createButtons() {
         this.undoButton = new Button("Ongedaan maken");
         this.saveButton = new Button("Opslaan");
 
@@ -35,6 +47,8 @@ abstract class PersonView implements View {
         buttonHBox.setSpacing(40);
         buttonHBox.setAlignment(Pos.CENTER);
         this.mainVBox.getChildren().add(buttonHBox);
+        this.mainVBox.setSpacing(25);
+        this.mainVBox.setAlignment(Pos.TOP_CENTER);
     }
 
     Button getUndoButton() {
@@ -56,6 +70,7 @@ abstract class PersonView implements View {
 
         this.tagsVBox.getChildren().addAll(nameLabel, ageLabel, genderLabel);
         this.tagsVBox.setAlignment(Pos.TOP_RIGHT);
+        this.tagsVBox.setSpacing(5);
     }
 
     void createInputField() {
@@ -69,6 +84,7 @@ abstract class PersonView implements View {
 
         this.inputFieldVBox.getChildren().addAll(this.nameField, this.ageField, this.genderField);
         this.inputFieldVBox.setAlignment(Pos.TOP_RIGHT);
+        this.inputFieldVBox.setSpacing(5);
     }
 
     public TextField getNameField() {

@@ -14,9 +14,10 @@ public class StudentController extends PersonController implements Controller {
 
     @Override
     public void show() {
-        if(!view.getStage().isShowing()){
-            view.getStage().show();
+        if(!this.view.getStage().isShowing()){
+            this.view.getStage().show();
             this.view.getSaveButton().setOnAction(e -> this.saveStudent());
+            this.view.getUndoButton().setOnAction(e -> this.undoChanges());
         }
     }
 
@@ -34,11 +35,27 @@ public class StudentController extends PersonController implements Controller {
                 this.student.setGroup(this.view.getGroupField().getText());
 
                 //ToDo add student to school
+
+                this.view.getStage().close();
             }
         } catch(Exception e) {
             super.showErrorMessage();
         }
     }
 
-
+    private void undoChanges() {
+        if(this.student.getAge() == -1) {
+            this.view.getIdField().setText("");
+            this.view.getGroupField().setText("");
+            this.view.getNameField().setText("");
+            this.view.getAgeField().setText("");
+            this.view.getGenderField().setText("");
+        } else {
+            this.view.getIdField().setText(student.getIdNumber() + "");
+            this.view.getGroupField().setText(student.getGroup());
+            this.view.getNameField().setText(student.getName());
+            this.view.getAgeField().setText(student.getAge() + "");
+            this.view.getGenderField().setText(student.getGender());
+        }
+    }
 }

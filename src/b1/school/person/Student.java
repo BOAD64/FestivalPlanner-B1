@@ -2,10 +2,12 @@ package b1.school.person;
 
 public class Student extends Person {
 
+    private short idNumber;
     private String group;
 
     public Student(String name, short age, String gender, short idNumber, String group) {
-        super(name, age, gender, idNumber);
+        super(name, age, gender);
+        this.idNumber = idNumber;
         this.group = group;
     }
 
@@ -20,6 +22,14 @@ public class Student extends Person {
 
     public void setGroup(String group) {
         this.group = group;
+    }
+
+    public short getIdNumber() {
+        return idNumber;
+    }
+
+    public void setIdNumber(short idNumber) {
+        this.idNumber = idNumber;
     }
 
     @Override
