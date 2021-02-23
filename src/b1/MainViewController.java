@@ -9,7 +9,7 @@ public class MainViewController implements Controller {
     private MainView view;
 
     @Override
-    public void show() { //Todo dit was de fout kut
+    public void show() {
         if(!view.getStage().isShowing()){
             this.onAction();
             view.getStage().show();

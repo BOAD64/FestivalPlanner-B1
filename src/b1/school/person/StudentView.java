@@ -74,7 +74,6 @@ public class StudentView extends PersonView {
             this.idField.setText(this.student.getIdNumber() + "");
             this.groupField.setText(this.student.getGroup());
         }
-        System.out.println(super.inputFieldVBox.getChildren().toString());
         super.inputFieldVBox.getChildren().addAll(this.idField, this.groupField);
     }
 

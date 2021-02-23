@@ -12,8 +12,8 @@ import javafx.stage.Stage;
 abstract class PersonView implements View {
 
     Stage stage;
-    Button undoButton;
-    Button saveButton;
+    private Button undoButton;
+    private Button saveButton;
     short fieldHeight = 40;
     VBox mainVBox = new VBox();
     VBox tagsVBox = new VBox();
@@ -37,12 +37,12 @@ abstract class PersonView implements View {
         this.mainVBox.getChildren().add(buttonHBox);
     }
 
-    public Button getUndoButton() {
-        return undoButton;
+    Button getUndoButton() {
+        return this.undoButton;
     }
 
-    public Button getSaveButton() {
-        return saveButton;
+    Button getSaveButton() {
+        return this.saveButton;
     }
 
     void createTags() {
@@ -59,15 +59,15 @@ abstract class PersonView implements View {
     }
 
     void createInputField() {
-        TextField nameField = new TextField();
-        TextField ageField = new TextField();
-        TextField genderField = new TextField();
+        this.nameField = new TextField();
+        this.ageField = new TextField();
+        this.genderField = new TextField();
 
-        nameField.setPrefHeight(this.fieldHeight);
-        ageField.setPrefHeight(this.fieldHeight);
-        genderField.setPrefHeight(this.fieldHeight);
+        this.nameField.setPrefHeight(this.fieldHeight);
+        this.ageField.setPrefHeight(this.fieldHeight);
+        this.genderField.setPrefHeight(this.fieldHeight);
 
-        this.inputFieldVBox.getChildren().addAll(nameField, ageField, genderField);
+        this.inputFieldVBox.getChildren().addAll(this.nameField, this.ageField, this.genderField);
         this.inputFieldVBox.setAlignment(Pos.TOP_RIGHT);
     }
 
