@@ -1,5 +1,6 @@
 package b1.school;
 
+import b1.school.person.Person;
 import b1.school.room.Classroom;
 import b1.school.group.Group;
 import b1.school.person.Student;
@@ -12,15 +13,13 @@ public class School {
     private String schoolName;
     private ArrayList<Classroom> classrooms;
     private ArrayList<Group> groups;
-    private ArrayList<Student> students;
-    private ArrayList<Teacher> teachers;
+    private ArrayList<Person> persons;
 
     public School(String schoolName) {
         this.schoolName = schoolName;
         this.classrooms = new ArrayList<>();
         this.groups = new ArrayList<>();
-        this.students = new ArrayList<>();
-        this.teachers = new ArrayList<>();
+        this.persons = new ArrayList<>();
     }
 
     public String getSchoolName() {
@@ -48,19 +47,39 @@ public class School {
     }
 
     public ArrayList<Student> getStudents() {
-        return this.students;
+        ArrayList<Student> students = new ArrayList<>();
+        for (Person person : this.persons) {
+            if (person instanceof Student) {
+                students.add((Student)person);
+            }
+        }
+        return students;
     }
 
     public void setStudents(ArrayList<Student> students) {
-        this.students = students;
+        for (Student student : students) {
+            if (!this.persons.contains(student)) {
+                this.persons.add(student);
+            }
+        }
     }
 
     public ArrayList<Teacher> getTeachers() {
-        return this.teachers;
+        ArrayList<Teacher> teachers = new ArrayList<>();
+        for (Person person : this.persons) {
+            if (person instanceof Teacher) {
+                teachers.add((Teacher)person);
+            }
+        }
+        return teachers;
     }
 
     public void setTeachers(ArrayList<Teacher> teachers) {
-        this.teachers = teachers;
+        for (Teacher teacher : teachers) {
+            if (!this.persons.contains(teacher)) {
+                this.persons.add(teacher);
+            }
+        }
     }
 
     public void addClassroom(Classroom classroom) {
