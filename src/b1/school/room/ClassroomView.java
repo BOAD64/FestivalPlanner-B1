@@ -1,4 +1,4 @@
-package b1.school.classroom;
+package b1.school.room;
 
 import b1.View;
 import javafx.scene.Scene;
@@ -9,8 +9,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.util.ArrayList;
 
 public class ClassroomView implements View {
 

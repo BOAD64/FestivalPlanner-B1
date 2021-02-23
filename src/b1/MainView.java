@@ -2,26 +2,63 @@ package b1;
 
 import b1.school.School;
 import b1.school.SchoolController;
-import b1.school.classroom.Classroom;
-import b1.school.classroom.ClassroomController;
+import b1.school.room.Classroom;
+import b1.school.room.ClassroomController;
 import b1.school.group.Group;
 import b1.school.group.GroupController;
 import b1.school.person.Student;
 import javafx.application.Application;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import javax.imageio.IIOException;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 
 
-public class MainView extends Application {
+public class MainView extends Application implements View {
+    private Stage stage;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        this.createStage();
+        this.stage.show();
+
+
         //groupTest();
         //classroomTest();
-        schoolTest();
+        //schoolTest();
     }
 
+    @Override
+    public Stage getStage() {
+        return this.stage;
+    }
+
+    private void createStage() {
+        this.stage = new Stage();
+        BorderPane borderPane = new BorderPane();
+
+        Image plus = new Image(this.getClass().getResourceAsStream("plus.png"));
+        Button plusButton = new Button();
+        plusButton.setGraphic(new ImageView(plus));
+        borderPane.setBottom(plusButton);
+        BorderPane.setAlignment(plusButton, Pos.BOTTOM_LEFT);
+
+        this.stage.setScene(new Scene(borderPane));
+    }
+
+
+
+    //tests
     public void groupTest() {
         Student student1 = new Student("biebom", 1);
         Student student2 = new Student("hibie", 2);

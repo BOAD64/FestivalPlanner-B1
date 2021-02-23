@@ -1,6 +1,6 @@
 package b1.school;
 
-import b1.school.classroom.Classroom;
+import b1.school.room.Classroom;
 import b1.school.group.Group;
 import b1.school.person.Student;
 import b1.school.person.Teacher;

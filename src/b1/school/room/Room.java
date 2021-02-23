@@ -1,4 +1,4 @@
-package b1.school.classroom;
+package b1.school.room;
 
 abstract class Room {
     private double width;
