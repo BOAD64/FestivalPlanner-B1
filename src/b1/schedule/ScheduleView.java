@@ -2,21 +2,18 @@ package b1.schedule;
 
 import b1.View;
 import javafx.beans.value.ChangeListener;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 public class ScheduleView implements View
 {
-    private Appointment[][] appointments;
+    private AppointmentAbstract[][] appointments;
     private final ArrayList<AppointmentShape> appointmentShapes;
 
     private final Stage stage;
@@ -31,11 +28,11 @@ public class ScheduleView implements View
         this.appointmentShapes = new ArrayList<AppointmentShape>();
     }
 
-    public Appointment[][] getAppointments() {
+    public AppointmentAbstract[][] getAppointments() {
         return this.appointments;
     }
 
-    public void setAppointments(Appointment[][] appointments) {
+    public void setAppointments(AppointmentAbstract[][] appointments) {
         this.appointments = appointments;
     }
 
@@ -56,7 +53,7 @@ public class ScheduleView implements View
 
         this.drawBackground(this.appointments.length, columnWidth);
 
-        Appointment[] currentAppointmentList;
+        AppointmentAbstract[] currentAppointmentList;
         for (int i = 0; i < this.appointments.length; i++) {
 
             currentAppointmentList = this.appointments[i];
@@ -125,7 +122,7 @@ public class ScheduleView implements View
         }
     }
 
-    private AppointmentShape generateAppointmentShape(Appointment appointment, int offsetX, int width)
+    private AppointmentShape generateAppointmentShape(AppointmentAbstract appointment, int offsetX, int width)
     {
         int y = this.getAppointmentY(appointment);
         int y2 = this.getAppointmentY2(appointment);
@@ -136,14 +133,13 @@ public class ScheduleView implements View
 
     private void drawAppointment(AppointmentShape appointmentRectangle) {
         Color backColor = Color.YELLOW;
-        Appointment appointment = appointmentRectangle.getAppointment();
+        AppointmentAbstract appointment = appointmentRectangle.getAppointment();
 
         for(AppointmentShape appointmentShape : this.appointmentShapes)
         {
             if(appointmentRectangle!= appointmentShape &&
                     appointmentRectangle.intersects(appointmentShape))
             {
-                System.out.println(appointmentShape.getAppointment().getName()+" intersects with "+appointmentRectangle.getAppointment().getName());
                 backColor = Color.RED;
             }
         }
@@ -175,12 +171,12 @@ public class ScheduleView implements View
         return columnWidth;
     }
 
-    private int getAppointmentY(Appointment appointment) {
+    private int getAppointmentY(AppointmentAbstract appointment) {
         int startSeconds = appointment.getStartTime().getHour() * 3600 + appointment.getStartTime().getMinute() * 60 + appointment.getStartTime().getSecond();
         return (int) Math.round(this.canvas.getHeight() / (this.END_TIME - this.START_TIME) * (startSeconds - this.START_TIME));
     }
 
-    private int getAppointmentY2(Appointment appointment) {
+    private int getAppointmentY2(AppointmentAbstract appointment) {
         int endSeconds = appointment.getEndTime().getHour() * 3600 + appointment.getEndTime().getMinute() * 60 + appointment.getEndTime().getSecond();
         return (int) Math.round(this.canvas.getHeight() / (this.END_TIME - this.START_TIME) * (endSeconds - this.START_TIME));
     }

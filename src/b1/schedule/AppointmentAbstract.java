@@ -6,7 +6,8 @@ import b1.school.room.Room;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class Appointment {
+public abstract class AppointmentAbstract
+{
 
     private String name;
     private LocalTime startTime;
@@ -15,7 +16,7 @@ public class Appointment {
     private Room location;
     private String description;
 
-    public Appointment(String name, LocalTime startTime, LocalTime endTime, Room location, String description) {
+    public AppointmentAbstract(String name, LocalTime startTime, LocalTime endTime, Room location, String description) {
         this.name = name;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -24,7 +25,7 @@ public class Appointment {
         this.description = description;
     }
 
-    public Appointment() {
+    public AppointmentAbstract() {
         this("Undefined", LocalTime.of(0, 0, 0, 0),
                 LocalTime.of(0, 5, 0, 0), null, "Undefined");
     }

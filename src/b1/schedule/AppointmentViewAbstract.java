@@ -1,61 +1,37 @@
 package b1.schedule;
 
 import b1.View;
-import b1.school.person.Person;
-import javafx.collections.FXCollections;
+import b1.school.room.Room;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class AppointmentView implements View {
-
-    private Stage stage;
+public abstract class AppointmentViewAbstract implements View {
 
     private TextField nameField;
     private Spinner<Integer> beginTimeHour;
     private Spinner<Integer> beginTimeMinute;
     private Spinner<Integer> endTimeHour;
     private Spinner<Integer> endTimeMinute;
-    private TextField locationField;
+    private ComboBox<Room> locationField;
     private TextArea descriptionField;
-    private Button saveButton;
-    private Button cancelButton;
 
-    public AppointmentView() {
+    public AppointmentViewAbstract() {
     }
 
-    @Override
-    public Stage getStage() {
-        if(this.stage == null) {
-            this.stage = new Stage();
-            this.createStage();
-        }
-
-        return this.stage;
-    }
-
-    private void createStage(){
+    GridPane createAbstractAppointmentElements(){
         this.nameField = new TextField();
         this.beginTimeHour = new Spinner<>(0, 23, 0, 1);
         this.beginTimeMinute = new Spinner<>(0, 59, 0, 1);
         this.endTimeHour = new Spinner<>(0, 23, 0, 1);
         this.endTimeMinute = new Spinner<>(0, 59, 0, 1);
-        this.locationField = new TextField();
+        this.locationField = new ComboBox<>();
         this.descriptionField = new TextArea();
-        this.saveButton = new Button("Opslaan");
-        this.cancelButton = new Button("Annuleren");
-
-        VBox vBox = new VBox();
-
-        HBox buttonsBox = new HBox();
-        buttonsBox.getChildren().add(this.cancelButton);
-        buttonsBox.getChildren().add(this.saveButton);
 
         HBox beginTime = new HBox();
         beginTime.getChildren().add(this.beginTimeHour);
@@ -79,15 +55,8 @@ public class AppointmentView implements View {
 
         gridPane.setHgap(10);
         gridPane.setVgap(10);
-        vBox.setPadding(new Insets(10));
-        vBox.setSpacing(10);
-        buttonsBox.setSpacing(10);
-        buttonsBox.setAlignment(Pos.CENTER_RIGHT);
 
-        vBox.getChildren().addAll(gridPane, buttonsBox);
-
-        Scene scene = new Scene(vBox);
-        this.stage.setScene(scene);
+        return gridPane;
     }
 
     public TextField getNameField() {
@@ -110,19 +79,11 @@ public class AppointmentView implements View {
         return endTimeMinute;
     }
 
-    public TextField getLocationField() {
+    public ComboBox<Room> getLocationField() {
         return locationField;
     }
 
     public TextArea getDescriptionField() {
         return descriptionField;
-    }
-
-    public Button getSaveButton() {
-        return saveButton;
-    }
-
-    public Button getCancelButton() {
-        return cancelButton;
     }
 }

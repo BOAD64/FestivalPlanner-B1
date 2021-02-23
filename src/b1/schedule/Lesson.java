@@ -8,7 +8,8 @@ import b1.school.room.Room;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class Lesson extends Appointment{
+public class Lesson extends AppointmentAbstract
+{
 
     private StudentGroup studentGroup;
     private Teacher teacher;

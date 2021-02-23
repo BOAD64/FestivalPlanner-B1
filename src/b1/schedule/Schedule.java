@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 public class Schedule {
 
-    private ArrayList<Appointment> appointments;
+    private ArrayList<AppointmentAbstract> appointments;
 
     public Schedule() {
         this.appointments = new ArrayList<>();
     }
 
-    public ArrayList<Appointment> getAppointments() {
+    public ArrayList<AppointmentAbstract> getAppointments() {
         return this.appointments;
     }
 }

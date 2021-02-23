@@ -1,20 +1,25 @@
 package b1.schedule;
 
-import b1.Controller;
+import b1.io.ScheduleFile;
+import b1.io.SchoolFile;
+import b1.school.person.Person;
+import b1.school.room.Room;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 
-public class AppointmentController implements Controller {
+public class GeneralAppointmentController extends AppointmentControllerAbstract
+{
+    private GeneralAppointment appointment;
+    private GeneralAppointmentView view;
 
-    private Appointment appointment;
-    private AppointmentView view;
-
-    public AppointmentController(Appointment appointment) {
+    public GeneralAppointmentController(GeneralAppointment appointment) {
         this.appointment = appointment;
-        this.view = new AppointmentView();
+        this.view = new GeneralAppointmentView();
     }
 
     @Override
@@ -23,13 +28,19 @@ public class AppointmentController implements Controller {
             Stage stage = this.view.getStage();
             this.view.getCancelButton().setOnAction(onCancelClicked());
             this.view.getSaveButton().setOnAction(onSaveClicked());
+            this.view.getPersonAddButton().setOnAction(this.onPersonAddButton());
+            this.view.getPersonRemoveButton().setOnAction(this.onPersonRemoveButton());
 
             this.view.getNameField().setText(this.appointment.getName());
             this.view.getBeginTimeHour().increment(this.appointment.getStartTime().getHour());
             this.view.getBeginTimeMinute().increment(this.appointment.getStartTime().getMinute());
             this.view.getEndTimeHour().increment(this.appointment.getEndTime().getHour());
             this.view.getEndTimeMinute().increment(this.appointment.getEndTime().getMinute());
+            this.view.getLocationField().setItems(FXCollections.observableList(SchoolFile.getSchool().getRooms()));
+            this.view.getLocationField().getSelectionModel().select(this.appointment.getLocation());
             this.view.getDescriptionField().setText(this.appointment.getDescription());
+            this.view.getParticipantsList().setItems(FXCollections.observableList(this.appointment.getPersons()));
+            this.view.getPersonComboBox().setItems(FXCollections.observableList(SchoolFile.getSchool().getPersons()));
 
             stage.show();
         }
@@ -53,7 +64,7 @@ public class AppointmentController implements Controller {
                 int beginMinute = view.getBeginTimeMinute().getValue();
                 int endHour = view.getEndTimeHour().getValue();
                 int endMinute = view.getEndTimeMinute().getValue();
-                String location = view.getLocationField().getText();
+                Room location = view.getLocationField().getValue();
                 String description = view.getDescriptionField().getText();
 
                 LocalTime beginTime = LocalTime.of(beginHour, beginMinute);
@@ -62,10 +73,32 @@ public class AppointmentController implements Controller {
                 appointment.setName(name);
                 appointment.setStartTime(beginTime);
                 appointment.setEndTime(endTime);
-//                appointment.setLocation(location);
+                appointment.setLocation(location);
                 appointment.setDescription(description);
 
                 view.getStage().close();
+            }
+        };
+    }
+
+    public EventHandler<ActionEvent> onPersonAddButton(){
+        return new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Person person = view.getPersonComboBox().getValue();
+                appointment.getPersons().add(person);
+                view.getParticipantsList().refresh();
+            }
+        };
+    }
+
+    public EventHandler<ActionEvent> onPersonRemoveButton(){
+        return new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Person selectPerson = view.getParticipantsList().getSelectionModel().getSelectedItem();
+                appointment.getPersons().remove(selectPerson);
+                view.getParticipantsList().refresh();
             }
         };
     }

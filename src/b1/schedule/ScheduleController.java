@@ -1,11 +1,13 @@
 package b1.schedule;
 
 import b1.Controller;
+import b1.io.SchoolFile;
+import b1.school.person.Person;
+import b1.school.person.Student;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import java.awt.geom.Rectangle2D;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -20,13 +22,15 @@ public class ScheduleController implements Controller
         this.view.setAppointments(this.testAppointments());
     }
 
-    private Appointment[][] testAppointments() {
-        Appointment[][] appointments = new Appointment[5][];
+    private AppointmentAbstract[][] testAppointments() {
+        AppointmentAbstract[][] appointments = new AppointmentAbstract[5][];
 
-        Appointment appointment1 = new Appointment("Hoeloeloe", LocalTime.of(10, 30, 0), LocalTime.of(11, 0, 0), null, "test");
-        Appointment appointment2 = new Appointment("Hallo", LocalTime.of(10, 45, 0), LocalTime.of(11, 15, 0), null, "Moet rood zijn");
+        GeneralAppointment appointment1 = new GeneralAppointment("Hoeloeloe", LocalTime.of(10, 30, 0), LocalTime.of(11, 0, 0), null, "test");
+        GeneralAppointment appointment2 = new GeneralAppointment("Hallo", LocalTime.of(10, 45, 0), LocalTime.of(11, 15, 0), null, "Moet rood zijn");
+        appointment1.getPersons().add(SchoolFile.getSchool().getPersons().get(0));
+        appointment1.getPersons().add(SchoolFile.getSchool().getPersons().get(1));
 
-        appointments[0] = new Appointment[]{appointment1, appointment2};
+        appointments[0] = new AppointmentAbstract[]{appointment1, appointment2};
         return appointments;
     }
 
@@ -63,7 +67,7 @@ public class ScheduleController implements Controller
     }
 
     private void onAppointmentClick(AppointmentShape appointmentShape) {
-        AppointmentController controller = new AppointmentController(appointmentShape.getAppointment());
+        GeneralAppointmentController controller = new GeneralAppointmentController((GeneralAppointment) appointmentShape.getAppointment());
         controller.show();
         this.view.draw();
     }
