@@ -67,6 +67,14 @@ public class ScheduleView implements View
             for (int j = 0; j < currentAppointmentList.length; j++) {
                 this.appointmentShapes.add(this.generateAppointmentShape(currentAppointmentList[j], columnWidth * i, columnWidth));
             }
+        }
+
+        for (int i = 0; i < this.appointments.length; i++) {
+
+            currentAppointmentList = this.appointments[i];
+            if (currentAppointmentList == null) {
+                continue;
+            }
 
             for (int j = 0; j < this.appointmentShapes.size(); j++) {
                 this.drawAppointment(this.appointmentShapes.get(j));
@@ -132,8 +140,10 @@ public class ScheduleView implements View
 
         for(AppointmentShape appointmentShape : this.appointmentShapes)
         {
-            if(appointmentRectangle.intersects(appointmentShape))
+            if(appointmentRectangle!= appointmentShape &&
+                    appointmentRectangle.intersects(appointmentShape))
             {
+                System.out.println(appointmentShape.getAppointment().getName()+" intersects with "+appointmentRectangle.getAppointment().getName());
                 backColor = Color.RED;
             }
         }
