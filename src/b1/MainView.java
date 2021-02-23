@@ -12,12 +12,13 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import javax.imageio.IIOException;
@@ -32,8 +33,10 @@ import java.util.ArrayList;
 public class MainView extends Application implements View {
     private Stage stage;
     private boolean addListIsShowing;
+    private boolean hamburgerIsOut;
+    ListView<Controllers> addList;
 
-    enum Controllers{SCHOOL, GROUP,CLASSROOM, STUDENT, TEACHER, APOINTMENT}
+    enum Controllers{SCHOOL, GROUP,CLASSROOM, STUDENT, TEACHER, APPOINTMENT}
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -54,48 +57,57 @@ public class MainView extends Application implements View {
     private void createStage() {
         this.stage = new Stage();
         BorderPane borderPane = new BorderPane();
-        FileInputStream inputStream = null;
+        FileInputStream plusInputStream = null;
+        FileInputStream arrowInputStream = null;
         try{
-            inputStream = new FileInputStream("resources\\plus.png");
+            plusInputStream = new FileInputStream("resources\\plus.png");
+            arrowInputStream = new FileInputStream("resources\\arrow.png");
 
         } catch (Exception e){
             e.printStackTrace();
         }
-        if (inputStream != null){
-            Image plus = new Image(inputStream);
-            ImageView imageView = new ImageView(plus);
+        if (plusInputStream != null && arrowInputStream != null){
+            Image plus = new Image(plusInputStream);
+            Image arrow = new Image(arrowInputStream);
+            ImageView plusImageView = new ImageView(plus);
+            ImageView arrowImageView = new ImageView(arrow);
 
-            ListView<Controllers> addList = new ListView<>();
-            addList.setMaxHeight(200);
-            addList.setMaxWidth(150);
-            addList.getItems().addAll(Controllers.values());
+            this.addList = new ListView<>();
+            this.addList.setMaxHeight(200);
+            this.addList.setMaxWidth(150);
+            this.addList.getItems().addAll(Controllers.values());
             this.addListIsShowing = false;
-            addList.setVisible(this.addListIsShowing);
+            this.addList.setVisible(this.addListIsShowing);
 
-            imageView.setOnMouseClicked(event -> {
-                this.addListIsShowing = !this.addListIsShowing;
-                addList.setVisible(this.addListIsShowing);
+            this.hamburgerIsOut = false;
+
+            plusImageView.setOnMouseClicked(event -> {
+                this.changeVisibilityOfAddList();
             });
 
-            addList.setOnMouseClicked(event -> {
-                Controllers controller = addList.getSelectionModel().getSelectedItem();
+            this.addList.setOnMouseClicked(event -> {
+                Controllers controller = this.addList.getSelectionModel().getSelectedItem();
 
                 switch (controller) {
                     case SCHOOL:
+                        this.changeVisibilityOfAddList();
                         SchoolController schoolController = new SchoolController(new School("unnamed"));
                         schoolController.show();
                         break;
                     case GROUP:
+                        this.changeVisibilityOfAddList();
                         GroupController groupController = new GroupController(new Group("unnamed"));
                         groupController.show();
                         break;
                     case CLASSROOM:
+                        this.changeVisibilityOfAddList();
                         ClassroomController classroomController = new ClassroomController(
                                 new Classroom(0, 0, "unnamed", 0)
                         );
                         classroomController.show();
                         break;
                     case STUDENT:
+                        this.changeVisibilityOfAddList();
                         /*
                         TeacherController teacherController = new TeachterController(new Teacher());
                         teacherController.show();
@@ -103,28 +115,68 @@ public class MainView extends Application implements View {
                         System.out.println("not yet implemented");
                         break;
                     case TEACHER:
+                        this.changeVisibilityOfAddList();
                         /*
                         StudentController studentController = new StudentControllor(new Student());
                         studentController.show();
                         */
                         System.out.println("not yet implemented");
                         break;
-                    case APOINTMENT:
+                    case APPOINTMENT:
+                        this.changeVisibilityOfAddList();
                         /*
-                        ApointmentController apointmentController = new ApointmentControllor(new Apointment());
-                        apointmentController.show();
+                        AppointmentController appointmentController = new AppointmentControllor(new Appointment());
+                        appointmentController.show();
                         */
                         System.out.println("not yet implemented");
                         break;
                 }
             });
 
+            //create HBox used for whole hamburger-menu
+            HBox hamburger = new HBox();
+            hamburger.getChildren().add(arrowImageView);
+            hamburger.setSpacing(20);
+
+            //Add combobox(es) in Vbox to test hamburger menu
+            ComboBox<String> testComboBox = new ComboBox<>();
+            testComboBox.getItems().addAll("pain", "suffering", "agony");
+            VBox comboBoxes = new VBox();
+            comboBoxes.setMinWidth(150);
+            comboBoxes.setAlignment(Pos.TOP_CENTER);
+            comboBoxes.getChildren().add(testComboBox);
+
+            comboBoxes.setBackground(new Background(new BackgroundFill(Color.hsb(0, 0, 0.255),
+                    CornerRadii.EMPTY, Insets.EMPTY)));
+
+            //Opening and closing of hamburger menu
+            arrowImageView.setOnMouseClicked(event -> {
+
+                if (this.hamburgerIsOut){
+                    this.hamburgerIsOut = false;
+                    hamburger.getChildren().remove(0, 2);
+                    arrowImageView.setRotate(0);
+                    hamburger.getChildren().addAll(arrowImageView);
+
+                } else {
+                    this.hamburgerIsOut = true;
+                    hamburger.getChildren().remove(0, 1);
+                    arrowImageView.setRotate(180);
+                    hamburger.getChildren().addAll(comboBoxes, arrowImageView);
+
+                }
+            });
+
             VBox addMenu = new VBox();
-            addMenu.getChildren().addAll(addList, imageView);
+            addMenu.getChildren().addAll(addList, plusImageView);
             addMenu.setSpacing(20);
             addMenu.setAlignment(Pos.BOTTOM_RIGHT);
 
+
+
+            borderPane.setTop(hamburger);
             borderPane.setBottom(addMenu);
+
             BorderPane.setMargin(addMenu, new Insets(5, 20, 20, 5));
             BorderPane.setAlignment(addMenu, Pos.BOTTOM_RIGHT);
         }
@@ -134,7 +186,10 @@ public class MainView extends Application implements View {
         this.stage.setMinWidth(600);
     }
 
-
+    private void changeVisibilityOfAddList(){
+        this.addListIsShowing = !this.addListIsShowing;
+        addList.setVisible(this.addListIsShowing);
+    }
 
     //tests
     public void groupTest() {
