@@ -8,13 +8,16 @@ import b1.school.group.Group;
 import b1.school.group.GroupController;
 import b1.school.person.Student;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import javax.imageio.IIOException;
@@ -28,6 +31,9 @@ import java.util.ArrayList;
 
 public class MainView extends Application implements View {
     private Stage stage;
+    private boolean addListIsShowing;
+
+    enum Controllers{SCHOOL, GROUP,CLASSROOM, STUDENT, TEACHER, APOINTMENT}
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -59,18 +65,73 @@ public class MainView extends Application implements View {
             Image plus = new Image(inputStream);
             ImageView imageView = new ImageView(plus);
 
+            ListView<Controllers> addList = new ListView<>();
+            addList.setMaxHeight(200);
+            addList.setMaxWidth(150);
+            addList.getItems().addAll(Controllers.values());
+            this.addListIsShowing = false;
+            addList.setVisible(this.addListIsShowing);
+
             imageView.setOnMouseClicked(event -> {
-                borderPane.setCenter(new Label("yes"));
+                this.addListIsShowing = !this.addListIsShowing;
+                addList.setVisible(this.addListIsShowing);
             });
-            borderPane.setBottom(imageView);
-            BorderPane.setAlignment(imageView, Pos.BOTTOM_RIGHT);
+
+            addList.setOnMouseClicked(event -> {
+                Controllers controller = addList.getSelectionModel().getSelectedItem();
+
+                switch (controller) {
+                    case SCHOOL:
+                        SchoolController schoolController = new SchoolController(new School("unnamed"));
+                        schoolController.show();
+                        break;
+                    case GROUP:
+                        GroupController groupController = new GroupController(new Group("unnamed"));
+                        groupController.show();
+                        break;
+                    case CLASSROOM:
+                        ClassroomController classroomController = new ClassroomController(
+                                new Classroom(0, 0, "unnamed", 0)
+                        );
+                        classroomController.show();
+                        break;
+                    case STUDENT:
+                        /*
+                        TeacherController teacherController = new TeachterController(new Teacher());
+                        teacherController.show();
+                        */
+                        System.out.println("not yet implemented");
+                        break;
+                    case TEACHER:
+                        /*
+                        StudentController studentController = new StudentControllor(new Student());
+                        studentController.show();
+                        */
+                        System.out.println("not yet implemented");
+                        break;
+                    case APOINTMENT:
+                        /*
+                        ApointmentController apointmentController = new ApointmentControllor(new Apointment());
+                        apointmentController.show();
+                        */
+                        System.out.println("not yet implemented");
+                        break;
+                }
+            });
+
+            VBox addMenu = new VBox();
+            addMenu.getChildren().addAll(addList, imageView);
+            addMenu.setSpacing(20);
+            addMenu.setAlignment(Pos.BOTTOM_RIGHT);
+
+            borderPane.setBottom(addMenu);
+            BorderPane.setMargin(addMenu, new Insets(5, 20, 20, 5));
+            BorderPane.setAlignment(addMenu, Pos.BOTTOM_RIGHT);
         }
-        //Button plusButton = new Button();
-        //plusButton.setGraphic(new ImageView(plus));
-
-
 
         this.stage.setScene(new Scene(borderPane));
+        this.stage.setMinHeight(600);
+        this.stage.setMinWidth(600);
     }
 
 
