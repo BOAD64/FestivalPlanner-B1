@@ -8,6 +8,8 @@ import b1.school.group.GroupController;
 import b1.school.person.Student;
 import b1.school.person.Teacher;
 
+import java.util.ArrayList;
+
 public class SchoolController implements Controller {
 
     private School school;
@@ -79,11 +81,30 @@ public class SchoolController implements Controller {
     }
 
     private void apply() {
+        refreshClassroom();
+        refreshGroup();
+        refreshStudent();
+        refreshTeacher();
+
+        ArrayList<Classroom> classrooms = new ArrayList<>();
+        ArrayList<Group> groups = new ArrayList<>();
+        ArrayList<Student> students = new ArrayList<>();
+        ArrayList<Teacher> teachers = new ArrayList<>();
+
+        classrooms.addAll(this.schoolView.getClassroomListView().getItems());
+        groups.addAll(this.schoolView.getGroupListView().getItems());
+        students.addAll(this.schoolView.getStudentListView().getItems());
+        teachers.addAll(this.schoolView.getTeacherListView().getItems());
+
+        this.school.setClassrooms(classrooms);
+        this.school.setGroups(groups);
+        this.school.setStudents(students);
+        this.school.setTeachers(teachers);
         this.school.setSchoolName(this.schoolView.getSchoolNameField().getText());
     }
 
     private void ok() {
-        this.school.setSchoolName(this.schoolView.getSchoolNameField().getText());
+        apply();
         this.schoolView.getStage().close();
     }
 

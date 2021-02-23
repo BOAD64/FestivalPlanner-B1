@@ -1,6 +1,6 @@
 package b1.school.person;
 
-public class Student {
+public class Student extends Person {
     private String name;
     private int stundentnr;
 
