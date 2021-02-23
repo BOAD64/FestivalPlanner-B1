@@ -11,6 +11,7 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -20,6 +21,7 @@ import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -46,12 +48,27 @@ public class MainView extends Application implements View {
     private void createStage() {
         this.stage = new Stage();
         BorderPane borderPane = new BorderPane();
+        FileInputStream inputStream = null;
+        try{
+            inputStream = new FileInputStream("resources\\plus.png");
 
-        Image plus = new Image(this.getClass().getResourceAsStream("plus.png"));
-        Button plusButton = new Button();
-        plusButton.setGraphic(new ImageView(plus));
-        borderPane.setBottom(plusButton);
-        BorderPane.setAlignment(plusButton, Pos.BOTTOM_LEFT);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        if (inputStream != null){
+            Image plus = new Image(inputStream);
+            ImageView imageView = new ImageView(plus);
+
+            imageView.setOnMouseClicked(event -> {
+                borderPane.setCenter(new Label("yes"));
+            });
+            borderPane.setBottom(imageView);
+            BorderPane.setAlignment(imageView, Pos.BOTTOM_RIGHT);
+        }
+        //Button plusButton = new Button();
+        //plusButton.setGraphic(new ImageView(plus));
+
+
 
         this.stage.setScene(new Scene(borderPane));
     }
