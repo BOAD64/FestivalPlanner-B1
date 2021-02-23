@@ -3,6 +3,8 @@ package b1;
 import b1.Controller;
 import b1.school.person.Student;
 import b1.school.person.StudentController;
+import b1.school.person.Teacher;
+import b1.school.person.TeacherController;
 
 public class MainViewController implements Controller {
 
@@ -18,8 +20,8 @@ public class MainViewController implements Controller {
 
     private void onAction() {
         this.view.getButton().setOnAction(e -> {
-            Student student = new Student();
-            StudentController controller = new StudentController(student);
+            Teacher teacher = new Teacher();
+            TeacherController controller = new TeacherController(teacher);
             controller.show();
         });
     }
