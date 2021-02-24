@@ -9,13 +9,16 @@ public class Teacher extends Person {
         this.subject = subject;
     }
 
+    /**
+     * Default constructor if no parameters are given.
+     */
     public Teacher() {
         super();
         this.subject = "\"undefined\"";
     }
 
     public String getSubject() {
-        return subject;
+        return this.subject;
     }
 
     public void setSubject(String subject) {

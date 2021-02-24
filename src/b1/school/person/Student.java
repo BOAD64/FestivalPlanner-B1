@@ -11,6 +11,10 @@ public class Student extends Person {
         this.group = group;
     }
 
+    /**
+     * Default constructor if no parameters are given.
+     * This method first calls the default constructor of its super class.
+     */
     public Student() {
         super();
         this.group = "\"undefined\"";

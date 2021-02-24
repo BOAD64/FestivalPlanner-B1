@@ -15,7 +15,7 @@ public class StudentView extends PersonView {
     private TextField groupField = new TextField();
 
 
-    public StudentView(Student student) {
+    StudentView(Student student) {
         super.stage = new Stage();
         this.student = student;
         this.createStage();
@@ -57,6 +57,7 @@ public class StudentView extends PersonView {
         this.idField.setPrefHeight(super.fieldHeight);
         this.groupField.setPrefHeight(super.fieldHeight);
 
+        //if the age of the Student is not -1 than the program loads the attributes of the Student into the TextFields.
         if(this.student.getAge() != -1) {
             super.nameField.setText(this.student.getName());
             super.ageField.setText(this.student.getAge() + "");

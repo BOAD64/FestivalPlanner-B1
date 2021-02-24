@@ -25,6 +25,9 @@ abstract class PersonView implements View {
     TextField ageField;
     TextField genderField;
 
+    /**
+     * Initializes the main HBox and VBox where the TextFields and Labels are added to.
+     */
     void initMainBox() {
         HBox mainHBox = new HBox();
         mainHBox.getChildren().addAll(this.tagsVBox, this.inputFieldVBox);

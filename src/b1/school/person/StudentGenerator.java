@@ -12,6 +12,12 @@ public class StudentGenerator {
     private String[] lastName = new String[]{"Remmers", "Bink", "Cleven", "van Olffen", "de Deugd", "Somai", "Talboom",
     "van der Geld", "Vegter", "Vloet"};
 
+    /**
+     * This method generates an ArrayList with random names from the names.txt file. If the file does not contain enough
+     * names or could not be read at all, there will be names generated out of the preset String[]
+     * firstName and lastName.
+     * @param amount is the amount of names that are put into the ArrayList with random names.
+     */
     public StudentGenerator(short amount) {
         this.names = NameFile.readFile();
 
@@ -39,7 +45,6 @@ public class StudentGenerator {
     private void removeName() {
         this.names.remove((int)(Math.random() * this.names.size()));
     }
-
 
     public ArrayList<String> getNames() {
         return names;

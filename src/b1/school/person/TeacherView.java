@@ -49,6 +49,7 @@ public class TeacherView extends PersonView {
 
         this.subjectField.setPrefHeight(super.fieldHeight);
 
+        //if the age of the Teacher is not -1 than the program loads the attributes of the Teacher into the TextFields.
         if(this.teacher.getAge() != -1) {
             super.nameField.setText(this.teacher.getName());
             super.ageField.setText(this.teacher.getAge() + "");

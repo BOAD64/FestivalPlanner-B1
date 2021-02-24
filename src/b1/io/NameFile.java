@@ -9,8 +9,12 @@ public class NameFile {
 
     private static ArrayList<String> names = new ArrayList<>();
 
+    /**
+     * This method reads the file names.txt and puts every line into an ArrayList.
+     * @return ArrayList with al the names read from the file
+     */
     public static ArrayList<String> readFile() {
-        File file = new File("resources\\names.txt");
+        File file = new File("resources/names.txt");
 
         try(Scanner scanner = new Scanner(file)) {
             while(scanner.hasNext()) {

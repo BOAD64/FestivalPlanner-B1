@@ -18,6 +18,9 @@ abstract class Person {
         this.gender = gender;
     }
 
+    /**
+     * Default constructor if no parameters are given.
+     */
     Person() {
         this.name = "\"undefined\"";
         this.age = -1;

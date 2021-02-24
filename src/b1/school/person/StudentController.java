@@ -12,6 +12,9 @@ public class StudentController extends PersonController implements Controller {
         this.student = student;
     }
 
+    /**
+     * When this method is called it wil open the add student screen, only if its not open already.
+     */
     @Override
     public void show() {
         if(!this.view.getStage().isShowing()){
@@ -21,6 +24,7 @@ public class StudentController extends PersonController implements Controller {
         }
     }
 
+    //saves the Student if the input fields have valid values, otherwise it shows an error massage
     private void saveStudent() {
         try {
             if(this.view.getGroupField().getText().isEmpty()|| this.view.getIdField().getText().isEmpty() ||
@@ -43,6 +47,7 @@ public class StudentController extends PersonController implements Controller {
         }
     }
 
+    //sets the input fields back to the information that was shown upon opening the window
     private void undoChanges() {
         if(this.student.getAge() == -1) {
             this.view.getIdField().setText("");
