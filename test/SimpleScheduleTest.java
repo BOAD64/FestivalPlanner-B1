@@ -1,9 +1,7 @@
-import b1.Main;
 import b1.MainController;
 import b1.io.SchoolFile;
 import b1.schedule.Lesson;
 import b1.school.School;
-import b1.school.group.Group;
 import b1.school.group.StudentGroup;
 import b1.school.person.Student;
 import b1.school.person.Teacher;
@@ -12,8 +10,6 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 import java.time.LocalTime;
-
-import static javafx.application.Application.launch;
 
 public class SimpleScheduleTest extends Application implements Test
 {

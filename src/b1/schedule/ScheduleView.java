@@ -1,14 +1,11 @@
 package b1.schedule;
 
 import b1.View;
-import b1.school.room.Room;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
 
@@ -81,10 +78,6 @@ public class ScheduleView implements View
         for (int j = 0; j < this.appointmentShapes.size(); j++) {
             this.drawAppointment(this.appointmentShapes.get(j));
         }
-    }
-
-    public Node getNode(){
-        return this.canvas;
     }
 
     @Override

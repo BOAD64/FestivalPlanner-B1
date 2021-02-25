@@ -9,12 +9,8 @@ import b1.school.person.Student;
 import b1.school.person.Teacher;
 import b1.school.room.Room;
 import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.time.LocalTime;
@@ -49,17 +45,13 @@ public class ScheduleController implements Controller
 
     @Override
     public void show() {
-        Stage stage = new Stage();
-        stage.setScene(new Scene(new Group(getNode())));
-        stage.show();
-        /*
         if (!this.view.getStage().isShowing()) {
             this.view.setAppointments(sort(this.schedule, this.sortingType));
             Stage stage = this.view.getStage();
             this.view.getCanvas().setOnMouseClicked(this.onCanvasClick());
             this.view.draw();
             stage.show();
-        }*/
+        }
     }
 
     public Node getNode(){
@@ -67,7 +59,7 @@ public class ScheduleController implements Controller
         Stage stage = this.view.getStage();
         this.view.getCanvas().setOnMouseClicked(this.onCanvasClick());
         this.view.draw();
-        return this.view.getNode();
+        return this.view.getCanvas();
     }
 
     private HashMap<Object, ArrayList<AppointmentAbstract>> sort(Schedule schedule, SortingType sortingType)
