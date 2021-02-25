@@ -51,7 +51,7 @@ public class MainView implements View {
         } catch (Exception e){
             e.printStackTrace();
         }
-        if (plusInputStream != null && arrowInputStream != null){
+        if (plusInputStream != null && arrowInputStream != null) {
             Image plus = new Image(plusInputStream);
             Image arrow = new Image(arrowInputStream);
             ImageView plusImageView = new ImageView(plus);
@@ -123,7 +123,6 @@ public class MainView implements View {
             //create HBox used for whole hamburger-menu
             HBox hamburger = new HBox();
             hamburger.getChildren().add(arrowImageView);
-            hamburger.setSpacing(20);
 
             //Add combobox(es) in Vbox to test hamburger menu
             ComboBox<String> testComboBox = new ComboBox<>();
@@ -139,7 +138,7 @@ public class MainView implements View {
             //Opening and closing of hamburger menu
             arrowImageView.setOnMouseClicked(event -> {
 
-                if (this.hamburgerIsOut){
+                if (this.hamburgerIsOut) {
                     this.hamburgerIsOut = false;
                     hamburger.getChildren().remove(0, 2);
                     arrowImageView.setRotate(0);
@@ -160,17 +159,17 @@ public class MainView implements View {
             addMenu.setAlignment(Pos.BOTTOM_RIGHT);
 
 
-
-            borderPane.setTop(hamburger);
-            borderPane.setBottom(addMenu);
+            borderPane.setLeft(hamburger);
+            borderPane.setRight(addMenu);
 
             BorderPane.setMargin(addMenu, new Insets(5, 20, 20, 5));
             BorderPane.setAlignment(addMenu, Pos.BOTTOM_RIGHT);
-        }
+            HBox.setMargin(arrowImageView, new Insets( 5, 5, 5 ,5));
 
-        this.stage.setScene(new Scene(borderPane));
-        this.stage.setMinHeight(600);
-        this.stage.setMinWidth(600);
+            this.stage.setScene(new Scene(borderPane));
+            this.stage.setMinHeight(600);
+            this.stage.setMinWidth(600);
+        }
     }
 
     private void changeVisibilityOfAddList(){
