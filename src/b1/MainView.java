@@ -1,22 +1,33 @@
 package b1;
 
+import b1.school.person.Student;
+import b1.school.person.StudentController;
+import b1.school.person.StudentView;
 import b1.school.classroom.Classroom;
 import b1.school.classroom.ClassroomController;
 import b1.school.group.Group;
 import b1.school.group.GroupController;
 import b1.school.person.Student;
 import javafx.application.Application;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
+public class MainView implements View {
 
-public class MainView extends Application {
+    private Stage stage;
+
+    public MainView() {
+        this.stage = new Stage();
+    }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        groupTest();
-        classroomTest();
+    public Stage getStage() {
+        return this.stage;
     }
 
     public void groupTest() {
