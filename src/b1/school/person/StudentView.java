@@ -1,10 +1,8 @@
 package b1.school.person;
 
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 public class StudentView extends PersonView {
@@ -34,7 +32,7 @@ public class StudentView extends PersonView {
 
         Scene scene = new Scene(super.mainVBox);
         super.stage.setHeight(375);
-        super.stage.setWidth(350);
+        super.stage.setWidth(400);
         super.stage.setResizable(false);
         super.stage.setScene(scene);
     }

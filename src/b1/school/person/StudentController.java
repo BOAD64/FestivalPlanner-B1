@@ -21,6 +21,7 @@ public class StudentController extends PersonController implements Controller {
             this.view.getStage().show();
             this.view.getSaveButton().setOnAction(e -> this.saveStudent());
             this.view.getUndoButton().setOnAction(e -> this.undoChanges());
+            this.view.getCancelButton().setOnAction(e -> this.view.getStage().close());
         }
     }
 
