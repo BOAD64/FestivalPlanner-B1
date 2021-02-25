@@ -1,13 +1,13 @@
 package b1;
 
+import b1.schedule.Schedule;
+import b1.schedule.ScheduleController;
 import b1.school.classroom.Classroom;
 import b1.school.classroom.ClassroomController;
 import b1.school.group.Group;
 import b1.school.group.GroupController;
 import b1.school.person.Student;
 import b1.school.person.StudentController;
-import javafx.application.Application;
-import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
@@ -17,13 +17,21 @@ public class MainController implements Controller {
 
     @Override
     public void show() {
-        this.view = new MainView();
-        this.view.getStage().show();
+        //this.view = new MainView();
+        //this.view.getStage().show();
 
-        groupTest();
-        classroomTest();
-        studentTest();
+        //groupTest();
+        //classroomTest();
+        //studentTest();
+        scheduleTest();
     }
+
+    public void scheduleTest() {
+        Schedule schedule = new Schedule();
+        ScheduleController scheduleController = new ScheduleController(schedule);
+        scheduleController.show();
+    }
+
 
     public void groupTest() {
         Student student1 = new Student("bob", (short) 2, "attack helicoptor", (short) 1, "lol");
