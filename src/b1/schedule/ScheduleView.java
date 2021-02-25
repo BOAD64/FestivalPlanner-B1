@@ -1,6 +1,7 @@
 package b1.schedule;
 
 import b1.View;
+import b1.school.room.Room;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -10,10 +11,12 @@ import org.jfree.fx.FXGraphics2D;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ScheduleView implements View
 {
-    private AppointmentAbstract[][] appointments;
+    private HashMap<Object, ArrayList<AppointmentAbstract>> appointments;
     private final ArrayList<AppointmentShape> appointmentShapes;
 
     private final Stage stage;
@@ -28,11 +31,11 @@ public class ScheduleView implements View
         this.appointmentShapes = new ArrayList<AppointmentShape>();
     }
 
-    public AppointmentAbstract[][] getAppointments() {
-        return this.appointments;
+    public HashMap<Object, ArrayList<AppointmentAbstract>> getAppointments() {
+        return appointments;
     }
 
-    public void setAppointments(AppointmentAbstract[][] appointments) {
+    public void setAppointments(HashMap<Object, ArrayList<AppointmentAbstract>> appointments) {
         this.appointments = appointments;
     }
 
@@ -51,31 +54,27 @@ public class ScheduleView implements View
 
         int columnWidth = (int)Math.round(this.getColumnWidth());
 
-        this.drawBackground(this.appointments.length, columnWidth);
+        this.drawBackground(this.appointments.size(), columnWidth);
 
-        AppointmentAbstract[] currentAppointmentList;
-        for (int i = 0; i < this.appointments.length; i++) {
-
-            currentAppointmentList = this.appointments[i];
-            if (currentAppointmentList == null) {
-                continue;
+        int index = 0;
+        for(Map.Entry<Object, ArrayList<AppointmentAbstract>> appointments : this.appointments.entrySet()){
+            for (int j = 0; j < appointments.getValue().size(); j++) {
+                this.appointmentShapes.add(this.generateAppointmentShape(appointments.getValue().get(j), columnWidth * index, columnWidth));
             }
-
-            for (int j = 0; j < currentAppointmentList.length; j++) {
-                this.appointmentShapes.add(this.generateAppointmentShape(currentAppointmentList[j], columnWidth * i, columnWidth));
-            }
+            index = index + 1;
         }
 
-        for (int i = 0; i < this.appointments.length; i++) {
-
-            currentAppointmentList = this.appointments[i];
-            if (currentAppointmentList == null) {
-                continue;
-            }
-
-            for (int j = 0; j < this.appointmentShapes.size(); j++) {
+        index = 0;
+        for(Map.Entry<Object, ArrayList<AppointmentAbstract>> appointments : this.appointments.entrySet()){
+            for (int j = 0; j < appointments.getValue().size(); j++) {
                 this.drawAppointment(this.appointmentShapes.get(j));
             }
+            index = index + 1;
+        }
+
+
+        for (int j = 0; j < this.appointmentShapes.size(); j++) {
+            this.drawAppointment(this.appointmentShapes.get(j));
         }
     }
 
@@ -164,8 +163,8 @@ public class ScheduleView implements View
     private double getColumnWidth() {
         double columnWidth = this.canvas.getWidth();
 
-        if (this.appointments.length > 0) {
-            columnWidth = this.canvas.getWidth() / this.appointments.length;
+        if (this.appointments.size() > 0) {
+            columnWidth = this.canvas.getWidth() / this.appointments.size();
         }
 
         return columnWidth;
