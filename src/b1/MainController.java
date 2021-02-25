@@ -1,13 +1,13 @@
 package b1;
 
-import b1.school.classroom.Classroom;
-import b1.school.classroom.ClassroomController;
+import b1.school.School;
+import b1.school.SchoolController;
 import b1.school.group.Group;
 import b1.school.group.GroupController;
 import b1.school.person.Student;
 import b1.school.person.StudentController;
-import javafx.application.Application;
-import javafx.stage.Stage;
+import b1.school.room.Classroom;
+import b1.school.room.ClassroomController;
 
 import java.util.ArrayList;
 
@@ -20,9 +20,10 @@ public class MainController implements Controller {
         this.view = new MainView();
         this.view.getStage().show();
 
-        groupTest();
-        classroomTest();
-        studentTest();
+        //tests:
+        //groupTest();
+        //classroomTest();
+        //studentTest();
     }
 
     public void groupTest() {
@@ -56,5 +57,15 @@ public class MainController implements Controller {
         Student student = new Student("bob", (short) 2, "attack helicoptor", (short) 3, "lol");
         StudentController studentController = new StudentController(student);
         studentController.show();
+    }
+
+    public void schoolTest() {
+        Classroom c = new Classroom(420, 666, "lol34", 69);
+        Classroom classroom = new Classroom(777, 3434, "holy", 45);
+
+        School school = new School("haha reeee");
+        school.addClassroom(classroom);
+        SchoolController schoolController = new SchoolController(school);
+        schoolController.show();
     }
 }
