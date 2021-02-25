@@ -30,7 +30,7 @@ public class TeacherView extends PersonView {
 
         Scene scene = new Scene(super.mainVBox);
         super.stage.setHeight(330);
-        super.stage.setWidth(350);
+        super.stage.setWidth(400);
         super.stage.setResizable(false);
         super.stage.setScene(scene);
     }
