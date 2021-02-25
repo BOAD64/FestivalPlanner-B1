@@ -1,6 +1,7 @@
 package b1.school.person;
 
 import b1.Controller;
+import javafx.stage.Stage;
 
 public class StudentController extends PersonController implements Controller {
 
@@ -18,9 +19,11 @@ public class StudentController extends PersonController implements Controller {
     @Override
     public void show() {
         if(!this.view.getStage().isShowing()){
-            this.view.getStage().show();
+            Stage stage = this.view.getStage();
             this.view.getSaveButton().setOnAction(e -> this.saveStudent());
             this.view.getUndoButton().setOnAction(e -> this.undoChanges());
+            this.view.getCancelButton().setOnAction(e -> this.view.getStage().close());
+            stage.showAndWait();
         }
     }
 

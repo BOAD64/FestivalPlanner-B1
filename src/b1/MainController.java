@@ -2,6 +2,11 @@ package b1;
 
 import b1.school.School;
 import b1.school.SchoolController;
+import b1.schedule.Schedule;
+import b1.schedule.ScheduleController;
+import b1.school.School;
+import b1.school.classroom.Classroom;
+import b1.school.classroom.ClassroomController;
 import b1.school.group.Group;
 import b1.school.group.GroupController;
 import b1.school.person.Student;
@@ -14,6 +19,11 @@ import java.util.ArrayList;
 public class MainController implements Controller {
 
     private MainView view;
+    private School school;
+
+    public MainController(School school) {
+        this.school = school;
+    }
 
     @Override
     public void show() {
@@ -25,6 +35,12 @@ public class MainController implements Controller {
         //classroomTest();
         //studentTest();
     }
+
+    public void scheduleTest() {
+        ScheduleController scheduleController = new ScheduleController(school.getSchedule());
+        scheduleController.show();
+    }
+
 
     public void groupTest() {
         Student student1 = new Student("bob", (short) 2, "attack helicoptor", (short) 1, "lol");

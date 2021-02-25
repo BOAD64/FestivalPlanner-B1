@@ -1,6 +1,7 @@
 package b1.school.person;
 
 import javafx.scene.control.Alert;
+import javafx.stage.Stage;
 
 public abstract class PersonController {
 

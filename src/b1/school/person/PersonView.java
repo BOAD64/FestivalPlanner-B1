@@ -16,6 +16,7 @@ abstract class PersonView implements View {
     Stage stage;
     private Button undoButton;
     private Button saveButton;
+    private Button cancelButton;
     short fieldHeight = 40;
     VBox mainVBox = new VBox();
     VBox tagsVBox = new VBox();
@@ -41,13 +42,15 @@ abstract class PersonView implements View {
     private void createButtons() {
         this.undoButton = new Button("Ongedaan maken");
         this.saveButton = new Button("Opslaan");
+        this.cancelButton = new Button("Annuleren");
 
         this.undoButton.setPrefHeight(this.fieldHeight + 10);
         this.saveButton.setPrefHeight(this.fieldHeight + 10);
+        this.cancelButton.setPrefHeight(this.fieldHeight + 10);
 
         HBox buttonHBox = new HBox();
-        buttonHBox.getChildren().addAll(this.undoButton, this.saveButton);
-        buttonHBox.setSpacing(40);
+        buttonHBox.getChildren().addAll(this.undoButton, this.cancelButton, this.saveButton);
+        buttonHBox.setSpacing(25);
         buttonHBox.setAlignment(Pos.CENTER);
         this.mainVBox.getChildren().add(buttonHBox);
         this.mainVBox.setSpacing(25);
@@ -60,6 +63,10 @@ abstract class PersonView implements View {
 
     Button getSaveButton() {
         return this.saveButton;
+    }
+
+    Button getCancelButton() {
+        return cancelButton;
     }
 
     void createTags() {
