@@ -1,8 +1,9 @@
 package b1;
 
-import b1.schedule.ScheduleController;
+import b1.schedule.*;
 import b1.school.School;
 import b1.school.SchoolController;
+import b1.school.group.StudentGroup;
 import b1.school.person.StudentController;
 import b1.school.person.Teacher;
 import b1.school.person.TeacherController;
@@ -11,10 +12,12 @@ import b1.school.room.ClassroomController;
 import b1.school.group.Group;
 import b1.school.group.GroupController;
 import b1.school.person.Student;
+import b1.school.room.Room;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
@@ -24,6 +27,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.FileInputStream;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 
@@ -125,10 +130,10 @@ public class MainView implements View {
                         break;
                     case APPOINTMENT:
                         this.changeVisibilityOfAddList();
-                        /*
-                        AppointmentController appointmentController = new AppointmentControllor(new Appointment());
-                        appointmentController.show();
-                        */
+
+                        //LessonController lessonController = new LessonController(new Lesson("OOM", LocalTime.of(9, 30), LocalTime.of(10, 00), new Room(200, 200), "-", new StudentGroup("b1"), new Teacher("Edwin", (short)20, "legend", "oom")));
+                        //lessonController.show();
+
                         System.out.println("not yet implemented");
                         break;
                 }
