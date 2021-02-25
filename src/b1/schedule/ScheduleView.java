@@ -3,11 +3,12 @@ package b1.schedule;
 import b1.View;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
+import org.jfree.fx.ResizableCanvas;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class ScheduleView implements View
     private final ArrayList<AppointmentShape> appointmentShapes;
 
     private final Stage stage;
-    private Canvas canvas;
+    private ResizableCanvas canvas;
     private FXGraphics2D fxGraphics2D;
 
 
@@ -94,7 +95,8 @@ public class ScheduleView implements View
     }
 
     private void createStage() {
-        this.canvas = new Canvas();
+        BorderPane borderPane = new BorderPane();
+        this.canvas = new ResizableCanvas(g -> draw(), borderPane);
         this.fxGraphics2D = new FXGraphics2D(this.canvas.getGraphicsContext2D());
         Scene scene = new Scene(new Group(this.canvas));
 
