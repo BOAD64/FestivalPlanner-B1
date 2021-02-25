@@ -84,7 +84,6 @@ public class ScheduleView implements View
     }
 
     public Node getNode(){
-        createStage();
         return this.canvas;
     }
 

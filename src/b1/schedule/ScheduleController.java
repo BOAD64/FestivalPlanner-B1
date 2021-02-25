@@ -63,6 +63,10 @@ public class ScheduleController implements Controller
     }
 
     public Node getNode(){
+        this.view.setAppointments(sort(this.schedule, this.sortingType));
+        Stage stage = this.view.getStage();
+        this.view.getCanvas().setOnMouseClicked(this.onCanvasClick());
+        this.view.draw();
         return this.view.getNode();
     }
 
