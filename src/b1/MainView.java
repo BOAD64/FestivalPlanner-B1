@@ -1,61 +1,16 @@
 package b1;
 
-import b1.school.person.Student;
-import b1.school.person.StudentController;
-import b1.school.person.StudentView;
-import b1.school.classroom.Classroom;
-import b1.school.classroom.ClassroomController;
-import b1.school.group.Group;
-import b1.school.group.GroupController;
-import b1.school.person.Student;
-import javafx.application.Application;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-
-import java.util.ArrayList;
 
 public class MainView implements View {
 
-    private Stage stage;
-
-    public MainView() {
-        this.stage = new Stage();
-    }
-
     @Override
     public Stage getStage() {
-        return this.stage;
-    }
-
-    public void groupTest() {
-        Student student1 = new Student("biebom", 1);
-        Student student2 = new Student("hibie", 2);
-        Student student3 = new Student("harry", 3);
-        Student student4 = new Student("gg", 4);
-        Student student5 = new Student("lolosr", 5);
-        Student student6 = new Student("hybra", 6);
-
-        ArrayList<Student> students = new ArrayList<>();
-        students.add(student1);
-        students.add(student2);
-        students.add(student3);
-        students.add(student4);
-        students.add(student5);
-        students.add(student6);
-
-        Group group = new Group("gudgrup");
-        group.setStudents(students);
-
-        GroupController groupController = new GroupController(group);
-        groupController.show();
-    }
-
-    public void classroomTest() {
-        Classroom c = new Classroom(420, 666, "lol34", 69);
-        ClassroomController classroomController = new ClassroomController(c);
-        classroomController.show();
+        BorderPane borderPane = new BorderPane();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(borderPane));
+        return stage;
     }
 }
