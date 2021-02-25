@@ -71,7 +71,6 @@ public class ScheduleController implements Controller
     private EventHandler<MouseEvent> onCanvasClick() {
         return new EventHandler<MouseEvent>()
         {
-
             @Override
             public void handle(MouseEvent t) {
                 ArrayList<AppointmentShape> appointmentShapes = view.getAppointmentShapes();
@@ -109,8 +108,8 @@ public class ScheduleController implements Controller
     private HashMap<Object, ArrayList<AppointmentAbstract>> testAppointments() {
         HashMap<Object, ArrayList<AppointmentAbstract>> appointments = new HashMap<Object, ArrayList<AppointmentAbstract>>();
         Teacher teacher = new Teacher();
-        StudentGroup testGroup = new StudentGroup();
-        testGroup.getStudents().add(new Student());
+        StudentGroup testGroup = new StudentGroup("");
+        testGroup.getStudentsList().add(new Student());
 
 
         Lesson appointment1 = new Lesson("Hoeloeloe", LocalTime.of(10, 30, 0), LocalTime.of(11, 0, 0), new Room(), "test", testGroup, teacher);

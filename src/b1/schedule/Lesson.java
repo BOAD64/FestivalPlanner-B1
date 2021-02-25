@@ -38,7 +38,7 @@ public class Lesson extends AppointmentAbstract
 
     @Override
     public ArrayList<Person> getPersons() {
-        ArrayList<Person> persons = new ArrayList<>(this.studentGroup.getStudents());
+        ArrayList<Person> persons = new ArrayList<Person>(this.studentGroup.getStudentsList());
         persons.add(this.teacher);
         return persons;
     }

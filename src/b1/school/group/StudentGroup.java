@@ -4,11 +4,9 @@ import b1.school.person.Person;
 
 import java.util.ArrayList;
 
-public class StudentGroup {
+public class StudentGroup extends Group{
 
-    private ArrayList<Person> students = new ArrayList<>();
-
-    public ArrayList<Person> getStudents(){
-        return this.students;
+    public StudentGroup(String groupCode) {
+        super(groupCode);
     }
 }

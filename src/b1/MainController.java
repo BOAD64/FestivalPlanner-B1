@@ -2,6 +2,7 @@ package b1;
 
 import b1.schedule.Schedule;
 import b1.schedule.ScheduleController;
+import b1.school.School;
 import b1.school.classroom.Classroom;
 import b1.school.classroom.ClassroomController;
 import b1.school.group.Group;
@@ -14,21 +15,25 @@ import java.util.ArrayList;
 public class MainController implements Controller {
 
     private MainView view;
+    private School school;
+
+    public MainController(School school) {
+        this.school = school;
+    }
 
     @Override
     public void show() {
         //this.view = new MainView();
         //this.view.getStage().show();
-
-        //groupTest();
-        //classroomTest();
-        //studentTest();
-        scheduleTest();
+//
+//        groupTest();
+//        classroomTest();
+        studentTest();
+//        scheduleTest();
     }
 
     public void scheduleTest() {
-        Schedule schedule = new Schedule();
-        ScheduleController scheduleController = new ScheduleController(schedule);
+        ScheduleController scheduleController = new ScheduleController(school.getSchedule());
         scheduleController.show();
     }
 
