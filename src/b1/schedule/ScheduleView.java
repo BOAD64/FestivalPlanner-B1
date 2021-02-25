@@ -4,8 +4,11 @@ import b1.View;
 import b1.school.room.Room;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
 
@@ -23,12 +26,14 @@ public class ScheduleView implements View
     private Canvas canvas;
     private FXGraphics2D fxGraphics2D;
 
+
     private final int START_TIME = 3600 * 7;
     private final int END_TIME = 3600 * 23;
 
     public ScheduleView() {
         this.stage = new Stage();
         this.appointmentShapes = new ArrayList<AppointmentShape>();
+
     }
 
     public HashMap<Object, ArrayList<AppointmentAbstract>> getAppointments() {
@@ -78,6 +83,11 @@ public class ScheduleView implements View
         }
     }
 
+    public Node getNode(){
+        createStage();
+        return this.canvas;
+    }
+
     @Override
     public Stage getStage() {
         this.stage.setHeight(1080);
@@ -101,6 +111,7 @@ public class ScheduleView implements View
 
         this.canvas.heightProperty().addListener(this.onCanvasResize());
         this.canvas.widthProperty().addListener(this.onCanvasResize());
+
 
         this.stage.setScene(scene);
     }

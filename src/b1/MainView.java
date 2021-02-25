@@ -1,5 +1,6 @@
 package b1;
 
+import b1.schedule.ScheduleController;
 import b1.school.School;
 import b1.school.SchoolController;
 import b1.school.person.StudentController;
@@ -14,6 +15,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -30,11 +32,17 @@ public class MainView implements View {
     private boolean addListIsShowing;
     private boolean hamburgerIsOut;
     ListView<Controllers> addList;
+    private School school;
 
     enum Controllers{SCHOOL, GROUP,CLASSROOM, STUDENT, TEACHER, APPOINTMENT}
 
+    public MainView(School school){
+        this.school = school;
+    }
+
     @Override
     public Stage getStage() {
+
         createStage();
         return this.stage;
     }
@@ -161,6 +169,13 @@ public class MainView implements View {
 
             borderPane.setLeft(hamburger);
             borderPane.setRight(addMenu);
+
+
+
+            ScheduleController scheduleController = new ScheduleController(this.school.getSchedule());
+            borderPane.setCenter(scheduleController.getNode());
+
+            //borderPane.setCenter(new Label(this.school.getSchoolName()));
 
             BorderPane.setMargin(addMenu, new Insets(5, 20, 20, 5));
             BorderPane.setAlignment(addMenu, Pos.BOTTOM_RIGHT);

@@ -23,13 +23,10 @@ public class MainController implements Controller {
 
     @Override
     public void show() {
-        this.view = new MainView();
+        this.view = new MainView(this.school);
         this.view.getStage().show();
-
-        //tests:
-        //groupTest();
-        //classroomTest();
-        //studentTest();
+        //ScheduleController scheduleController = new ScheduleController(this.school.getSchedule());
+        //scheduleController.show();
     }
 
     public void scheduleTest() {
