@@ -10,6 +10,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 public class SimpleScheduleTest extends Application implements Test
 {
@@ -48,7 +49,10 @@ public class SimpleScheduleTest extends Application implements Test
 
             SchoolFile.setSchool(testSchool);
 
-            MainController mainController = new MainController(testSchool);
+            ArrayList<School> schools = new ArrayList<>();
+            schools.add(testSchool);
+            schools.add(new School("Super test school"));
+            MainController mainController = new MainController(schools);
             mainController.show();
         }
         catch (Exception ex) {

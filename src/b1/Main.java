@@ -22,7 +22,7 @@ public class Main extends Application
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        MainController mainController = new MainController(this.school);
-        mainController.show();
+        //MainController mainController = new MainController(this.school);
+        //mainController.show();
     }
 }
