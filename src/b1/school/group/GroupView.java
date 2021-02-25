@@ -2,6 +2,7 @@ package b1.school.group;
 
 import b1.View;
 import b1.school.person.Student;
+import b1.school.person.StudentController;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -62,10 +63,10 @@ public class GroupView implements View {
 
             Student selectedStudent = studentListView.getSelectionModel().getSelectedItem();
 
-            /*
-            StudentController studentController = new StudentControllor(selectedStudent);
+
+            StudentController studentController = new StudentController(selectedStudent);
             studentController.show();
-            */
+
         });
         applyButton.setOnAction( event -> {
             //read and save from text fields
