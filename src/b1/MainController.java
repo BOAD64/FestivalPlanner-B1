@@ -5,12 +5,13 @@ import b1.school.classroom.ClassroomController;
 import b1.school.group.Group;
 import b1.school.group.GroupController;
 import b1.school.person.Student;
+import b1.school.person.StudentController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
-public class MainController extends Application implements Controller {
+public class MainController implements Controller {
 
     private MainView view;
 
@@ -21,17 +22,24 @@ public class MainController extends Application implements Controller {
 
         groupTest();
         classroomTest();
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        show();
+        studentTest();
     }
 
     public void groupTest() {
-        ArrayList<Student> students = new ArrayList<>();
+        Student student1 = new Student("bob", (short) 2, "attack helicoptor", (short) 1, "lol");
+        Student student2 = new Student("ha", (short) 2, "attack helicoptor", (short) 2, "lol");
+        Student student3 = new Student("bb", (short) 3, "attack helicoptor", (short) 3, "lol");
+        Student student4 = new Student("yb", (short) 6, "attack helicoptor", (short) 4, "lol");
+        Student student5 = new Student("ue", (short) 1, "attack helicoptor", (short) 5, "lol");
 
-        Group group = new Group("gudgrup");
+        ArrayList<Student> students = new ArrayList<>();
+        students.add(student1);
+        students.add(student2);
+        students.add(student3);
+        students.add(student4);
+        students.add(student5);
+
+        Group group = new Group("lol");
         group.setStudents(students);
 
         GroupController groupController = new GroupController(group);
@@ -42,5 +50,11 @@ public class MainController extends Application implements Controller {
         Classroom c = new Classroom(420, 666, "lol34", 69);
         ClassroomController classroomController = new ClassroomController(c);
         classroomController.show();
+    }
+
+    public void studentTest() {
+        Student student = new Student("bob", (short) 2, "attack helicoptor", (short) 3, "lol");
+        StudentController studentController = new StudentController(student);
+        studentController.show();
     }
 }

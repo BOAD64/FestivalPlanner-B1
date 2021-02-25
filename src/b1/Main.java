@@ -1,14 +1,16 @@
 package b1;
 
 import javafx.application.Application;
+import javafx.stage.Stage;
 
-public class Main {
+public class Main extends Application{
     public static void main(String[] args) {
-        startGUI();
+        launch();
     }
 
-    public static void startGUI() {
-        Application.launch(MainController.class);
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        MainController mainController = new MainController();
+        mainController.show();
     }
-    
 }
