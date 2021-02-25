@@ -112,9 +112,9 @@ public class ScheduleController implements Controller
         testGroup.getStudentsList().add(new Student());
 
 
-        Lesson appointment1 = new Lesson("Hoeloeloe", LocalTime.of(10, 30, 0), LocalTime.of(11, 0, 0), new Room(), "test", testGroup, teacher);
-        Lesson appointment2 = new Lesson("Hallo", LocalTime.of(10, 45, 0), LocalTime.of(11, 15, 0), new Room(), "Moet rood zijn", testGroup, teacher);
-        Lesson appointment3 = new Lesson("Hallo", LocalTime.of(10, 45, 0), LocalTime.of(11, 15, 0), new Room(), "Moet rood zijn", testGroup, teacher);
+        Lesson appointment1 = new Lesson("Hoeloeloe", LocalTime.of(10, 30, 0), LocalTime.of(11, 0, 0), new Room(10,10), "test", testGroup, teacher);
+        Lesson appointment2 = new Lesson("Hallo", LocalTime.of(10, 45, 0), LocalTime.of(11, 15, 0), new Room(10,10), "Moet rood zijn", testGroup, teacher);
+        Lesson appointment3 = new Lesson("Hallo", LocalTime.of(10, 45, 0), LocalTime.of(11, 15, 0), new Room(10,10), "Moet rood zijn", testGroup, teacher);
         School school = SchoolFile.getSchool();
         ArrayList<Person> persons = school.getPersons();
         appointment1.getPersons().add(persons.get(0));

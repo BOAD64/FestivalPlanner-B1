@@ -1,6 +1,6 @@
 package b1.school.room;
 
-abstract class Room {
+public class Room {
     private double width;
     private double length;
 

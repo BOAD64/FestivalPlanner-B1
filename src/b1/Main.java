@@ -15,7 +15,7 @@ public class Main extends Application
 
     public Main() {
         if (SchoolFile.getSchool() == null) {
-            SchoolFile.setSchool(new School());
+            SchoolFile.setSchool(new School("lala land"));
         }
         this.school = SchoolFile.getSchool();
     }

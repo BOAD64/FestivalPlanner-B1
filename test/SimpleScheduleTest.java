@@ -26,7 +26,7 @@ public class SimpleScheduleTest extends Application implements Test
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
-            School testSchool = new School();
+            School testSchool = new School("Avans");
             testSchool.addStudent(new Student("Casper", (short)18, "Man", (short)0, "asdfsd"));
             testSchool.addStudent(new Student("Jochem", (short)20, "Man", (short)0, "asdfsd"));
             testSchool.addStudent(new Student("Jeroen", (short)19, "Man", (short)0, "asdfsd"));
@@ -37,8 +37,8 @@ public class SimpleScheduleTest extends Application implements Test
             testSchool.addTeacher(new Teacher("Johan", (short)35, "Man", "Programmeren"));
             testSchool.addTeacher(new Teacher("Edwin", (short)45, "Man", "Senior"));
 
-            testSchool.addRoom(new Room());
-            testSchool.addRoom(new Room());
+            testSchool.addRoom(new Room(10,10));
+            testSchool.addRoom(new Room(10,10));
             StudentGroup studentGroup = new StudentGroup("23TIVT1B1");
             studentGroup.addStudent(testSchool.getStudents().get(0));
             studentGroup.addStudent(testSchool.getStudents().get(1));

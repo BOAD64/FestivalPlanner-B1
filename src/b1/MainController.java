@@ -2,17 +2,13 @@ package b1;
 
 import b1.school.School;
 import b1.school.SchoolController;
-import b1.schedule.Schedule;
 import b1.schedule.ScheduleController;
-import b1.school.School;
-import b1.school.classroom.Classroom;
-import b1.school.classroom.ClassroomController;
+import b1.school.room.Classroom;
+import b1.school.room.ClassroomController;
 import b1.school.group.Group;
 import b1.school.group.GroupController;
 import b1.school.person.Student;
 import b1.school.person.StudentController;
-import b1.school.room.Classroom;
-import b1.school.room.ClassroomController;
 
 import java.util.ArrayList;
 
