@@ -1,6 +1,7 @@
 package b1.schedule;
 
 import b1.io.SchoolFile;
+import b1.school.School;
 import b1.school.group.StudentGroup;
 import b1.school.person.Teacher;
 import b1.school.room.Room;
@@ -8,16 +9,20 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.time.LocalTime;
 
-public class LessonController extends AppointmentControllerAbstract{
+public class LessonController extends AppointmentControllerAbstract
+{
     private Lesson lesson;
     private LessonView view;
+    private School school;
 
-    public LessonController(Lesson lesson) {
+    public LessonController(School school, Lesson lesson) {
         this.lesson = lesson;
         this.view = new LessonView();
+        this.school = school;
     }
 
     @Override
@@ -27,21 +32,37 @@ public class LessonController extends AppointmentControllerAbstract{
             this.view.getCancelButton().setOnAction(onCancelClicked());
             this.view.getSaveButton().setOnAction(onSaveClicked());
 
-            this.view.getNameField().setText(this.lesson.getName());
-            this.view.getBeginTimeHour().increment(this.lesson.getStartTime().getHour());
-            this.view.getBeginTimeMinute().increment(this.lesson.getStartTime().getMinute());
-            this.view.getEndTimeHour().increment(this.lesson.getEndTime().getHour());
-            this.view.getEndTimeMinute().increment(this.lesson.getEndTime().getMinute());
-            this.view.getLocationField().setItems(FXCollections.observableList(SchoolFile.getSchool().getRooms()));
-            this.view.getLocationField().getSelectionModel().select(this.lesson.getLocation());
-            this.view.getDescriptionField().setText(this.lesson.getDescription());
+            if (this.lesson.getName() != null) {
+                this.view.getNameField().setText(this.lesson.getName());
+            }
+            if (this.lesson.getStartTime() != null) {
+                this.view.getBeginTimeHour().increment(this.lesson.getStartTime().getHour());
+                this.view.getBeginTimeMinute().increment(this.lesson.getStartTime().getMinute());
+            }
+            if (this.lesson.getEndTime() != null) {
+                this.view.getEndTimeHour().increment(this.lesson.getEndTime().getHour());
+                this.view.getEndTimeMinute().increment(this.lesson.getEndTime().getMinute());
+            }
+            if(this.school.getClassrooms() != null) {
+                this.view.getLocationField().setItems(FXCollections.observableList(this.school.getRooms()));
+            }
+            if(this.lesson.getLocation() != null) {
+                this.view.getLocationField().getSelectionModel().select(this.lesson.getLocation());
+            }
+            if(this.lesson.getDescription() != null) {
+                this.view.getDescriptionField().setText(this.lesson.getDescription());
+            }
+
+            this.view.getStudentGroupComboBox().setItems(FXCollections.observableList(this.school.getStudentGroups()));
+            this.view.getTeacherComboBox().setItems(FXCollections.observableList(this.school.getTeachers()));
 
             stage.show();
         }
     }
 
-    public EventHandler<ActionEvent> onCancelClicked(){
-        return new EventHandler<ActionEvent>() {
+    public EventHandler<ActionEvent> onCancelClicked() {
+        return new EventHandler<ActionEvent>()
+        {
             @Override
             public void handle(ActionEvent event) {
                 view.getStage().close();
@@ -49,8 +70,9 @@ public class LessonController extends AppointmentControllerAbstract{
         };
     }
 
-    public EventHandler<ActionEvent> onSaveClicked(){
-        return new EventHandler<ActionEvent>() {
+    public EventHandler<ActionEvent> onSaveClicked() {
+        return new EventHandler<ActionEvent>()
+        {
             @Override
             public void handle(ActionEvent event) {
                 String name = view.getNameField().getText();
@@ -77,5 +99,10 @@ public class LessonController extends AppointmentControllerAbstract{
                 view.getStage().close();
             }
         };
+    }
+
+    @Override
+    public void onClose(EventHandler<WindowEvent> eventEventHandler) {
+        this.view.getStage().setOnHidden(eventEventHandler);
     }
 }
