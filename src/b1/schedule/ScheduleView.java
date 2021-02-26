@@ -1,13 +1,14 @@
 package b1.schedule;
 
 import b1.View;
-import b1.school.room.Room;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
+import org.jfree.fx.ResizableCanvas;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -20,8 +21,9 @@ public class ScheduleView implements View
     private final ArrayList<AppointmentShape> appointmentShapes;
 
     private final Stage stage;
-    private Canvas canvas;
+    private ResizableCanvas canvas;
     private FXGraphics2D fxGraphics2D;
+
 
     private final int START_TIME = 3600 * 7;
     private final int END_TIME = 3600 * 23;
@@ -29,6 +31,7 @@ public class ScheduleView implements View
     public ScheduleView() {
         this.stage = new Stage();
         this.appointmentShapes = new ArrayList<AppointmentShape>();
+
     }
 
     public HashMap<Object, ArrayList<AppointmentAbstract>> getAppointments() {
@@ -92,7 +95,8 @@ public class ScheduleView implements View
     }
 
     private void createStage() {
-        this.canvas = new Canvas();
+        BorderPane borderPane = new BorderPane();
+        this.canvas = new ResizableCanvas(g -> draw(), borderPane);
         this.fxGraphics2D = new FXGraphics2D(this.canvas.getGraphicsContext2D());
         Scene scene = new Scene(new Group(this.canvas));
 
@@ -101,6 +105,7 @@ public class ScheduleView implements View
 
         this.canvas.heightProperty().addListener(this.onCanvasResize());
         this.canvas.widthProperty().addListener(this.onCanvasResize());
+
 
         this.stage.setScene(scene);
     }

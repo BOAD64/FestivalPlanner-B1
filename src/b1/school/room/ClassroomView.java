@@ -1,4 +1,4 @@
-package b1.school.classroom;
+package b1.school.room;
 
 import b1.View;
 import javafx.scene.Scene;
@@ -10,19 +10,35 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-
 public class ClassroomView implements View {
 
     private Classroom classroom;
 
+    private Button applyButton;
+    private Button okButton;
+
+
+
+    private TextField classroomCode;
+    private TextField classroomCapacity;
+    private TextField classroomWidth;
+    private TextField classroomLength;
+
+    private Stage stage;
+
     public ClassroomView(Classroom classroom) {
         this.classroom = classroom;
+        this.createStage();
     }
 
     @Override
-    public Stage getStage() {
-        Stage stage = new Stage();
+    public Stage getStage(){
+        return this.stage;
+    }
+
+
+    public void createStage() {
+        this.stage = new Stage();
         BorderPane borderPane = new BorderPane();
 
         //object for stage
@@ -31,13 +47,13 @@ public class ClassroomView implements View {
         Label classroomWidthLabel = new Label("Width: ");
         Label classroomLengthLabel = new Label("Length: ");
 
-        TextField classroomCode = new TextField(this.classroom.getRoomCode());
-        TextField classroomCapacity = new TextField("" + this.classroom.getCapacity());
-        TextField classroomWidth = new TextField("" + this.classroom.getWidth());
-        TextField classroomLength = new TextField("" + this.classroom.getLength());
+        this.classroomCode = new TextField(this.classroom.getRoomCode());
+        this.classroomCapacity = new TextField("" + this.classroom.getCapacity());
+        this.classroomWidth = new TextField("" + this.classroom.getWidth());
+        this.classroomLength = new TextField("" + this.classroom.getLength());
 
-        Button applyButton = new Button("Apply");
-        Button okButton = new Button("Ok");
+        this.applyButton = new Button("Apply");
+        this.okButton = new Button("Ok");
 
         //ordering
         VBox vBox = new VBox();
@@ -46,7 +62,7 @@ public class ClassroomView implements View {
                 classroomCapacityLabel, classroomCapacity,
                 classroomLengthLabel, classroomLength,
                 classroomWidthLabel, classroomWidth,
-                applyButton, okButton
+                this.applyButton, this.okButton
         );
         vBox.setSpacing(10);
         HBox hBox = new HBox();
@@ -56,29 +72,52 @@ public class ClassroomView implements View {
         borderPane.setTop(hBox);
 
         //button actions
-        applyButton.setOnAction( event -> {
+        this.applyButton.setOnAction( event -> {
             //read and save from text fields
             this.classroom.setCapacity(Integer.parseInt(classroomCapacity.getText()));
             this.classroom.setRoomCode(classroomCode.getText());
             this.classroom.setLength(Double.parseDouble(classroomLength.getText()));
             this.classroom.setWidth(Double.parseDouble(classroomWidth.getText()));
         });
-        okButton.setOnAction( event -> {
+        this.okButton.setOnAction( event -> {
             //read and save from text fields
             this.classroom.setCapacity(Integer.parseInt(classroomCapacity.getText()));
             this.classroom.setRoomCode(classroomCode.getText());
             this.classroom.setLength(Double.parseDouble(classroomLength.getText()));
             this.classroom.setWidth(Double.parseDouble(classroomWidth.getText()));
             //exit window
-            stage.close();
+            this.stage.close();
         });
 
         //applying to stage
-        stage.setScene(new Scene(borderPane));
+        this.stage.setScene(new Scene(borderPane));
         stage.setMinWidth(500);
         stage.setMinHeight(500);
         stage.setMaxWidth(500);
         stage.setMaxHeight(500);
-        return stage;
+    }
+
+    public Button getApplyButton() {
+        return this.applyButton;
+    }
+
+    public Button getOkButton() {
+        return this.okButton;
+    }
+
+    public TextField getClassroomCode() {
+        return classroomCode;
+    }
+
+    public TextField getClassroomCapacity() {
+        return classroomCapacity;
+    }
+
+    public TextField getClassroomWidth() {
+        return classroomWidth;
+    }
+
+    public TextField getClassroomLength() {
+        return classroomLength;
     }
 }

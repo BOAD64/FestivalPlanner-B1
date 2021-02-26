@@ -1,9 +1,7 @@
-import b1.Main;
 import b1.MainController;
 import b1.io.SchoolFile;
 import b1.schedule.Lesson;
 import b1.school.School;
-import b1.school.group.Group;
 import b1.school.group.StudentGroup;
 import b1.school.person.Student;
 import b1.school.person.Teacher;
@@ -12,8 +10,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 import java.time.LocalTime;
-
-import static javafx.application.Application.launch;
+import java.util.ArrayList;
 
 public class SimpleScheduleTest extends Application implements Test
 {
@@ -26,7 +23,7 @@ public class SimpleScheduleTest extends Application implements Test
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
-            School testSchool = new School();
+            School testSchool = new School("Avans");
             testSchool.addStudent(new Student("Casper", (short)18, "Man", (short)0, "asdfsd"));
             testSchool.addStudent(new Student("Jochem", (short)20, "Man", (short)0, "asdfsd"));
             testSchool.addStudent(new Student("Jeroen", (short)19, "Man", (short)0, "asdfsd"));
@@ -37,8 +34,8 @@ public class SimpleScheduleTest extends Application implements Test
             testSchool.addTeacher(new Teacher("Johan", (short)35, "Man", "Programmeren"));
             testSchool.addTeacher(new Teacher("Edwin", (short)45, "Man", "Senior"));
 
-            testSchool.addRoom(new Room());
-            testSchool.addRoom(new Room());
+            testSchool.addRoom(new Room(10,10));
+            testSchool.addRoom(new Room(10,10));
             StudentGroup studentGroup = new StudentGroup("23TIVT1B1");
             studentGroup.addStudent(testSchool.getStudents().get(0));
             studentGroup.addStudent(testSchool.getStudents().get(1));
@@ -52,7 +49,10 @@ public class SimpleScheduleTest extends Application implements Test
 
             SchoolFile.setSchool(testSchool);
 
-            MainController mainController = new MainController(testSchool);
+            ArrayList<School> schools = new ArrayList<>();
+            schools.add(testSchool);
+            schools.add(new School("Super test school"));
+            MainController mainController = new MainController(schools);
             mainController.show();
         }
         catch (Exception ex) {
