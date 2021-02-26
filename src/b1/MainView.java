@@ -13,6 +13,7 @@ import b1.school.group.Group;
 import b1.school.group.GroupController;
 import b1.school.person.Student;
 import b1.school.room.Room;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventType;
@@ -24,6 +25,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -39,7 +41,6 @@ public class MainView implements View {
     private boolean addListIsShowing;
     private boolean hamburgerIsOut;
     ListView<Controllers> addList;
-    private School school;
     private ArrayList<School> schools;
 
     private BorderPane borderPane;
@@ -56,6 +57,23 @@ public class MainView implements View {
 
         createStage();
         return this.stage;
+    }
+
+    public ListView<Controllers> getAddList() {
+        return addList;
+    }
+
+    public ComboBox<School> getSchoolComboBox() {
+        return this.schoolComboBox;
+    }
+
+    public BorderPane getBorderPane() {
+        return borderPane;
+    }
+
+    public void onAddListClicked(MouseEvent event)
+    {
+        this.changeVisibilityOfAddList();
     }
 
     private void createStage() {
@@ -90,55 +108,7 @@ public class MainView implements View {
             });
 
             this.addList.setOnMouseClicked(event -> {
-                Controllers controller = this.addList.getSelectionModel().getSelectedItem();
 
-                switch (controller) {
-                    case SCHOOL:
-                        this.changeVisibilityOfAddList();
-                        School school = new School("unnamed");
-                        schools.add(school);
-                        SchoolController schoolController = new SchoolController(school);
-                        schoolController.show();
-                        break;
-                    case GROUP:
-                        this.changeVisibilityOfAddList();
-                        GroupController groupController = new GroupController(new Group("unnamed"));
-                        groupController.show();
-                        break;
-                    case CLASSROOM:
-                        this.changeVisibilityOfAddList();
-                        ClassroomController classroomController = new ClassroomController(
-                                new Classroom(0, 0, "unnamed", 0)
-                        );
-                        classroomController.show();
-                        break;
-                    case STUDENT:
-                        this.changeVisibilityOfAddList();
-
-
-                        StudentController studentController = new StudentController(new Student());
-                        studentController.show();
-
-
-                        System.out.println("not yet implemented");
-                        break;
-                    case TEACHER:
-                        this.changeVisibilityOfAddList();
-
-                        TeacherController teacherController = new TeacherController(new Teacher());
-                        teacherController.show();
-
-                        System.out.println("not yet implemented");
-                        break;
-                    case APPOINTMENT:
-                        this.changeVisibilityOfAddList();
-
-                        //LessonController lessonController = new LessonController(new Lesson("OOM", LocalTime.of(9, 30), LocalTime.of(10, 00), new Room(200, 200), "-", new StudentGroup("b1"), new Teacher("Edwin", (short)20, "legend", "oom")));
-                        //lessonController.show();
-
-                        System.out.println("not yet implemented");
-                        break;
-                }
             });
 
             //create HBox used for whole hamburger-menu
@@ -150,7 +120,7 @@ public class MainView implements View {
             for (School s : schools){
                 this.schoolComboBox.getItems().add(s);
             }
-            this.schoolComboBox.setOnAction(this::onSchoolSelect);
+            this.schoolComboBox.setItems(FXCollections.observableList(this.schools));
              //test
             VBox comboBoxes = new VBox();
             comboBoxes.setMinWidth(150);
@@ -186,11 +156,6 @@ public class MainView implements View {
             borderPane.setLeft(hamburger);
             borderPane.setRight(addMenu);
 
-
-            updateBorderPane();
-
-            //borderPane.setCenter(new Label(this.school.getSchoolName()));
-
             BorderPane.setMargin(addMenu, new Insets(5, 20, 20, 5));
             BorderPane.setAlignment(addMenu, Pos.BOTTOM_RIGHT);
             HBox.setMargin(arrowImageView, new Insets( 5, 5, 5 ,5));
@@ -201,26 +166,12 @@ public class MainView implements View {
         }
     }
 
-    private void updateBorderPane(){
-        for (School s : schools){
-            if (!this.schoolComboBox.getItems().contains(s)){
-                this.schoolComboBox.getItems().add(s);
-            }
-
-        }
-        if (this.schoolComboBox.getValue() != null){
-            ScheduleController scheduleController = new ScheduleController(this.schoolComboBox.getValue().getSchedule());
-            borderPane.setCenter(scheduleController.getNode());
-        }
-    }
-
     private void changeVisibilityOfAddList(){
         this.addListIsShowing = !this.addListIsShowing;
         addList.setVisible(this.addListIsShowing);
     }
 
-    private void onSchoolSelect(ActionEvent event)
+    public void onSchoolSelect(ActionEvent event)
     {
-        updateBorderPane();
     }
 }
