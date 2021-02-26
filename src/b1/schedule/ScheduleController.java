@@ -12,6 +12,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.HashMap;
 
 public class ScheduleController implements Controller
 {
+    private School school;
     private final Schedule schedule;
     private final ScheduleView view;
     private SortingType sortingType;
@@ -29,7 +31,8 @@ public class ScheduleController implements Controller
         StudentGroup
     }
 
-    public ScheduleController(Schedule schedule) {
+    public ScheduleController(School school, Schedule schedule) {
+        this.school = school;
         this.schedule = schedule;
         this.sortingType = SortingType.Room;
         this.view = new ScheduleView();
@@ -62,11 +65,21 @@ public class ScheduleController implements Controller
         return this.view.getCanvas();
     }
 
+    public void refresh()
+    {
+        this.view.setAppointments(sort(this.schedule, this.sortingType));
+        this.view.draw();
+    }
+
     private HashMap<Object, ArrayList<AppointmentAbstract>> sort(Schedule schedule, SortingType sortingType)
     {
         HashMap<Object, ArrayList<AppointmentAbstract>> result = new HashMap<>();
         for(AppointmentAbstract appointment : schedule.getAppointments())
         {
+            if(appointment.getStartTime() == null || appointment.getEndTime() == null)
+            {
+                continue;
+            }
             if(sortingType == SortingType.Room)
             {
                 ArrayList<AppointmentAbstract> appointments = result.computeIfAbsent(appointment.getLocation(), k -> new ArrayList<>());
@@ -104,34 +117,15 @@ public class ScheduleController implements Controller
             controller = new GeneralAppointmentController((GeneralAppointment) appointmentShape.getAppointment());
         }
         else if(appointmentShape.getAppointment() instanceof Lesson) {
-            controller = new LessonController((Lesson) appointmentShape.getAppointment());
+            controller = new LessonController(this.school, (Lesson) appointmentShape.getAppointment());
         }
         else{
             return;
         }
 
+        controller.onClose(event -> {this.refresh();});
+
         controller.show();
         this.view.draw();
-    }
-
-    private HashMap<Object, ArrayList<AppointmentAbstract>> testAppointments() {
-        HashMap<Object, ArrayList<AppointmentAbstract>> appointments = new HashMap<Object, ArrayList<AppointmentAbstract>>();
-        Teacher teacher = new Teacher();
-        StudentGroup testGroup = new StudentGroup("");
-        testGroup.getStudentsList().add(new Student());
-
-
-        Lesson appointment1 = new Lesson("Hoeloeloe", LocalTime.of(10, 30, 0), LocalTime.of(11, 0, 0), new Room(10,10), "test", testGroup, teacher);
-        Lesson appointment2 = new Lesson("Hallo", LocalTime.of(10, 45, 0), LocalTime.of(11, 15, 0), new Room(10,10), "Moet rood zijn", testGroup, teacher);
-        Lesson appointment3 = new Lesson("Hallo", LocalTime.of(10, 45, 0), LocalTime.of(11, 15, 0), new Room(10,10), "Moet rood zijn", testGroup, teacher);
-        School school = SchoolFile.getSchool();
-        ArrayList<Person> persons = school.getPersons();
-        appointment1.getPersons().add(persons.get(0));
-        appointment1.getPersons().add(persons.get(1));
-
-        appointments.put(appointment1.getLocation(), new ArrayList<AppointmentAbstract>(){{add(appointment1);}});
-        appointments.put(appointment2.getLocation(), new ArrayList<AppointmentAbstract>(){{add(appointment2);}});
-        appointments.put(appointment3.getLocation(), new ArrayList<AppointmentAbstract>(){{add(appointment3);}});
-        return appointments;
     }
 }
