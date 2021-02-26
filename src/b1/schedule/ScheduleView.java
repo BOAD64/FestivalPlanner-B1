@@ -103,9 +103,6 @@ public class ScheduleView implements View
         this.canvas.setHeight(this.stage.getHeight());
         this.canvas.setWidth(this.stage.getWidth());
 
-        this.canvas.heightProperty().addListener(this.onCanvasResize());
-        this.canvas.widthProperty().addListener(this.onCanvasResize());
-
 
         this.stage.setScene(scene);
     }
@@ -189,12 +186,6 @@ public class ScheduleView implements View
         return (observable, oldValue, newValue) -> {
             this.canvas.setWidth(this.stage.getWidth());
             this.canvas.setHeight(this.stage.getHeight());
-        };
-    }
-
-    private ChangeListener<Number> onCanvasResize() {
-        return (observable, oldValue, newValue) -> {
-            this.draw();
         };
     }
 }
