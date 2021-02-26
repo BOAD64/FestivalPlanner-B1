@@ -41,8 +41,6 @@ public class StudentController extends PersonController implements Controller {
                 this.student.setIdNumber(Short.parseShort(this.view.getIdField().getText()));
                 this.student.setGroup(this.view.getGroupField().getText());
 
-                //ToDo add student to school
-
                 this.view.getStage().close();
             }
         } catch(Exception e) {
