@@ -14,6 +14,8 @@ import b1.school.group.GroupController;
 import b1.school.person.Student;
 import b1.school.room.Room;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -148,6 +150,7 @@ public class MainView implements View {
             for (School s : schools){
                 this.schoolComboBox.getItems().add(s);
             }
+            this.schoolComboBox.setOnAction(this::onSchoolSelect);
              //test
             VBox comboBoxes = new VBox();
             comboBoxes.setMinWidth(150);
@@ -165,14 +168,11 @@ public class MainView implements View {
                     hamburger.getChildren().remove(0, 2);
                     arrowImageView.setRotate(0);
                     hamburger.getChildren().addAll(arrowImageView);
-                    updateBorderPane();
-
                 } else {
                     this.hamburgerIsOut = true;
                     hamburger.getChildren().remove(0, 1);
                     arrowImageView.setRotate(180);
                     hamburger.getChildren().addAll(comboBoxes, arrowImageView);
-                    updateBorderPane();
 
                 }
             });
@@ -217,5 +217,10 @@ public class MainView implements View {
     private void changeVisibilityOfAddList(){
         this.addListIsShowing = !this.addListIsShowing;
         addList.setVisible(this.addListIsShowing);
+    }
+
+    private void onSchoolSelect(ActionEvent event)
+    {
+        updateBorderPane();
     }
 }
