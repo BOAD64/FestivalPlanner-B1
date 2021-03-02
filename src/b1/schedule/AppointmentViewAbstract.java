@@ -1,6 +1,7 @@
 package b1.schedule;
 
 import b1.View;
+import b1.school.room.Classroom;
 import b1.school.room.Room;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

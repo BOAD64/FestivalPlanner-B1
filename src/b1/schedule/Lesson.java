@@ -3,6 +3,7 @@ package b1.schedule;
 import b1.school.group.StudentGroup;
 import b1.school.person.Person;
 import b1.school.person.Teacher;
+import b1.school.room.Classroom;
 import b1.school.room.Room;
 
 import java.time.LocalTime;
