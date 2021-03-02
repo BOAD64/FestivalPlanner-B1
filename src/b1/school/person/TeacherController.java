@@ -1,6 +1,8 @@
 package b1.school.person;
 
 import b1.Controller;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class TeacherController extends PersonController implements Controller {
 
@@ -22,11 +24,18 @@ public class TeacherController extends PersonController implements Controller {
      */
     @Override
     public void show() {
+        show(null);
+    }
+
+    @Override
+    public void show(Stage ownerStage) {
         if(!this.view.getStage().isShowing()){
-            this.view.getStage().show();
             this.view.getSaveButton().setOnAction(e -> this.saveTeacher());
             this.view.getUndoButton().setOnAction(e -> this.undoChanges());
             this.view.getCancelButton().setOnAction(e -> this.view.getStage().close());
+            this.view.getStage().initModality(Modality.WINDOW_MODAL);
+            this.view.getStage().initOwner(ownerStage);
+            this.view.getStage().show();
         }
     }
 

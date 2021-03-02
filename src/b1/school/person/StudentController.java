@@ -1,6 +1,7 @@
 package b1.school.person;
 
 import b1.Controller;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class StudentController extends PersonController implements Controller {
@@ -8,8 +9,7 @@ public class StudentController extends PersonController implements Controller {
     private StudentView view;
     private Student student;
 
-    public StudentController()
-    {
+    public StudentController() {
         this(new Student());
     }
 
@@ -24,19 +24,25 @@ public class StudentController extends PersonController implements Controller {
      */
     @Override
     public void show() {
-        if(!this.view.getStage().isShowing()){
+        show(null);
+    }
+
+    public void show(Stage ownerStage) {
+        if(!this.view.getStage().isShowing()) {
             Stage stage = this.view.getStage();
             this.view.getSaveButton().setOnAction(e -> this.saveStudent());
             this.view.getUndoButton().setOnAction(e -> this.undoChanges());
             this.view.getCancelButton().setOnAction(e -> this.view.getStage().close());
-            stage.showAndWait();
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(ownerStage);
+            stage.show();
         }
     }
 
     //saves the Student if the input fields have valid values, otherwise it shows an error massage
     private void saveStudent() {
         try {
-            if(this.view.getGroupField().getText().isEmpty()|| this.view.getIdField().getText().isEmpty() ||
+            if(this.view.getGroupField().getText().isEmpty() || this.view.getIdField().getText().isEmpty() ||
                     Integer.parseInt(this.view.getIdField().getText()) < 0 || !super.personIsValid(this.view)) {
                 super.showErrorMessage();
 

@@ -1,8 +1,11 @@
 package b1.school.group;
 
 import b1.Controller;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class GroupController implements Controller {
+
     private Group group;
     private GroupView groupView;
 
@@ -22,6 +25,13 @@ public class GroupController implements Controller {
 
     @Override
     public void show() {
+        show(null);
+    }
+
+    @Override
+    public void show(Stage ownerStage) {
+        groupView.getStage().initModality(Modality.WINDOW_MODAL);
+        groupView.getStage().initOwner(ownerStage);
         groupView.getStage().show();
     }
 }

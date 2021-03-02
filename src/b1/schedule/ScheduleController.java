@@ -47,6 +47,11 @@ public class ScheduleController implements Controller
 
     @Override
     public void show() {
+        show(null);
+    }
+
+    @Override
+    public void show(Stage ownerStage) {
         if (!this.view.getStage().isShowing()) {
             this.view.setAppointments(sort(this.schedule, this.sortingType));
             Stage stage = this.view.getStage();

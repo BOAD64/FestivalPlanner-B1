@@ -8,6 +8,8 @@ import b1.school.group.Group;
 import b1.school.group.GroupController;
 import b1.school.person.Student;
 import b1.school.person.Teacher;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
@@ -28,6 +30,11 @@ public class SchoolController implements Controller {
 
     @Override
     public void show() {
+        show(null);
+    }
+
+    @Override
+    public void show(Stage ownerStage) {
 
         this.schoolView.getSelectClassroomButton().setOnAction(event -> openClassroom());
         this.schoolView.getSelectGroupButton().setOnAction(event -> openGroup());
@@ -40,6 +47,8 @@ public class SchoolController implements Controller {
         this.schoolView.getRefreshGroup().setOnAction(event -> this.refreshGroup());
         this.schoolView.getRefreshStudent().setOnAction(event -> this.refreshStudent());
         this.schoolView.getRefreshTeacher().setOnAction(event -> this.refreshTeacher());
+        this.schoolView.getStage().initModality(Modality.WINDOW_MODAL);
+        this.schoolView.getStage().initOwner(ownerStage);
         this.schoolView.getStage().show();
     }
 

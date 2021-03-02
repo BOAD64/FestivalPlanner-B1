@@ -1,6 +1,8 @@
 package b1.school.room;
 
 import b1.Controller;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class ClassroomController implements Controller {
     private ClassroomView classroomView;
@@ -22,9 +24,18 @@ public class ClassroomController implements Controller {
 
     @Override
     public void show() {
-        classroomView.getStage().show();
+        show(null);
+    }
+
+    @Override
+    public void show(Stage ownerStage) {
+        Stage stage = classroomView.getStage();
         this.classroomView.getOkButton().setOnAction(event -> this.okButton());
         this.classroomView.getApplyButton().setOnAction(event -> this.applyButton());
+
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(ownerStage);
+        stage.show();
     }
 
     private void okButton(){

@@ -12,6 +12,7 @@ import b1.school.room.Classroom;
 import b1.school.room.ClassroomController;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class MainController implements Controller
@@ -27,24 +28,31 @@ public class MainController implements Controller
 
     @Override
     public void show() {
+        show(null);
+    }
+
+    @Override
+    public void show(Stage ownerStage) {
         this.view = new MainView();
         Stage stage = this.view.getStage();
         this.school = SchoolFile.getSchool();
 
         this.scheduleController = new ScheduleController();
         this.view.setScheduleControllerNode(this.scheduleController.getNode());
-        this.fillAddMenuList(this.view.getAddList());
+        this.fillAddMenuList(this.view.getAddList(), stage);
 
         this.view.getAddList().setOnMouseClicked(this::onAddListClicked);
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(ownerStage);
         stage.show();
     }
 
-    private void fillAddMenuList(ListView<AddMenuItem> addMenu) {
-        addMenu.getItems().add(new AddMenuItem(GroupController.class, "Groep"));
-        addMenu.getItems().add(new AddMenuItem(ClassroomController.class, "Klaslokaal"));
-        addMenu.getItems().add(new AddMenuItem(StudentController.class, "Student"));
-        addMenu.getItems().add(new AddMenuItem(TeacherController.class, "Docent"));
-        addMenu.getItems().add(new AddMenuItem(LessonController.class, "Les"));
+    private void fillAddMenuList(ListView<AddMenuItem> addMenu, Stage stage) {
+        addMenu.getItems().add(new AddMenuItem(GroupController.class, "Groep", stage));
+        addMenu.getItems().add(new AddMenuItem(ClassroomController.class, "Klaslokaal", stage));
+        addMenu.getItems().add(new AddMenuItem(StudentController.class, "Student", stage));
+        addMenu.getItems().add(new AddMenuItem(TeacherController.class, "Docent", stage));
+        addMenu.getItems().add(new AddMenuItem(LessonController.class, "Les", stage));
 
     }
 

@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 
 public class GroupView implements View {
     private Group group;
+    private Stage stage;
 
     public GroupView(Group group) {
         this.group = group;
@@ -22,7 +23,15 @@ public class GroupView implements View {
 
     @Override
     public Stage getStage() {
-        Stage stage = new Stage();
+        if(this.stage == null) {
+            this.createStage();
+        }
+
+        return this.stage;
+    }
+
+    public void createStage() {
+        this.stage = new Stage();
         BorderPane borderPane = new BorderPane();
 
         //object for stage
@@ -34,7 +43,7 @@ public class GroupView implements View {
 
         ListView<Student> studentListView = new ListView<>();
         studentListView.setPrefHeight(200);
-        for (Student student : this.group.getStudentsList()) {
+        for(Student student : this.group.getStudentsList()) {
             studentListView.getItems().add(student);
         }
 
@@ -58,7 +67,7 @@ public class GroupView implements View {
         borderPane.setTop(hBox);
 
         //button actions
-        studentButton.setOnAction( event -> {
+        studentButton.setOnAction(event -> {
             //todo: create a studentcontroller with selected student, studentController.getStage().show()
 
             Student selectedStudent = studentListView.getSelectionModel().getSelectedItem();
@@ -68,11 +77,11 @@ public class GroupView implements View {
             studentController.show();
 
         });
-        applyButton.setOnAction( event -> {
+        applyButton.setOnAction(event -> {
             //read and save from text fields
             this.group.setGroupCode(groupCodeTextField.getText());
         });
-        okButton.setOnAction( event -> {
+        okButton.setOnAction(event -> {
             //read and save from text fields
             this.group.setGroupCode(groupCodeTextField.getText());
             //exit window
@@ -85,7 +94,6 @@ public class GroupView implements View {
         stage.setMinHeight(500);
         stage.setMaxWidth(500);
         stage.setMaxHeight(500);
-        return stage;
     }
 
 }

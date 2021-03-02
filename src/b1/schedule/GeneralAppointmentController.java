@@ -8,6 +8,7 @@ import b1.school.room.Room;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -31,6 +32,11 @@ public class GeneralAppointmentController extends AppointmentControllerAbstract
 
     @Override
     public void show() {
+        show(null);
+    }
+
+    @Override
+    public void show(Stage ownerStage) {
         if (!this.view.getStage().isShowing()) {
             Stage stage = this.view.getStage();
             this.view.getCancelButton().setOnAction(onCancelClicked());
@@ -49,6 +55,8 @@ public class GeneralAppointmentController extends AppointmentControllerAbstract
             this.view.getParticipantsList().setItems(FXCollections.observableList(this.appointment.getPersons()));
             this.view.getPersonComboBox().setItems(FXCollections.observableList(SchoolFile.getSchool().getPersons()));
 
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(ownerStage);
             stage.show();
         }
     }
