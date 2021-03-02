@@ -49,10 +49,7 @@ public class SimpleScheduleTest extends Application implements Test
 
             SchoolFile.setSchool(testSchool);
 
-            ArrayList<School> schools = new ArrayList<>();
-            schools.add(testSchool);
-            schools.add(new School("Super test school"));
-            MainController mainController = new MainController(schools);
+            MainController mainController = new MainController();
             mainController.show();
         }
         catch (Exception ex) {
