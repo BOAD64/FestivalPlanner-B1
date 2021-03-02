@@ -6,6 +6,11 @@ import java.util.ArrayList;
 
 public class StudentGroup extends Group{
 
+    public StudentGroup()
+    {
+        this("");
+    }
+
     public StudentGroup(String groupCode) {
         super(groupCode);
     }

@@ -19,6 +19,11 @@ public class GeneralAppointmentController extends AppointmentControllerAbstract
     private GeneralAppointment appointment;
     private GeneralAppointmentView view;
 
+    public GeneralAppointmentController()
+    {
+        this(new GeneralAppointment(null, null, null, null, null));
+    }
+
     public GeneralAppointmentController(GeneralAppointment appointment) {
         this.appointment = appointment;
         this.view = new GeneralAppointmentView();

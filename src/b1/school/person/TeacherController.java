@@ -7,6 +7,11 @@ public class TeacherController extends PersonController implements Controller {
     private TeacherView view;
     private Teacher teacher;
 
+    public TeacherController()
+    {
+        this(new Teacher());
+    }
+
     public TeacherController(Teacher teacher) {
         this.view = new TeacherView(teacher);
         this.teacher = teacher;

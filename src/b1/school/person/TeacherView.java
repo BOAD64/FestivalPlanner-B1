@@ -12,17 +12,20 @@ public class TeacherView extends PersonView {
     private TextField subjectField = new TextField();
 
     public TeacherView(Teacher teacher) {
-        super.stage = new Stage();
         this.teacher = teacher;
-        this.createStage();
     }
 
     @Override
     public Stage getStage() {
+        if(super.stage == null)
+        {
+            this.createStage();
+        }
         return super.stage;
     }
 
     private void createStage() {
+        super.stage = new Stage();
         this.addTags();
         this.addInputField();
 

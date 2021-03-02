@@ -28,11 +28,14 @@ public class ClassroomView implements View {
 
     public ClassroomView(Classroom classroom) {
         this.classroom = classroom;
-        this.createStage();
     }
 
     @Override
     public Stage getStage(){
+        if(this.stage == null)
+        {
+            this.createStage();
+        }
         return this.stage;
     }
 

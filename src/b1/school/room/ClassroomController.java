@@ -6,6 +6,10 @@ public class ClassroomController implements Controller {
     private ClassroomView classroomView;
     private Classroom classroom;
 
+    public ClassroomController()
+    {
+        this(new Classroom(0, 0, "", 0));
+    }
 
     public ClassroomController(Classroom classroom) {
         this.classroomView = new ClassroomView(classroom);

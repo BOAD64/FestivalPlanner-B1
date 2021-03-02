@@ -19,10 +19,15 @@ public class LessonController extends AppointmentControllerAbstract
     private LessonView view;
     private School school;
 
-    public LessonController(School school, Lesson lesson) {
+    public LessonController()
+    {
+        this(new Lesson(null, null, null, null, null, null, null));
+    }
+
+    public LessonController(Lesson lesson) {
         this.lesson = lesson;
         this.view = new LessonView();
-        this.school = school;
+        this.school = SchoolFile.getSchool();
     }
 
     @Override

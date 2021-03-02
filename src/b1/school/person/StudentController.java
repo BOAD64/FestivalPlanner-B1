@@ -8,7 +8,13 @@ public class StudentController extends PersonController implements Controller {
     private StudentView view;
     private Student student;
 
+    public StudentController()
+    {
+        this(new Student());
+    }
+
     public StudentController(Student student) {
+        super();
         this.view = new StudentView(student);
         this.student = student;
     }
