@@ -19,6 +19,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -41,15 +42,13 @@ public class MainView implements View {
     private boolean addListIsShowing;
     private boolean hamburgerIsOut;
     ListView<Controllers> addList;
-    private ArrayList<School> schools;
 
     private BorderPane borderPane;
-    private ComboBox<School> schoolComboBox;
+    private Node scheduleControllerNode;
 
-    enum Controllers{SCHOOL, GROUP,CLASSROOM, STUDENT, TEACHER, APPOINTMENT}
+    enum Controllers{GROUP,CLASSROOM, STUDENT, TEACHER, APPOINTMENT}
 
-    public MainView(ArrayList<School> schools){
-        this.schools = schools;
+    public MainView(){
     }
 
     @Override
@@ -63,12 +62,9 @@ public class MainView implements View {
         return addList;
     }
 
-    public ComboBox<School> getSchoolComboBox() {
-        return this.schoolComboBox;
-    }
-
-    public BorderPane getBorderPane() {
-        return borderPane;
+    public void setScheduleControllerNode(Node scheduleControllerNode) {
+        this.scheduleControllerNode = scheduleControllerNode;
+        this.borderPane.setCenter(this.scheduleControllerNode);
     }
 
     public void onAddListClicked(MouseEvent event)
@@ -115,17 +111,10 @@ public class MainView implements View {
             HBox hamburger = new HBox();
             hamburger.getChildren().add(arrowImageView);
 
-            //Add combobox(es) in Vbox to test hamburger menu
-            this.schoolComboBox = new ComboBox<>();
-            for (School s : schools){
-                this.schoolComboBox.getItems().add(s);
-            }
-            this.schoolComboBox.setItems(FXCollections.observableList(this.schools));
              //test
             VBox comboBoxes = new VBox();
             comboBoxes.setMinWidth(150);
             comboBoxes.setAlignment(Pos.TOP_CENTER);
-            comboBoxes.getChildren().add(this.schoolComboBox);
 
             comboBoxes.setBackground(new Background(new BackgroundFill(Color.hsb(0, 0, 0.255),
                     CornerRadii.EMPTY, Insets.EMPTY)));
@@ -153,8 +142,8 @@ public class MainView implements View {
             addMenu.setAlignment(Pos.BOTTOM_RIGHT);
 
 
-            borderPane.setLeft(hamburger);
-            borderPane.setRight(addMenu);
+            this.borderPane.setLeft(hamburger);
+            this.borderPane.setRight(addMenu);
 
             BorderPane.setMargin(addMenu, new Insets(5, 20, 20, 5));
             BorderPane.setAlignment(addMenu, Pos.BOTTOM_RIGHT);
@@ -169,9 +158,5 @@ public class MainView implements View {
     private void changeVisibilityOfAddList(){
         this.addListIsShowing = !this.addListIsShowing;
         addList.setVisible(this.addListIsShowing);
-    }
-
-    public void onSchoolSelect(ActionEvent event)
-    {
     }
 }
