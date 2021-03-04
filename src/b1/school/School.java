@@ -1,7 +1,6 @@
 package b1.school;
 
 import b1.schedule.Schedule;
-import b1.school.group.StudentGroup;
 import b1.school.person.Person;
 import b1.school.room.Classroom;
 import b1.school.group.Group;
@@ -16,7 +15,6 @@ public class School
 
     private String schoolName;
     private ArrayList<Room> rooms;
-//    private ArrayList<Classroom> classrooms;
     private ArrayList<Group> groups;
     private ArrayList<Person> persons;
     private Schedule schedule;
@@ -24,7 +22,6 @@ public class School
     public School(String schoolName) {
         this.schoolName = schoolName;
         this.rooms = new ArrayList<>();
-//        this.classrooms = new ArrayList<>();
         this.groups = new ArrayList<>();
         this.persons = new ArrayList<>();
         this.schedule = new Schedule();
@@ -83,20 +80,6 @@ public class School
         if (!this.groups.contains(group)) {
             this.groups.add(group);
         }
-    }
-
-    public ArrayList<StudentGroup> getStudentGroups()
-    {
-        ArrayList<StudentGroup> studentGroups = new ArrayList<>();
-        for(Group group : this.groups)
-        {
-            if(group instanceof StudentGroup)
-            {
-                studentGroups.add((StudentGroup) group);
-            }
-        }
-
-        return studentGroups;
     }
 
     public ArrayList<Student> getStudents() {

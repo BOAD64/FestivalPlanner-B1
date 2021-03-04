@@ -2,7 +2,7 @@ import b1.MainController;
 import b1.io.SchoolFile;
 import b1.schedule.Lesson;
 import b1.school.School;
-import b1.school.group.StudentGroup;
+import b1.school.group.Group;
 import b1.school.person.Student;
 import b1.school.person.Teacher;
 import b1.school.room.Room;
@@ -36,7 +36,7 @@ public class SimpleScheduleTest extends Application implements Test
 
             testSchool.addRoom(new Room(10,10));
             testSchool.addRoom(new Room(10,10));
-            StudentGroup studentGroup = new StudentGroup("23TIVT1B1");
+            Group studentGroup = new Group("23TIVT1B1");
             studentGroup.addStudent(testSchool.getStudents().get(0));
             studentGroup.addStudent(testSchool.getStudents().get(1));
             studentGroup.addStudent(testSchool.getStudents().get(2));

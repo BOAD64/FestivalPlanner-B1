@@ -3,13 +3,12 @@ package b1.schedule;
 import b1.ErrorMessage;
 import b1.io.SchoolFile;
 import b1.school.School;
-import b1.school.group.StudentGroup;
+import b1.school.group.Group;
 import b1.school.person.Teacher;
 import b1.school.room.Room;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -66,7 +65,7 @@ public class LessonController extends AppointmentControllerAbstract
                 this.view.getDescriptionField().setText(this.lesson.getDescription());
             }
 
-            this.view.getStudentGroupComboBox().setItems(FXCollections.observableList(this.school.getStudentGroups()));
+            this.view.getGroupComboBox().setItems(FXCollections.observableList(this.school.getGroups()));
             this.view.getTeacherComboBox().setItems(FXCollections.observableList(this.school.getTeachers()));
 
             stage.initModality(Modality.WINDOW_MODAL);
@@ -97,7 +96,7 @@ public class LessonController extends AppointmentControllerAbstract
                 int endMinute = view.getEndTimeMinute().getValue();
                 Room location = view.getLocationField().getValue();
                 String description = view.getDescriptionField().getText();
-                StudentGroup studentGroup = view.getStudentGroupComboBox().getSelectionModel().getSelectedItem();
+                Group studentGroup = view.getGroupComboBox().getSelectionModel().getSelectedItem();
                 Teacher teacher = view.getTeacherComboBox().getSelectionModel().getSelectedItem();
 
                 LocalTime beginTime = LocalTime.of(beginHour, beginMinute);
@@ -114,7 +113,7 @@ public class LessonController extends AppointmentControllerAbstract
                 lesson.setEndTime(endTime);
                 lesson.setLocation(location);
                 lesson.setDescription(description);
-                lesson.setStudentGroup(studentGroup);
+                lesson.setGroup(studentGroup);
                 lesson.setTeacher(teacher);
 
                 SchoolFile.getSchool().getSchedule().addAppointment(lesson);
