@@ -1,9 +1,11 @@
 package b1.school.group;
 
+import b1.Setting;
 import b1.View;
 import b1.io.ImageFile;
 import b1.school.person.Student;
 import b1.school.person.StudentController;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -60,50 +62,55 @@ public class GroupView implements View {
 
     public void createStage() {
         this.stage = new Stage();
-        BorderPane borderPane = new BorderPane();
 
-        //object for stage
+        //VBox that has the labels
         Label groupCodeLabel = new Label("Klas naam:");
+        groupCodeLabel.setPrefHeight(Setting.labelAndTextHeight);
         Label studentsLabel = new Label("Studenten:");
-        Label selectedStudentLabel = new Label("Open de geselecteerde student");
+        studentsLabel.setPrefHeight(200);
+        VBox labelVBox = new VBox();
+        labelVBox.getChildren().addAll(groupCodeLabel, studentsLabel);
+        labelVBox.setSpacing(10);
+        labelVBox.setPadding(new Insets(5, 5, 5, 20));
 
-        this.groupCodeTextField = new TextField(this.group.getGroupCode());
-
-        this.studentListView = new ListView<>();
-        studentListView.setPrefHeight(200);
-        for(Student student : this.group.getStudentsList()) {
-            studentListView.getItems().add(student);
-        }
-
+        //HBox that has the buttons on the bottom
         this.studentButton = new Button("Open student");
         this.applyButton = new Button("Toepasssen");
         this.okButton = new Button("Opslaan");
+        HBox buttonsHBox = new HBox();
+        buttonsHBox.getChildren().addAll(this.studentButton, this.applyButton, this.okButton);
+        buttonsHBox.setSpacing(5);
+        buttonsHBox.setAlignment(Pos.CENTER);
 
-        //ordering
-        VBox vBox = new VBox();
-        vBox.getChildren().addAll(
-                groupCodeLabel, groupCodeTextField,
-                studentsLabel, studentListView,
-                selectedStudentLabel, studentButton,
-                applyButton, okButton
-        );
-        vBox.setSpacing(10);
-        vBox.setAlignment(Pos.CENTER);
-        HBox hBox = new HBox();
-        hBox.getChildren().addAll(vBox);
-        hBox.setSpacing(20);
-        hBox.setAlignment(Pos.CENTER);
+        //VBox that has the input fields
+        this.groupCodeTextField = new TextField(this.group.getGroupCode());
+        this.groupCodeTextField.setPrefHeight(Setting.labelAndTextHeight);
+        this.studentListView = new ListView<>();
+        this.studentListView.setPrefHeight(200);
+        for(Student student : this.group.getStudentsList()) {
+            this.studentListView.getItems().add(student);
+        }
 
-        borderPane.setTop(hBox);
+        VBox inputFieldVBox = new VBox();
+        inputFieldVBox.getChildren().addAll(this.groupCodeTextField, this.studentListView);
+        inputFieldVBox.setSpacing(10);
+
+        //ordering the boxes
+        HBox topBox = new HBox();
+        topBox.getChildren().addAll(labelVBox, inputFieldVBox);
+
+        VBox mainBox = new VBox();
+        mainBox.getChildren().addAll(topBox, buttonsHBox);
+        mainBox.setSpacing(20);
+        mainBox.setPadding(new Insets(10, 10, 10, 10));
 
         //applying to stage
-        stage.setScene(new Scene(borderPane));
-        stage.setMinWidth(500);
-        stage.setMinHeight(500);
-        stage.setMaxWidth(500);
-        stage.setMaxHeight(500);
+        stage.setScene(new Scene(mainBox));
+        stage.setMinWidth(400);
+        stage.setMinHeight(400);
+        stage.setMaxWidth(400);
+        stage.setMaxHeight(400);
         this.stage.getIcons().add(ImageFile.getLogo());
-        this.stage.setTitle("Groep toevoegen / bewerken");
+        this.stage.setTitle("Groep");
     }
-
 }
