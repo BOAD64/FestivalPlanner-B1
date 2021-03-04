@@ -54,9 +54,9 @@ public class StudentGenerator {
             short age = (short)(Math.random() * 20 + 10);
             String gender = this.genders[(int)(Math.random() * this.genders.length)];
             short id = 0; //ToDo request new id from school
-            String group = ""; //ToDo request group list
+//            String group = ""; //ToDo request group list
 
-            Student student = new Student(name, age, gender, id, group);
+            Student student = new Student(name, age, gender, id, null);
             //ToDo add student to school
         }
     }

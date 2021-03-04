@@ -1,11 +1,13 @@
 package b1.school.person;
 
+import b1.school.group.Group;
+
 public class Student extends Person {
 
     private short idNumber;
-    private String group;
+    private Group group;
 
-    public Student(String name, short age, String gender, short idNumber, String group) {
+    public Student(String name, short age, String gender, short idNumber, Group group) {
         super(name, age, gender);
         this.idNumber = idNumber;
         this.group = group;
@@ -17,14 +19,14 @@ public class Student extends Person {
      */
     public Student() {
         super();
-        this.group = "\"undefined\"";
+        this.group = null;
     }
 
-    public String getGroup() {
+    public Group getGroup() {
         return group;
     }
 
-    public void setGroup(String group) {
+    public void setGroup(Group group) {
         this.group = group;
     }
 

@@ -24,11 +24,11 @@ public class SimpleScheduleTest extends Application implements Test
     public void start(Stage primaryStage) throws Exception {
         try {
             School testSchool = new School("Avans");
-            testSchool.addStudent(new Student("Casper", (short)18, "Man", (short)0, "asdfsd"));
-            testSchool.addStudent(new Student("Jochem", (short)20, "Man", (short)0, "asdfsd"));
-            testSchool.addStudent(new Student("Jeroen", (short)19, "Man", (short)0, "asdfsd"));
-            testSchool.addStudent(new Student("Tom", (short)19, "Man", (short)0, "asdfsd"));
-            testSchool.addStudent(new Student("Lieselotte", (short)18, "Vrouw", (short)0, "asdfsd"));
+            testSchool.addStudent(new Student("Casper", (short)18, "Man", (short)0, null));
+            testSchool.addStudent(new Student("Jochem", (short)20, "Man", (short)0, null));
+            testSchool.addStudent(new Student("Jeroen", (short)19, "Man", (short)0, null));
+            testSchool.addStudent(new Student("Tom", (short)19, "Man", (short)0, null));
+            testSchool.addStudent(new Student("Lieselotte", (short)18, "Vrouw", (short)0, null));
 
             testSchool.addTeacher(new Teacher("Luuk", (short)19, "Man", "Alles"));
             testSchool.addTeacher(new Teacher("Johan", (short)35, "Man", "Programmeren"));

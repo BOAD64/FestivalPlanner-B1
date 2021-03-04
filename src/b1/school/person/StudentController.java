@@ -43,7 +43,7 @@ public class StudentController extends PersonController implements Controller {
     //saves the Student if the input fields have valid values, otherwise it shows an error massage
     private void saveStudent() {
         try {
-            if(this.view.getGroupField().getText().isEmpty() || this.view.getIdField().getText().isEmpty() ||
+            if(this.view.getGroupComboBox().getSelectionModel().isEmpty()|| this.view.getIdField().getText().isEmpty() ||
                     Integer.parseInt(this.view.getIdField().getText()) < 0 || !super.personIsValid(this.view)) {
                 super.showErrorMessage();
 
@@ -52,7 +52,7 @@ public class StudentController extends PersonController implements Controller {
                 this.student.setAge(Short.parseShort(this.view.getAgeField().getText()));
                 this.student.setGender(this.view.getGenderField().getText());
                 this.student.setIdNumber(Short.parseShort(this.view.getIdField().getText()));
-                this.student.setGroup(this.view.getGroupField().getText());
+                this.student.setGroup(this.view.getGroupComboBox().getValue());
 
                 SchoolFile.getSchool().addStudent(this.student);
 
@@ -67,13 +67,13 @@ public class StudentController extends PersonController implements Controller {
     private void undoChanges() {
         if(this.student.getAge() == -1) {
             this.view.getIdField().setText("");
-            this.view.getGroupField().setText("");
+            this.view.getGroupComboBox().getSelectionModel().clearSelection();
             this.view.getNameField().setText("");
             this.view.getAgeField().setText("");
             this.view.getGenderField().setText("");
         } else {
             this.view.getIdField().setText(student.getIdNumber() + "");
-            this.view.getGroupField().setText(student.getGroup());
+            this.view.getGroupComboBox().getSelectionModel().select(this.student.getGroup());
             this.view.getNameField().setText(student.getName());
             this.view.getAgeField().setText(student.getAge() + "");
             this.view.getGenderField().setText(student.getGender());

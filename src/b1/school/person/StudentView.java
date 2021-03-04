@@ -1,6 +1,10 @@
 package b1.school.person;
 
+import b1.io.SchoolFile;
+import b1.school.group.Group;
+import javafx.collections.FXCollections;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -10,7 +14,7 @@ public class StudentView extends PersonView {
     private Student student;
 
     private TextField idField = new TextField();
-    private TextField groupField = new TextField();
+    private ComboBox<Group> groupComboBox = new ComboBox<Group>();
 
 
     StudentView(Student student) {
@@ -57,7 +61,8 @@ public class StudentView extends PersonView {
         super.createInputField();
 
         this.idField.setPrefHeight(super.fieldHeight);
-        this.groupField.setPrefHeight(super.fieldHeight);
+        this.groupComboBox.setPrefHeight(super.fieldHeight);
+        this.groupComboBox.setItems(FXCollections.observableList(SchoolFile.getSchool().getGroups()));
 
         //if the age of the Student is not -1 than the program loads the attributes of the Student into the TextFields.
         if(this.student.getAge() != -1) {
@@ -65,16 +70,16 @@ public class StudentView extends PersonView {
             super.ageField.setText(this.student.getAge() + "");
             super.genderField.setText(this.student.getGender());
             this.idField.setText(this.student.getIdNumber() + "");
-            this.groupField.setText(this.student.getGroup());
+            this.groupComboBox.getSelectionModel().select(this.student.getGroup());
         }
-        super.inputFieldVBox.getChildren().addAll(this.idField, this.groupField);
+        super.inputFieldVBox.getChildren().addAll(this.idField, this.groupComboBox);
     }
 
     public TextField getIdField() {
         return idField;
     }
 
-    public TextField getGroupField() {
-        return groupField;
+    public ComboBox<Group> getGroupComboBox() {
+        return this.groupComboBox;
     }
 }
