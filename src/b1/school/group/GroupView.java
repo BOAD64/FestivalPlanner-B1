@@ -86,14 +86,7 @@ public class GroupView implements View {
         this.groupCodeTextField = new TextField(this.group.getGroupCode());
         this.groupCodeTextField.setPrefHeight(Setting.labelAndTextHeight);
         this.studentListView = new ListView<>();
-<<<<<<< Updated upstream
-        this.studentListView.setPrefHeight(200);
-        for(Student student : this.group.getStudentsList()) {
-            this.studentListView.getItems().add(student);
-        }
-=======
         studentListView.setPrefHeight(200);
->>>>>>> Stashed changes
 
         VBox inputFieldVBox = new VBox();
         inputFieldVBox.getChildren().addAll(this.groupCodeTextField, this.studentListView);
