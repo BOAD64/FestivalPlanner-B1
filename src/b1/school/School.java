@@ -11,7 +11,8 @@ import b1.school.room.Room;
 
 import java.util.ArrayList;
 
-public class School {
+public class School
+{
 
     private String schoolName;
     private ArrayList<Room> rooms;
@@ -45,9 +46,10 @@ public class School {
         this.rooms = rooms;
     }
 
-    public void addRoom(Room room)
-    {
-        this.rooms.add(room);
+    public void addRoom(Room room) {
+        if (!this.rooms.contains(room)) {
+            this.rooms.add(room);
+        }
     }
 
     public ArrayList<Classroom> getClassrooms() {
@@ -56,6 +58,12 @@ public class School {
 
     public void setClassrooms(ArrayList<Classroom> classrooms) {
         this.classrooms = classrooms;
+    }
+
+    public void addClassroom(Classroom classroom) {
+        if (!this.classrooms.contains(classroom)) {
+            this.classrooms.add(classroom);
+        }
     }
 
     public ArrayList<Group> getGroups() {
@@ -131,12 +139,6 @@ public class School {
     public void addTeacher(Teacher teacher) {
         if (!this.persons.contains(teacher)) {
             this.persons.add(teacher);
-        }
-    }
-
-    public void addClassroom(Classroom classroom) {
-        if (!this.classrooms.contains(classroom)) {
-            this.classrooms.add(classroom);
         }
     }
 

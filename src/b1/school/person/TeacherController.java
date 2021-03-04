@@ -1,6 +1,7 @@
 package b1.school.person;
 
 import b1.Controller;
+import b1.io.SchoolFile;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -52,6 +53,7 @@ public class TeacherController extends PersonController implements Controller {
                 this.teacher.setSubject(this.view.getSubjectField().getText());
 
                 //ToDo add teacher to school
+                SchoolFile.getSchool().addTeacher(this.teacher);
 
                 this.view.getStage().close();
             }
