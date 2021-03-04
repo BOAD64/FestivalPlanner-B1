@@ -10,20 +10,24 @@ import b1.schedule.ScheduleController;
 import b1.school.School;
 import b1.school.room.Classroom;
 import b1.school.room.ClassroomController;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class MainController implements Controller
-{
+public class MainController implements Controller {
 
     private MainView view;
     private School school;
+    private boolean showingSchedule = true;
 
     private ScheduleController scheduleController;
+    private Node simulationNode;
 
     public MainController() {
+        this.simulationNode = new Button("test");
     }
 
     @Override
@@ -37,11 +41,18 @@ public class MainController implements Controller
         Stage stage = this.view.getStage();
         this.school = SchoolFile.getSchool();
 
-        this.scheduleController = new ScheduleController();
-        this.view.setScheduleControllerNode(this.scheduleController.getNode());
-        this.fillAddMenuList(this.view.getAddList(), stage);
+        this.view.getGoToScheduleButton().setOnAction(e -> this.onGoToScheduleClick());
+        this.view.getGoToSimulationButton().setOnAction(e -> this.onGoToSimulationClick());
 
-        this.view.getAddList().setOnMouseClicked(this::onAddListClicked);
+        if(this.showingSchedule) {
+            this.scheduleController = new ScheduleController();
+            this.view.setScheduleControllerNode(this.scheduleController.getNode());
+            this.fillAddMenuList(this.view.getAddList(), stage);
+            this.view.getAddList().setOnMouseClicked(this::onAddListClicked);
+        } else {
+            //this.view.setSimulationNode(); ToDo ask for simulation node to add as parameter
+
+        }
         stage.initModality(Modality.WINDOW_MODAL);
         stage.initOwner(ownerStage);
         stage.show();
@@ -59,42 +70,21 @@ public class MainController implements Controller
     private void onAddListClicked(MouseEvent event) {
         AddMenuItem menuItem = this.view.getAddList().getSelectionModel().getSelectedItem();
         menuItem.onclick();
-//
-//        switch (controller) {
-//            case GROUP:
-//                Group group = new Group("unnamed");
-//                this.school.addGroup(group);
-//                GroupController groupController = new GroupController(group);
-//                groupController.show();
-//                break;
-//            case CLASSROOM:
-//                Classroom classroom = new Classroom(0, 0, "unnamed", 0);
-//                this.school.addRoom(classroom);
-//                ClassroomController classroomController = new ClassroomController(classroom);
-//                classroomController.show();
-//                break;
-//            case STUDENT:
-//                Student student = new Student();
-//                this.school.addStudent(student);
-//                StudentController studentController = new StudentController(student);
-//                studentController.show();
-//                break;
-//            case TEACHER:
-//                Teacher teacher = new Teacher();
-//                this.school.addTeacher(teacher);
-//                TeacherController teacherController = new TeacherController(teacher);
-//                teacherController.show();
-//                break;
-//            case APPOINTMENT: {
-//                Lesson lesson = new Lesson(null, null, null, null, null, null, null);
-//                this.school.getSchedule().getAppointments().add(lesson);
-//                LessonController lessonController = new LessonController(this.school, lesson);
-//                lessonController.onClose(event1 -> {this.scheduleController.refresh();});
-//                lessonController.show();
-//                break;
-//            }
-//        }
 
         this.view.onAddListClicked(event);
+    }
+
+    private void onGoToScheduleClick() {
+        this.showingSchedule = true;
+        //this.stage.close();
+        this.view.setScheduleControllerNode(this.scheduleController.getNode());
+        //this.show();
+    }
+
+    private void onGoToSimulationClick() {
+        this.showingSchedule = false;
+        //this.stage.close();
+        this.view.setSimulationNode(this.simulationNode);
+        //this.show();
     }
 }
