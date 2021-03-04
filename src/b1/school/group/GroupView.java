@@ -3,6 +3,7 @@ package b1.school.group;
 import b1.View;
 import b1.school.person.Student;
 import b1.school.person.StudentController;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -60,9 +61,11 @@ public class GroupView implements View {
                 applyButton, okButton
         );
         vBox.setSpacing(10);
+        vBox.setAlignment(Pos.CENTER);
         HBox hBox = new HBox();
         hBox.getChildren().addAll(vBox);
         hBox.setSpacing(20);
+        hBox.setAlignment(Pos.CENTER);
 
         borderPane.setTop(hBox);
 
@@ -72,9 +75,10 @@ public class GroupView implements View {
 
             Student selectedStudent = studentListView.getSelectionModel().getSelectedItem();
 
-
-            StudentController studentController = new StudentController(selectedStudent);
-            studentController.show();
+            if(selectedStudent != null) {
+                StudentController studentController = new StudentController(selectedStudent);
+                studentController.show();
+            }
 
         });
         applyButton.setOnAction(event -> {
