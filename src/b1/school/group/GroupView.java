@@ -4,7 +4,6 @@ import b1.Setting;
 import b1.View;
 import b1.io.ImageFile;
 import b1.school.person.Student;
-import b1.school.person.StudentController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -12,7 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -65,8 +63,8 @@ public class GroupView implements View {
 
         //VBox that has the labels
         Label groupCodeLabel = new Label("Klas naam:");
-        groupCodeLabel.setPrefHeight(Setting.labelAndTextHeight);
         Label studentsLabel = new Label("Studenten:");
+        groupCodeLabel.setPrefHeight(Setting.addMenuLabelAndTextHeight);
         studentsLabel.setPrefHeight(200);
         VBox labelVBox = new VBox();
         labelVBox.getChildren().addAll(groupCodeLabel, studentsLabel);
@@ -77,6 +75,9 @@ public class GroupView implements View {
         this.studentButton = new Button("Open student");
         this.applyButton = new Button("Toepasssen");
         this.okButton = new Button("Opslaan");
+        this.studentButton.setPrefHeight(Setting.addMenuButtonHeigt);
+        this.applyButton.setPrefHeight(Setting.addMenuButtonHeigt);
+        this.okButton.setPrefHeight(Setting.addMenuButtonHeigt);
         HBox buttonsHBox = new HBox();
         buttonsHBox.getChildren().addAll(this.studentButton, this.applyButton, this.okButton);
         buttonsHBox.setSpacing(5);
@@ -84,7 +85,7 @@ public class GroupView implements View {
 
         //VBox that has the input fields
         this.groupCodeTextField = new TextField(this.group.getGroupCode());
-        this.groupCodeTextField.setPrefHeight(Setting.labelAndTextHeight);
+        this.groupCodeTextField.setPrefHeight(Setting.addMenuLabelAndTextHeight);
         this.studentListView = new ListView<>();
         studentListView.setPrefHeight(200);
 

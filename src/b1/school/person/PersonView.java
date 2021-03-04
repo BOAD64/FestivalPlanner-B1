@@ -1,5 +1,6 @@
 package b1.school.person;
 
+import b1.Setting;
 import b1.View;
 import b1.io.ImageFile;
 import javafx.geometry.Pos;
@@ -18,7 +19,6 @@ abstract class PersonView implements View {
     private Button undoButton;
     private Button saveButton;
     private Button cancelButton;
-    short fieldHeight = 40;
     VBox mainVBox = new VBox();
     VBox tagsVBox = new VBox();
     VBox inputFieldVBox = new VBox();
@@ -47,9 +47,9 @@ abstract class PersonView implements View {
         this.saveButton = new Button("Opslaan");
         this.cancelButton = new Button("Annuleren");
 
-        this.undoButton.setPrefHeight(this.fieldHeight + 10);
-        this.saveButton.setPrefHeight(this.fieldHeight + 10);
-        this.cancelButton.setPrefHeight(this.fieldHeight + 10);
+        this.undoButton.setPrefHeight(Setting.addMenuButtonHeigt);
+        this.saveButton.setPrefHeight(Setting.addMenuButtonHeigt);
+        this.cancelButton.setPrefHeight(Setting.addMenuButtonHeigt);
 
         HBox buttonHBox = new HBox();
         buttonHBox.getChildren().addAll(this.undoButton, this.cancelButton, this.saveButton);
@@ -77,12 +77,11 @@ abstract class PersonView implements View {
         Label ageLabel = new Label("Leeftijd:");
         Label genderLabel = new Label("Geslacht:");
 
-        nameLabel.setPrefHeight(this.fieldHeight);
-        ageLabel.setPrefHeight(this.fieldHeight);
-        genderLabel.setPrefHeight(this.fieldHeight);
+        nameLabel.setPrefHeight(Setting.addMenuLabelAndTextHeight);
+        ageLabel.setPrefHeight(Setting.addMenuLabelAndTextHeight);
+        genderLabel.setPrefHeight(Setting.addMenuLabelAndTextHeight);
 
         this.tagsVBox.getChildren().addAll(nameLabel, ageLabel, genderLabel);
-        this.tagsVBox.setAlignment(Pos.TOP_RIGHT);
         this.tagsVBox.setSpacing(5);
     }
 
@@ -91,12 +90,11 @@ abstract class PersonView implements View {
         this.ageField = new TextField();
         this.genderField = new TextField();
 
-        this.nameField.setPrefHeight(this.fieldHeight);
-        this.ageField.setPrefHeight(this.fieldHeight);
-        this.genderField.setPrefHeight(this.fieldHeight);
+        this.nameField.setPrefHeight(Setting.addMenuLabelAndTextHeight);
+        this.ageField.setPrefHeight(Setting.addMenuLabelAndTextHeight);
+        this.genderField.setPrefHeight(Setting.addMenuLabelAndTextHeight);
 
         this.inputFieldVBox.getChildren().addAll(this.nameField, this.ageField, this.genderField);
-        this.inputFieldVBox.setAlignment(Pos.TOP_RIGHT);
         this.inputFieldVBox.setSpacing(5);
     }
 

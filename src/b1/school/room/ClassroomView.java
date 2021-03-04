@@ -5,12 +5,10 @@ import b1.View;
 import b1.io.ImageFile;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -50,13 +48,13 @@ public class ClassroomView implements View {
 
         //VBox that has the labels
         Label classroomCodeLabel = new Label("Lokaalcode:");
-        classroomCodeLabel.setPrefHeight(Setting.labelAndTextHeight);
         Label classroomCapacityLabel = new Label("Capaciteit:");
-        classroomCapacityLabel.setPrefHeight(Setting.labelAndTextHeight);
         Label classroomWidthLabel = new Label("Width:");
-        classroomWidthLabel.setPrefHeight(Setting.labelAndTextHeight);
         Label classroomLengthLabel = new Label("Length:");
-        classroomLengthLabel.setPrefHeight(Setting.labelAndTextHeight);
+        classroomCodeLabel.setPrefHeight(Setting.addMenuLabelAndTextHeight);
+        classroomCapacityLabel.setPrefHeight(Setting.addMenuLabelAndTextHeight);
+        classroomWidthLabel.setPrefHeight(Setting.addMenuLabelAndTextHeight);
+        classroomLengthLabel.setPrefHeight(Setting.addMenuLabelAndTextHeight);
         VBox labelVBox = new VBox();
         labelVBox.getChildren().addAll(
                 classroomCodeLabel, classroomCapacityLabel,
@@ -66,13 +64,13 @@ public class ClassroomView implements View {
 
         //VBox that has the input fields
         this.classroomCode = new TextField(this.classroom.getRoomCode());
-        this.classroomCode.setPrefHeight(Setting.labelAndTextHeight);
         this.classroomCapacity = new TextField("" + this.classroom.getCapacity());
-        this.classroomCapacity.setPrefHeight(Setting.labelAndTextHeight);
         this.classroomWidth = new TextField("" + this.classroom.getWidth());
-        this.classroomWidth.setPrefHeight(Setting.labelAndTextHeight);
         this.classroomLength = new TextField("" + this.classroom.getLength());
-        this.classroomLength.setPrefHeight(Setting.labelAndTextHeight);
+        this.classroomCode.setPrefHeight(Setting.addMenuLabelAndTextHeight);
+        this.classroomCapacity.setPrefHeight(Setting.addMenuLabelAndTextHeight);
+        this.classroomWidth.setPrefHeight(Setting.addMenuLabelAndTextHeight);
+        this.classroomLength.setPrefHeight(Setting.addMenuLabelAndTextHeight);
         VBox inputFieldVBox = new VBox();
         inputFieldVBox.getChildren().addAll(
                 this.classroomCode, this.classroomCapacity,
@@ -82,6 +80,8 @@ public class ClassroomView implements View {
         //HBox that has the buttons on the bottom
         this.applyButton = new Button("Toepassen");
         this.okButton = new Button("Opslaan");
+        this.applyButton.setPrefHeight(Setting.addMenuButtonHeigt);
+        this.okButton.setPrefHeight(Setting.addMenuButtonHeigt);
         HBox buttonsHBox = new HBox();
         buttonsHBox.getChildren().addAll(this.applyButton, this.okButton);
         buttonsHBox.setSpacing(5);

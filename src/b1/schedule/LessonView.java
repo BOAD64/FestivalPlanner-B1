@@ -1,5 +1,6 @@
 package b1.schedule;
 
+import b1.Setting;
 import b1.io.ImageFile;
 import b1.school.group.Group;
 import b1.school.person.Teacher;
@@ -38,6 +39,8 @@ public class LessonView extends AppointmentViewAbstract{
         VBox vBox = new VBox();
         this.saveButton = new Button("Opslaan");
         this.cancelButton = new Button("Annuleren");
+        this.saveButton.setPrefHeight(Setting.addMenuButtonHeigt);
+        this.cancelButton.setPrefHeight(Setting.addMenuButtonHeigt);
         this.teacherComboBox = new ComboBox<>();
         this.groupComboBox = new ComboBox<>();
 
@@ -63,7 +66,7 @@ public class LessonView extends AppointmentViewAbstract{
         Scene scene = new Scene(vBox);
         this.stage.setScene(scene);
         this.stage.getIcons().add(ImageFile.getLogo());
-        this.stage.setTitle("Les toevoegen / bewerken");
+        this.stage.setTitle("Les");
     }
 
     public Button getSaveButton() {

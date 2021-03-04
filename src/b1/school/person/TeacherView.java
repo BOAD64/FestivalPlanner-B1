@@ -1,5 +1,6 @@
 package b1.school.person;
 
+import b1.Setting;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -36,14 +37,14 @@ public class TeacherView extends PersonView {
         super.stage.setWidth(400);
         super.stage.setResizable(false);
         super.stage.setScene(scene);
-        super.stage.setTitle("Docent toevoegen / bewerken");
+        super.stage.setTitle("Docent");
     }
 
     private void addTags() {
         super.createTags();
 
         Label subjectLabel = new Label("Vak:");
-        subjectLabel.setPrefHeight(super.fieldHeight);
+        subjectLabel.setPrefHeight(Setting.addMenuLabelAndTextHeight);
 
         super.tagsVBox.getChildren().add(subjectLabel);
     }
@@ -51,7 +52,7 @@ public class TeacherView extends PersonView {
     private void addInputField() {
         super.createInputField();
 
-        this.subjectField.setPrefHeight(super.fieldHeight);
+        this.subjectField.setPrefHeight(Setting.addMenuLabelAndTextHeight);
 
         //if the age of the Teacher is not -1 than the program loads the attributes of the Teacher into the TextFields.
         if(this.teacher.getAge() != -1) {

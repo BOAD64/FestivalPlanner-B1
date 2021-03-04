@@ -1,5 +1,6 @@
 package b1.school.person;
 
+import b1.Setting;
 import b1.io.SchoolFile;
 import b1.school.group.Group;
 import javafx.collections.FXCollections;
@@ -42,7 +43,7 @@ public class StudentView extends PersonView {
         super.stage.setWidth(400);
         super.stage.setResizable(false);
         super.stage.setScene(scene);
-        super.stage.setTitle("Student toevoegen / bewerken");
+        super.stage.setTitle("Student");
     }
 
     private void addTags() {
@@ -51,8 +52,8 @@ public class StudentView extends PersonView {
         Label idLabel = new Label("Studentnummer:");
         Label groupLabel = new Label("Klas:");
 
-        idLabel.setPrefHeight(super.fieldHeight);
-        groupLabel.setPrefHeight(super.fieldHeight);
+        idLabel.setPrefHeight(Setting.addMenuLabelAndTextHeight);
+        groupLabel.setPrefHeight(Setting.addMenuLabelAndTextHeight);
 
         super.tagsVBox.getChildren().addAll(idLabel, groupLabel);
     }
@@ -60,8 +61,8 @@ public class StudentView extends PersonView {
     private void addInputField() {
         super.createInputField();
 
-        this.idField.setPrefHeight(super.fieldHeight);
-        this.groupComboBox.setPrefHeight(super.fieldHeight);
+        this.idField.setPrefHeight(Setting.addMenuLabelAndTextHeight);
+        this.groupComboBox.setPrefHeight(Setting.addMenuLabelAndTextHeight);
         this.groupComboBox.setItems(FXCollections.observableList(SchoolFile.getSchool().getGroups()));
 
         //if the age of the Student is not -1 than the program loads the attributes of the Student into the TextFields.
