@@ -16,7 +16,7 @@ public class School
 
     private String schoolName;
     private ArrayList<Room> rooms;
-    private ArrayList<Classroom> classrooms;
+//    private ArrayList<Classroom> classrooms;
     private ArrayList<Group> groups;
     private ArrayList<Person> persons;
     private Schedule schedule;
@@ -24,7 +24,7 @@ public class School
     public School(String schoolName) {
         this.schoolName = schoolName;
         this.rooms = new ArrayList<>();
-        this.classrooms = new ArrayList<>();
+//        this.classrooms = new ArrayList<>();
         this.groups = new ArrayList<>();
         this.persons = new ArrayList<>();
         this.schedule = new Schedule();
@@ -53,16 +53,21 @@ public class School
     }
 
     public ArrayList<Classroom> getClassrooms() {
-        return this.classrooms;
-    }
+        ArrayList<Classroom> result = new ArrayList<>();
+        for(Room room : this.rooms)
+        {
+            if(room instanceof Classroom)
+            {
+                result.add((Classroom)room);
+            }
+        }
 
-    public void setClassrooms(ArrayList<Classroom> classrooms) {
-        this.classrooms = classrooms;
+        return result;
     }
 
     public void addClassroom(Classroom classroom) {
-        if (!this.classrooms.contains(classroom)) {
-            this.classrooms.add(classroom);
+        if (!this.rooms.contains(classroom)) {
+            this.rooms.add(classroom);
         }
     }
 
