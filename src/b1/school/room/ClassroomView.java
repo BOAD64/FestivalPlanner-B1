@@ -19,8 +19,6 @@ public class ClassroomView implements View {
     private Button applyButton;
     private Button okButton;
 
-
-
     private TextField classroomCode;
     private TextField classroomCapacity;
     private TextField classroomWidth;

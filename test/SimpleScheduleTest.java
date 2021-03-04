@@ -5,6 +5,7 @@ import b1.school.School;
 import b1.school.group.Group;
 import b1.school.person.Student;
 import b1.school.person.Teacher;
+import b1.school.room.Classroom;
 import b1.school.room.Room;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -34,8 +35,8 @@ public class SimpleScheduleTest extends Application implements Test
             testSchool.addTeacher(new Teacher("Johan", (short)35, "Man", "Programmeren"));
             testSchool.addTeacher(new Teacher("Edwin", (short)45, "Man", "Senior"));
 
-            testSchool.addRoom(new Room(10,10));
-            testSchool.addRoom(new Room(10,10));
+            testSchool.addRoom(new Classroom(10,10, "LA134", 30));
+            testSchool.addRoom(new Classroom(10,10, "LA136", 30));
             Group studentGroup = new Group("23TIVT1B1");
             studentGroup.addStudent(testSchool.getStudents().get(0));
             studentGroup.addStudent(testSchool.getStudents().get(1));

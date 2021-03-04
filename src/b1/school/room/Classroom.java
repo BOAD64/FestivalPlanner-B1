@@ -5,7 +5,6 @@ public class Classroom extends Room {
     private String roomCode;
     private int capacity;
 
-
     public Classroom(double width, double length, String roomCode, int capacity) {
         super(width, length);
         this.roomCode = roomCode;
