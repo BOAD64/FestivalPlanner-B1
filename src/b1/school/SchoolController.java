@@ -2,6 +2,8 @@ package b1.school;
 
 import b1.Controller;
 import b1.io.SchoolFile;
+import b1.school.person.StudentController;
+import b1.school.person.TeacherController;
 import b1.school.room.Classroom;
 import b1.school.room.ClassroomController;
 import b1.school.group.Group;
@@ -13,13 +15,13 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
-public class SchoolController implements Controller {
+public class SchoolController implements Controller
+{
 
     private School school;
     private SchoolView schoolView;
 
-    public SchoolController()
-    {
+    public SchoolController() {
         this(SchoolFile.getSchool());
     }
 
@@ -75,22 +77,17 @@ public class SchoolController implements Controller {
         Teacher teacher = this.schoolView.getTeacherListView().getSelectionModel().getSelectedItem();
 
         if (!(teacher == null)) {
-            /*
-            TeacherController teacherController = new TeachterController(teacher);
+            TeacherController teacherController = new TeacherController(teacher);
             teacherController.show();
-            */
         }
     }
 
     private void openStudent() {
-        //todo open student window
         Student student = this.schoolView.getStudentListView().getSelectionModel().getSelectedItem();
 
-        if (!(student == null)){
-            /*
-            StudentController studentController = new StudentControllor(selectedStudent);
+        if (!(student == null)) {
+            StudentController studentController = new StudentController(student);
             studentController.show();
-            */
         }
 
     }
@@ -122,19 +119,19 @@ public class SchoolController implements Controller {
         this.schoolView.getStage().close();
     }
 
-    private void refreshClassroom(){
+    private void refreshClassroom() {
         this.schoolView.getClassroomListView().refresh();
     }
 
-    private void refreshGroup(){
+    private void refreshGroup() {
         this.schoolView.getGroupListView().refresh();
     }
 
-    private void refreshStudent(){
+    private void refreshStudent() {
         this.schoolView.getStudentListView().refresh();
     }
 
-    private void refreshTeacher(){
+    private void refreshTeacher() {
         this.schoolView.getTeacherListView().refresh();
     }
 
