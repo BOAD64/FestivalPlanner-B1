@@ -1,5 +1,6 @@
 package b1.schedule;
 
+import b1.ErrorMessage;
 import b1.io.SchoolFile;
 import b1.school.School;
 import b1.school.group.StudentGroup;
@@ -8,6 +9,7 @@ import b1.school.room.Room;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -100,6 +102,12 @@ public class LessonController extends AppointmentControllerAbstract
 
                 LocalTime beginTime = LocalTime.of(beginHour, beginMinute);
                 LocalTime endTime = LocalTime.of(endHour, endMinute);
+
+                if(endTime.isBefore(beginTime))
+                {
+                    ErrorMessage.show("De begin tijd mag niet voor de eindtijd zijn.");
+                    return;
+                }
 
                 lesson.setName(name);
                 lesson.setStartTime(beginTime);

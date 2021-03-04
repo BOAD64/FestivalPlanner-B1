@@ -1,5 +1,6 @@
 package b1.schedule;
 
+import b1.ErrorMessage;
 import b1.io.ScheduleFile;
 import b1.io.SchoolFile;
 import b1.school.person.Person;
@@ -84,6 +85,12 @@ public class GeneralAppointmentController extends AppointmentControllerAbstract
 
                 LocalTime beginTime = LocalTime.of(beginHour, beginMinute);
                 LocalTime endTime = LocalTime.of(endHour, endMinute);
+
+                if(endTime.isBefore(beginTime))
+                {
+                    ErrorMessage.show("De begin tijd mag niet voor de eindtijd zijn.");
+                    return;
+                }
 
                 appointment.setName(name);
                 appointment.setStartTime(beginTime);
