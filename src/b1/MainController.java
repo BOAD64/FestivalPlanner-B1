@@ -3,6 +3,7 @@ package b1;
 import b1.io.SchoolFile;
 import b1.schedule.Lesson;
 import b1.schedule.LessonController;
+import b1.school.SchoolController;
 import b1.school.group.Group;
 import b1.school.group.GroupController;
 import b1.school.person.*;
@@ -43,6 +44,7 @@ public class MainController implements Controller {
 
         this.view.getGoToScheduleButton().setOnAction(e -> this.onGoToScheduleClick());
         this.view.getGoToSimulationButton().setOnAction(e -> this.onGoToSimulationClick());
+        this.view.getSchoolEditButton().setOnAction(e -> this.onSchoolEditButtonClick());
 
         if(this.showingSchedule) {
             this.scheduleController = new ScheduleController();
@@ -86,5 +88,10 @@ public class MainController implements Controller {
         //this.stage.close();
         this.view.setSimulationNode(this.simulationNode);
         //this.show();
+    }
+
+    private void onSchoolEditButtonClick() {
+        SchoolController schoolController = new SchoolController(SchoolFile.getSchool());
+        schoolController.show();
     }
 }

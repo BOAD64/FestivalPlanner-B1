@@ -33,6 +33,7 @@ public class MainView implements View {
 
     private Button goToScheduleButton;
     private Button goToSimulationButton;
+    private Button schoolEditButton;
 
 //    enum Controllers{GROUP,CLASSROOM, STUDENT, TEACHER, APPOINTMENT}
 
@@ -49,6 +50,10 @@ public class MainView implements View {
 
     public ListView<AddMenuItem> getAddList() {
         return addList;
+    }
+
+    public Button getSchoolEditButton() {
+        return this.schoolEditButton;
     }
 
     void setSimulationNode(Node simulationNode) {
@@ -185,8 +190,9 @@ public class MainView implements View {
     private void initButtons() {
         this.goToScheduleButton = new Button("Rooster");
         this.goToSimulationButton = new Button("Simulatie");
+        this.schoolEditButton = new Button("Edit School");
 
-        this.optionMenuVBox.getChildren().addAll(this.goToScheduleButton, this.goToSimulationButton);
+        this.optionMenuVBox.getChildren().addAll(this.goToScheduleButton, this.goToSimulationButton, this.schoolEditButton);
     }
 
     private void changeVisibilityOfAddList() {

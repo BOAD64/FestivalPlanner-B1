@@ -54,6 +54,8 @@ public class StudentController extends PersonController implements Controller {
                 this.student.setIdNumber(Short.parseShort(this.view.getIdField().getText()));
                 this.student.setGroup(this.view.getGroupComboBox().getValue());
 
+                this.student.getGroup().addStudent(this.student);
+
                 SchoolFile.getSchool().addStudent(this.student);
 
                 this.view.getStage().close();
