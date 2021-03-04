@@ -62,8 +62,8 @@ public class GroupView implements View {
         BorderPane borderPane = new BorderPane();
 
         //object for stage
-        Label groupCodeLabel = new Label("klas naam: ");
-        Label studentsLabel = new Label("studenten: ");
+        Label groupCodeLabel = new Label("Klas naam:");
+        Label studentsLabel = new Label("Studenten:");
         Label selectedStudentLabel = new Label("Open de geselecteerde student");
 
         this.groupCodeTextField = new TextField(this.group.getGroupCode());
@@ -74,9 +74,9 @@ public class GroupView implements View {
             studentListView.getItems().add(student);
         }
 
-        this.studentButton = new Button("open student");
-        this.applyButton = new Button("Apply");
-        this.okButton = new Button("Ok");
+        this.studentButton = new Button("Open student");
+        this.applyButton = new Button("Toepasssen");
+        this.okButton = new Button("Opslaan");
 
         //ordering
         VBox vBox = new VBox();

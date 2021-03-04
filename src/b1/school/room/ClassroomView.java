@@ -56,8 +56,8 @@ public class ClassroomView implements View {
         this.classroomWidth = new TextField("" + this.classroom.getWidth());
         this.classroomLength = new TextField("" + this.classroom.getLength());
 
-        this.applyButton = new Button("Apply");
-        this.okButton = new Button("Ok");
+        this.applyButton = new Button("Toepassen");
+        this.okButton = new Button("Opslaan");
 
         //ordering
         VBox vBox = new VBox();

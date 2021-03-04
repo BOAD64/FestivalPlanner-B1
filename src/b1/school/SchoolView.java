@@ -64,8 +64,8 @@ public class SchoolView implements View {
         this.selectGroupButton = new Button("Open klas");
         this.selectStudentButton = new Button("Open student");
         this.selectTeacherButton = new Button("Open leraar");
-        this.applyButton = new Button("Apply");
-        this.okButton = new Button("Ok");
+        this.applyButton = new Button("Toepassen");
+        this.okButton = new Button("Opslaan");
 
         this.refreshClassroom = new Button("Refresh");
         this.refreshGroup = new Button("Refresh");
