@@ -36,6 +36,7 @@ public class TeacherView extends PersonView {
         super.stage.setWidth(400);
         super.stage.setResizable(false);
         super.stage.setScene(scene);
+        super.stage.setTitle("Docent toevoegen / bewerken");
     }
 
     private void addTags() {

@@ -1,5 +1,6 @@
 package b1.schedule;
 
+import b1.io.ImageFile;
 import b1.school.group.StudentGroup;
 import b1.school.person.Teacher;
 import javafx.geometry.Insets;
@@ -61,6 +62,8 @@ public class LessonView extends AppointmentViewAbstract{
 
         Scene scene = new Scene(vBox);
         this.stage.setScene(scene);
+        this.stage.getIcons().add(ImageFile.getLogo());
+        this.stage.setTitle("Les toevoegen / bewerken");
     }
 
     public Button getSaveButton() {

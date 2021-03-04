@@ -38,6 +38,7 @@ public class StudentView extends PersonView {
         super.stage.setWidth(400);
         super.stage.setResizable(false);
         super.stage.setScene(scene);
+        super.stage.setTitle("Student toevoegen / bewerken");
     }
 
     private void addTags() {

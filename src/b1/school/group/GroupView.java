@@ -1,6 +1,7 @@
 package b1.school.group;
 
 import b1.View;
+import b1.io.ImageFile;
 import b1.school.person.Student;
 import b1.school.person.StudentController;
 import javafx.geometry.Pos;
@@ -101,6 +102,8 @@ public class GroupView implements View {
         stage.setMinHeight(500);
         stage.setMaxWidth(500);
         stage.setMaxHeight(500);
+        this.stage.getIcons().add(ImageFile.getLogo());
+        this.stage.setTitle("Groep toevoegen / bewerken");
     }
 
 }

@@ -1,6 +1,7 @@
 package b1.school.room;
 
 import b1.View;
+import b1.io.ImageFile;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -43,6 +44,8 @@ public class ClassroomView implements View {
 
     public void createStage() {
         this.stage = new Stage();
+        this.stage.getIcons().add(ImageFile.getLogo());
+        this.stage.setTitle("Klaslokaal toevoegen / bewerken");
         BorderPane borderPane = new BorderPane();
 
         //object for stage

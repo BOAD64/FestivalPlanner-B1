@@ -1,6 +1,7 @@
 package b1.schedule;
 
 import b1.View;
+import b1.io.ImageFile;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -10,6 +11,7 @@ import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
 
+import javax.swing.text.html.ImageView;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -96,6 +98,7 @@ public class ScheduleView implements View
 
 
         this.stage.setScene(scene);
+        this.stage.getIcons().add(ImageFile.getLogo());
     }
 
     private void drawBackground(int appointmentCount, int columnWidth)

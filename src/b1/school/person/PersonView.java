@@ -1,6 +1,7 @@
 package b1.school.person;
 
 import b1.View;
+import b1.io.ImageFile;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -37,6 +38,8 @@ abstract class PersonView implements View {
 
         this.mainVBox.getChildren().add(mainHBox);
         this.createButtons();
+
+        this.stage.getIcons().add(ImageFile.getLogo());
     }
 
     private void createButtons() {

@@ -1,13 +1,17 @@
 package b1.schedule;
 
+import b1.io.ImageFile;
 import b1.school.person.Person;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.io.FileInputStream;
 
 public class GeneralAppointmentView extends AppointmentViewAbstract
 {
@@ -67,6 +71,7 @@ public class GeneralAppointmentView extends AppointmentViewAbstract
 
         Scene scene = new Scene(vBox);
         this.stage.setScene(scene);
+        this.stage.getIcons().add(ImageFile.getLogo());
     }
 
     public ListView<Person> getParticipantsList() {

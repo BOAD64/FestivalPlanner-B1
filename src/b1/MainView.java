@@ -1,5 +1,6 @@
 package b1;
 
+import b1.io.ImageFile;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -103,15 +104,9 @@ public class MainView implements View {
         this.HBox = new HBox();
         FileInputStream plusInputStream = null;
         FileInputStream arrowInputStream = null;
-        FileInputStream logoInputStream;
         try {
             plusInputStream = new FileInputStream("resources\\plus.png");
             arrowInputStream = new FileInputStream("resources\\arrow.png");
-            logoInputStream = new FileInputStream("resources\\logo.png");
-
-
-            Image image = new Image(logoInputStream);
-            this.stage.getIcons().add(image);
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -183,6 +178,7 @@ public class MainView implements View {
         }
 
         this.initButtons();
+        this.stage.getIcons().add(ImageFile.getLogo());
 
     }
 
