@@ -1,6 +1,9 @@
 package b1.school.room;
 
-public abstract class Room {
+import java.io.Serializable;
+
+public abstract class Room implements Serializable
+{
     private double width;
     private double length;
 

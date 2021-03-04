@@ -20,7 +20,7 @@ public class ScheduleFile {
     }
 
     public static void save(){
-        if(filePath.isEmpty()){
+        if(filePath == null || filePath.isEmpty()){
            return;
         }
         writeFile(filePath, schedule);

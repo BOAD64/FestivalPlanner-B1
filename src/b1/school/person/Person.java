@@ -1,6 +1,9 @@
 package b1.school.person;
 
-public abstract class Person {
+import java.io.Serializable;
+
+public abstract class Person  implements Serializable
+{
 
     String name;
     short age;

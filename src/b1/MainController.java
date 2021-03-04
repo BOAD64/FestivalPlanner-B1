@@ -11,12 +11,14 @@ import b1.schedule.ScheduleController;
 import b1.school.School;
 import b1.school.room.Classroom;
 import b1.school.room.ClassroomController;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class MainController implements Controller {
 
@@ -93,5 +95,9 @@ public class MainController implements Controller {
     private void onSchoolEditButtonClick() {
         SchoolController schoolController = new SchoolController(SchoolFile.getSchool());
         schoolController.show();
+    }
+
+    public void onClose(EventHandler<WindowEvent> eventEventHandler) {
+        this.view.getStage().setOnHidden(eventEventHandler);
     }
 }

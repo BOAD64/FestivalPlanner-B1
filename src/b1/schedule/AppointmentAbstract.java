@@ -4,10 +4,11 @@ import b1.school.person.Person;
 import b1.school.room.Classroom;
 import b1.school.room.Room;
 
+import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public abstract class AppointmentAbstract
+public abstract class AppointmentAbstract implements Serializable
 {
 
     private String name;

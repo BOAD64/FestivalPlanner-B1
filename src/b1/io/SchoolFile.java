@@ -21,7 +21,7 @@ public class SchoolFile
     }
 
     public static void save(){
-        if(filePath.isEmpty()){
+        if(filePath == null || filePath.isEmpty()){
            return;
         }
         writeFile(filePath, school);
@@ -41,7 +41,7 @@ public class SchoolFile
 
     private static School readFile(String fileName) {
         File file = new File(fileName);
-        if(!file.exists()) {
+        if(file.exists()) {
             try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(fileName))) {
                 return (School) objectInputStream.readObject();
             } catch (Exception ex) {

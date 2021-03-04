@@ -8,9 +8,10 @@ import b1.school.person.Student;
 import b1.school.person.Teacher;
 import b1.school.room.Room;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class School
+public class School implements Serializable
 {
 
     private String schoolName;
