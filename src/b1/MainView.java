@@ -4,6 +4,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,12 +21,17 @@ import java.io.FileInputStream;
 public class MainView implements View {
     private Stage stage;
     private boolean hamburgerIsOut;
-    ListView<AddMenuItem> addList;
+    private ListView<AddMenuItem> addList;
     private ImageView plusImageView;
 
     private HBox HBox;
+    private VBox optionMenuVBox;
     private StackPane stackPane;
     private Node scheduleControllerNode;
+    private Node simulationNode;
+
+    private Button goToScheduleButton;
+    private Button goToSimulationButton;
 
 //    enum Controllers{GROUP,CLASSROOM, STUDENT, TEACHER, APPOINTMENT}
 
@@ -33,8 +40,9 @@ public class MainView implements View {
 
     @Override
     public Stage getStage() {
-
-        createStage();
+        if(this.stage == null) {
+            createStage();
+        }
         return this.stage;
     }
 
@@ -42,22 +50,48 @@ public class MainView implements View {
         return addList;
     }
 
-    public void setScheduleControllerNode(Node scheduleControllerNode) {
-        this.scheduleControllerNode = scheduleControllerNode;
-
-        if(this.stackPane == null) {
-            stackPane = new StackPane();
-            this.HBox.getChildren().add(stackPane);
-        } else {
-            stackPane.getChildren().clear();
+    void setSimulationNode(Node simulationNode) {
+        if(this.HBox.getChildren().contains(simulationNode)) {
+            return;
         }
 
-        stackPane.getChildren().addAll(this.scheduleControllerNode, plusImageView, this.addList);
-        stackPane.setAlignment(plusImageView, Pos.BOTTOM_RIGHT);
-        stackPane.setAlignment(this.addList, Pos.BOTTOM_RIGHT);
+        if(simulationNode == null) {
+            return;
+        }
+
+        this.simulationNode = simulationNode;
+        if(this.scheduleControllerNode != null) {
+            this.HBox.getChildren().remove(this.stackPane);
+        }
+
+        this.HBox.getChildren().add(simulationNode);
+    }
+
+    void setScheduleControllerNode(Node scheduleControllerNode) {
+        if(this.HBox.getChildren().contains(this.stackPane)) {
+            return;
+        }
+        if(this.simulationNode != null) {
+            this.HBox.getChildren().remove(this.simulationNode);
+        }
+
+        this.scheduleControllerNode = scheduleControllerNode;
+        if(this.stackPane == null) {
+            stackPane = new StackPane();
+        } else {
+            this.stackPane.getChildren().clear();
+        }
+
+        ((Canvas) scheduleControllerNode).setWidth(Double.MAX_VALUE);
+        ((Canvas) scheduleControllerNode).setHeight(Double.MAX_VALUE);
+        this.stackPane.getChildren().addAll(scheduleControllerNode, plusImageView, this.addList);
+        StackPane.setAlignment(plusImageView, Pos.BOTTOM_RIGHT);
+        StackPane.setAlignment(this.addList, Pos.BOTTOM_RIGHT);
         this.addList.setTranslateY(-125);
         this.plusImageView.setTranslateX(-20);
         this.plusImageView.setTranslateY(-10);
+
+        this.HBox.getChildren().add(this.stackPane);
     }
 
     public void onAddListClicked(MouseEvent event) {
@@ -69,7 +103,7 @@ public class MainView implements View {
         this.HBox = new HBox();
         FileInputStream plusInputStream = null;
         FileInputStream arrowInputStream = null;
-        FileInputStream logoInputStream = null;
+        FileInputStream logoInputStream;
         try {
             plusInputStream = new FileInputStream("resources\\plus.png");
             arrowInputStream = new FileInputStream("resources\\arrow.png");
@@ -98,9 +132,7 @@ public class MainView implements View {
             this.addList.setVisible(false);
             this.hamburgerIsOut = false;
 
-            plusImageView.setOnMouseClicked(event -> {
-                this.changeVisibilityOfAddList();
-            });
+            plusImageView.setOnMouseClicked(event -> this.changeVisibilityOfAddList());
 
             this.addList.setOnMouseClicked(event -> {
 
@@ -111,14 +143,13 @@ public class MainView implements View {
             hamburger.getChildren().add(arrowImageView);
 
             //test
-            VBox comboBoxes = new VBox();
-            comboBoxes.setMinWidth(150);
-            comboBoxes.setAlignment(Pos.TOP_CENTER);
-
+            this.optionMenuVBox = new VBox();
+            this.optionMenuVBox.setMinWidth(150);
+            this.optionMenuVBox.setAlignment(Pos.TOP_CENTER);
 
             //comboBoxes.setBackground(new Background(new BackgroundFill(Color.hsb(0, 0, 0.255), CornerRadii.EMPTY, Insets.EMPTY)));
-            comboBoxes.setBackground(new Background(new BackgroundFill(Color.rgb(65, 65, 65), CornerRadii.EMPTY, Insets.EMPTY)));
-            HBox.setBackground(new Background(new BackgroundFill(Color.rgb(65, 65, 65), CornerRadii.EMPTY, Insets.EMPTY)));
+            this.optionMenuVBox.setBackground(new Background(new BackgroundFill(Color.rgb(65, 65, 65), CornerRadii.EMPTY, Insets.EMPTY)));
+            this.HBox.setBackground(new Background(new BackgroundFill(Color.rgb(65, 65, 65), CornerRadii.EMPTY, Insets.EMPTY)));
 
             //Opening and closing of hamburger menu
             arrowImageView.setOnMouseClicked(event -> {
@@ -132,7 +163,7 @@ public class MainView implements View {
                     this.hamburgerIsOut = true;
                     hamburger.getChildren().remove(0, 1);
                     arrowImageView.setRotate(180);
-                    hamburger.getChildren().addAll(comboBoxes, arrowImageView);
+                    hamburger.getChildren().addAll(optionMenuVBox, arrowImageView);
 
                 }
             });
@@ -145,16 +176,32 @@ public class MainView implements View {
 
             this.HBox.getChildren().add(hamburger);
 
-            this.stage.setScene(new Scene(HBox));
+            this.stage.setScene(new Scene(this.HBox));
             this.stage.setWidth(1200);
             this.stage.setHeight(1000);
             this.stage.setTitle("Hogwarts Simulator");
         }
 
+        this.initButtons();
 
+    }
+
+    private void initButtons() {
+        this.goToScheduleButton = new Button("Rooster");
+        this.goToSimulationButton = new Button("Simulatie");
+
+        this.optionMenuVBox.getChildren().addAll(this.goToScheduleButton, this.goToSimulationButton);
     }
 
     private void changeVisibilityOfAddList() {
         this.addList.setVisible(!this.addList.isVisible());
+    }
+
+    Button getGoToScheduleButton() {
+        return goToScheduleButton;
+    }
+
+    Button getGoToSimulationButton() {
+        return goToSimulationButton;
     }
 }

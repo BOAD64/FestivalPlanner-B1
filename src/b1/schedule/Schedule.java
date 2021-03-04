@@ -13,4 +13,12 @@ public class Schedule {
     public ArrayList<AppointmentAbstract> getAppointments() {
         return this.appointments;
     }
+
+    public void addAppointment(AppointmentAbstract appointment)
+    {
+        if(!this.appointments.contains(appointment))
+        {
+            this.appointments.add(appointment);
+        }
+    }
 }

@@ -3,6 +3,7 @@ package b1.school.group;
 import b1.View;
 import b1.school.person.Student;
 import b1.school.person.StudentController;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -17,6 +18,12 @@ public class GroupView implements View {
     private Group group;
     private Stage stage;
 
+    private Button studentButton;
+    private Button applyButton;
+    private Button okButton;
+    private ListView<Student> studentListView;
+    private TextField groupCodeTextField;
+
     public GroupView(Group group) {
         this.group = group;
     }
@@ -30,6 +37,26 @@ public class GroupView implements View {
         return this.stage;
     }
 
+    public Button getStudentButton() {
+        return this.studentButton;
+    }
+
+    public Button getApplyButton() {
+        return this.applyButton;
+    }
+
+    public Button getOkButton() {
+        return this.okButton;
+    }
+
+    public ListView<Student> getStudentListView() {
+        return this.studentListView;
+    }
+
+    public TextField getGroupCodeTextField() {
+        return this.groupCodeTextField;
+    }
+
     public void createStage() {
         this.stage = new Stage();
         BorderPane borderPane = new BorderPane();
@@ -39,17 +66,17 @@ public class GroupView implements View {
         Label studentsLabel = new Label("studenten: ");
         Label selectedStudentLabel = new Label("Open de geselecteerde student");
 
-        TextField groupCodeTextField = new TextField(this.group.getGroupCode());
+        this.groupCodeTextField = new TextField(this.group.getGroupCode());
 
-        ListView<Student> studentListView = new ListView<>();
+        this.studentListView = new ListView<>();
         studentListView.setPrefHeight(200);
         for(Student student : this.group.getStudentsList()) {
             studentListView.getItems().add(student);
         }
 
-        Button studentButton = new Button("open student");
-        Button applyButton = new Button("Apply");
-        Button okButton = new Button("Ok");
+        this.studentButton = new Button("open student");
+        this.applyButton = new Button("Apply");
+        this.okButton = new Button("Ok");
 
         //ordering
         VBox vBox = new VBox();
@@ -60,33 +87,13 @@ public class GroupView implements View {
                 applyButton, okButton
         );
         vBox.setSpacing(10);
+        vBox.setAlignment(Pos.CENTER);
         HBox hBox = new HBox();
         hBox.getChildren().addAll(vBox);
         hBox.setSpacing(20);
+        hBox.setAlignment(Pos.CENTER);
 
         borderPane.setTop(hBox);
-
-        //button actions
-        studentButton.setOnAction(event -> {
-            //todo: create a studentcontroller with selected student, studentController.getStage().show()
-
-            Student selectedStudent = studentListView.getSelectionModel().getSelectedItem();
-
-
-            StudentController studentController = new StudentController(selectedStudent);
-            studentController.show();
-
-        });
-        applyButton.setOnAction(event -> {
-            //read and save from text fields
-            this.group.setGroupCode(groupCodeTextField.getText());
-        });
-        okButton.setOnAction(event -> {
-            //read and save from text fields
-            this.group.setGroupCode(groupCodeTextField.getText());
-            //exit window
-            stage.close();
-        });
 
         //applying to stage
         stage.setScene(new Scene(borderPane));

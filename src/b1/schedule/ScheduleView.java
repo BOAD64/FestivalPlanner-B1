@@ -67,15 +67,6 @@ public class ScheduleView implements View
             index = index + 1;
         }
 
-        index = 0;
-        for(Map.Entry<Object, ArrayList<AppointmentAbstract>> appointments : this.appointments.entrySet()){
-            for (int j = 0; j < appointments.getValue().size(); j++) {
-                this.drawAppointment(this.appointmentShapes.get(j));
-            }
-            index = index + 1;
-        }
-
-
         for (int j = 0; j < this.appointmentShapes.size(); j++) {
             this.drawAppointment(this.appointmentShapes.get(j));
         }
@@ -134,7 +125,7 @@ public class ScheduleView implements View
 
     private void drawAppointment(AppointmentShape appointmentRectangle) {
         Color backColor = Color.YELLOW;
-        AppointmentAbstract appointment = appointmentRectangle.getAppointment();
+//        AppointmentAbstract appointment = appointmentRectangle.getAppointment();
 
         for(AppointmentShape appointmentShape : this.appointmentShapes)
         {
@@ -145,21 +136,8 @@ public class ScheduleView implements View
             }
         }
 
-        this.fxGraphics2D.setColor(backColor);
-        this.fxGraphics2D.fill(appointmentRectangle);
-        this.fxGraphics2D.setColor(Color.BLACK);
-        this.fxGraphics2D.draw(appointmentRectangle);
-
-        if (appointmentRectangle.getHeight() > 14) {
-            this.fxGraphics2D.drawString(appointment.getName(), (int)appointmentRectangle.getX() + 10,
-                    (int)appointmentRectangle.getY() + 10);
-        }
-
-        if(appointmentRectangle.getHeight()  > 29)
-        {
-            this.fxGraphics2D.drawString(appointment.getStartTime().toString() +" - "+appointment.getEndTime().toString(),
-                    (int)appointmentRectangle.getX() + 10, (int)appointmentRectangle.getMaxY() - 10);
-        }
+        appointmentRectangle.setBackgroundColor(backColor);
+        appointmentRectangle.draw(this.fxGraphics2D);
     }
 
     private double getColumnWidth() {

@@ -109,6 +109,8 @@ public class LessonController extends AppointmentControllerAbstract
                 lesson.setStudentGroup(studentGroup);
                 lesson.setTeacher(teacher);
 
+                SchoolFile.getSchool().getSchedule().addAppointment(lesson);
+
                 view.getStage().close();
             }
         };

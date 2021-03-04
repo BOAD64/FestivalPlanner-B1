@@ -1,6 +1,7 @@
 package b1.school.person;
 
 import b1.Controller;
+import b1.io.SchoolFile;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -52,6 +53,8 @@ public class StudentController extends PersonController implements Controller {
                 this.student.setGender(this.view.getGenderField().getText());
                 this.student.setIdNumber(Short.parseShort(this.view.getIdField().getText()));
                 this.student.setGroup(this.view.getGroupField().getText());
+
+                SchoolFile.getSchool().addStudent(this.student);
 
                 this.view.getStage().close();
             }

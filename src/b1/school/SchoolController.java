@@ -101,17 +101,16 @@ public class SchoolController implements Controller {
         refreshStudent();
         refreshTeacher();
 
-        ArrayList<Classroom> classrooms = new ArrayList<>();
         ArrayList<Group> groups = new ArrayList<>();
         ArrayList<Student> students = new ArrayList<>();
         ArrayList<Teacher> teachers = new ArrayList<>();
 
-        classrooms.addAll(this.schoolView.getClassroomListView().getItems());
         groups.addAll(this.schoolView.getGroupListView().getItems());
         students.addAll(this.schoolView.getStudentListView().getItems());
         teachers.addAll(this.schoolView.getTeacherListView().getItems());
 
-        this.school.setClassrooms(classrooms);
+        this.school.getRooms().removeIf(room -> room instanceof Classroom);
+        this.school.getRooms().addAll(this.schoolView.getClassroomListView().getItems());
         this.school.setGroups(groups);
         this.school.setStudents(students);
         this.school.setTeachers(teachers);

@@ -1,6 +1,7 @@
 package b1.school.room;
 
 import b1.View;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -68,9 +69,11 @@ public class ClassroomView implements View {
                 this.applyButton, this.okButton
         );
         vBox.setSpacing(10);
+        vBox.setAlignment(Pos.CENTER);
         HBox hBox = new HBox();
         hBox.getChildren().addAll(vBox);
         hBox.setSpacing(20);
+        hBox.setAlignment(Pos.CENTER);
 
         borderPane.setTop(hBox);
 
