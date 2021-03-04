@@ -48,9 +48,9 @@ public class MainView implements View {
 
         if(this.stackPane == null) {
             stackPane = new StackPane();
-            this.HBox.getChildren().add(stackPane);
+            this.HBox.getChildren().add(this.stackPane);
         } else {
-            stackPane.getChildren().clear();
+            this.stackPane.getChildren().clear();
         }
 
         ((Canvas)this.scheduleControllerNode).setWidth(Double.MAX_VALUE);
@@ -72,7 +72,7 @@ public class MainView implements View {
         this.HBox = new HBox();
         FileInputStream plusInputStream = null;
         FileInputStream arrowInputStream = null;
-        FileInputStream logoInputStream = null;
+        FileInputStream logoInputStream;
         try {
             plusInputStream = new FileInputStream("resources\\plus.png");
             arrowInputStream = new FileInputStream("resources\\arrow.png");
@@ -118,10 +118,9 @@ public class MainView implements View {
             comboBoxes.setMinWidth(150);
             comboBoxes.setAlignment(Pos.TOP_CENTER);
 
-
             //comboBoxes.setBackground(new Background(new BackgroundFill(Color.hsb(0, 0, 0.255), CornerRadii.EMPTY, Insets.EMPTY)));
             comboBoxes.setBackground(new Background(new BackgroundFill(Color.rgb(65, 65, 65), CornerRadii.EMPTY, Insets.EMPTY)));
-            HBox.setBackground(new Background(new BackgroundFill(Color.rgb(65, 65, 65), CornerRadii.EMPTY, Insets.EMPTY)));
+            this.HBox.setBackground(new Background(new BackgroundFill(Color.rgb(65, 65, 65), CornerRadii.EMPTY, Insets.EMPTY)));
 
             //Opening and closing of hamburger menu
             arrowImageView.setOnMouseClicked(event -> {
