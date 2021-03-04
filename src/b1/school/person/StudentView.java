@@ -14,17 +14,20 @@ public class StudentView extends PersonView {
 
 
     StudentView(Student student) {
-        super.stage = new Stage();
         this.student = student;
-        this.createStage();
     }
 
     @Override
     public Stage getStage() {
+        if(super.stage == null)
+        {
+            this.createStage();
+        }
         return super.stage;
     }
 
     private void createStage() {
+        super.stage = new Stage();
         this.addTags();
         this.addInputField();
 

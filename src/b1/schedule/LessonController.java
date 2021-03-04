@@ -8,6 +8,7 @@ import b1.school.room.Room;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -19,14 +20,24 @@ public class LessonController extends AppointmentControllerAbstract
     private LessonView view;
     private School school;
 
-    public LessonController(School school, Lesson lesson) {
+    public LessonController()
+    {
+        this(new Lesson(null, null, null, null, null, null, null));
+    }
+
+    public LessonController(Lesson lesson) {
         this.lesson = lesson;
         this.view = new LessonView();
-        this.school = school;
+        this.school = SchoolFile.getSchool();
     }
 
     @Override
     public void show() {
+        show(null);
+    }
+
+    @Override
+    public void show(Stage ownerStage) {
         if (!this.view.getStage().isShowing()) {
             Stage stage = this.view.getStage();
             this.view.getCancelButton().setOnAction(onCancelClicked());
@@ -56,6 +67,8 @@ public class LessonController extends AppointmentControllerAbstract
             this.view.getStudentGroupComboBox().setItems(FXCollections.observableList(this.school.getStudentGroups()));
             this.view.getTeacherComboBox().setItems(FXCollections.observableList(this.school.getTeachers()));
 
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(ownerStage);
             stage.show();
         }
     }

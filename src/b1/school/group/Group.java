@@ -1,10 +1,12 @@
 package b1.school.group;
 
+import b1.Data;
 import b1.school.person.Student;
 
 import java.util.ArrayList;
 
-public class Group {
+public class Group implements Data
+{
     private String groupCode;
     private ArrayList<Student> students;
 
@@ -36,7 +38,7 @@ public class Group {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return this.groupCode;
     }
 }

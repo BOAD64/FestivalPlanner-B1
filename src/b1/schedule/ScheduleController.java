@@ -24,16 +24,15 @@ public class ScheduleController implements Controller
     private final Schedule schedule;
     private final ScheduleView view;
     private SortingType sortingType;
+
     enum SortingType
     {
-        Room,
-        Person,
-        StudentGroup
+        Room, Person, StudentGroup
     }
 
-    public ScheduleController(School school, Schedule schedule) {
-        this.school = school;
-        this.schedule = schedule;
+    public ScheduleController() {
+        this.school = SchoolFile.getSchool();
+        this.schedule = this.school.getSchedule();
         this.sortingType = SortingType.Room;
         this.view = new ScheduleView();
     }
@@ -48,6 +47,11 @@ public class ScheduleController implements Controller
 
     @Override
     public void show() {
+        show(null);
+    }
+
+    @Override
+    public void show(Stage ownerStage) {
         if (!this.view.getStage().isShowing()) {
             this.view.setAppointments(sort(this.schedule, this.sortingType));
             Stage stage = this.view.getStage();
@@ -57,7 +61,7 @@ public class ScheduleController implements Controller
         }
     }
 
-    public Node getNode(){
+    public Node getNode() {
         this.view.setAppointments(sort(this.schedule, this.sortingType));
         Stage stage = this.view.getStage();
         this.view.getCanvas().setOnMouseClicked(this.onCanvasClick());
@@ -65,23 +69,18 @@ public class ScheduleController implements Controller
         return this.view.getCanvas();
     }
 
-    public void refresh()
-    {
+    public void refresh() {
         this.view.setAppointments(sort(this.schedule, this.sortingType));
         this.view.draw();
     }
 
-    private HashMap<Object, ArrayList<AppointmentAbstract>> sort(Schedule schedule, SortingType sortingType)
-    {
+    private HashMap<Object, ArrayList<AppointmentAbstract>> sort(Schedule schedule, SortingType sortingType) {
         HashMap<Object, ArrayList<AppointmentAbstract>> result = new HashMap<>();
-        for(AppointmentAbstract appointment : schedule.getAppointments())
-        {
-            if(appointment.getStartTime() == null || appointment.getEndTime() == null)
-            {
+        for (AppointmentAbstract appointment : schedule.getAppointments()) {
+            if (appointment.getStartTime() == null || appointment.getEndTime() == null) {
                 continue;
             }
-            if(sortingType == SortingType.Room)
-            {
+            if (sortingType == SortingType.Room) {
                 ArrayList<AppointmentAbstract> appointments = result.computeIfAbsent(appointment.getLocation(), k -> new ArrayList<>());
                 appointments.add(appointment);
             }
@@ -113,13 +112,13 @@ public class ScheduleController implements Controller
 
     private void onAppointmentClick(AppointmentShape appointmentShape) {
         AppointmentControllerAbstract controller;
-        if(appointmentShape.getAppointment() instanceof GeneralAppointment){
+        if (appointmentShape.getAppointment() instanceof GeneralAppointment) {
             controller = new GeneralAppointmentController((GeneralAppointment) appointmentShape.getAppointment());
         }
-        else if(appointmentShape.getAppointment() instanceof Lesson) {
-            controller = new LessonController(this.school, (Lesson) appointmentShape.getAppointment());
+        else if (appointmentShape.getAppointment() instanceof Lesson) {
+            controller = new LessonController((Lesson) appointmentShape.getAppointment());
         }
-        else{
+        else {
             return;
         }
 

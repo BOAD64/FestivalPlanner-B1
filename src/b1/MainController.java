@@ -1,25 +1,22 @@
 package b1;
+
 import b1.io.SchoolFile;
-import b1.school.person.*;
 import b1.schedule.Lesson;
 import b1.schedule.LessonController;
-import b1.schedule.ScheduleController;
-import b1.school.School;
-import b1.school.SchoolController;
 import b1.school.group.Group;
 import b1.school.group.GroupController;
-//import b1.school.person.Student;
-//import b1.school.person.StudentController;
-//import b1.school.person.Teacher;
-//import b1.school.person.TeacherController;
+import b1.school.person.*;
+import b1.schedule.ScheduleController;
+import b1.school.School;
 import b1.school.room.Classroom;
 import b1.school.room.ClassroomController;
+import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-
-public class MainController implements Controller {
+public class MainController implements Controller
+{
 
     private MainView view;
     private School school;
@@ -31,55 +28,72 @@ public class MainController implements Controller {
 
     @Override
     public void show() {
+        show(null);
+    }
+
+    @Override
+    public void show(Stage ownerStage) {
         this.view = new MainView();
         Stage stage = this.view.getStage();
         this.school = SchoolFile.getSchool();
 
-        this.scheduleController = new ScheduleController(this.school, this.school.getSchedule());
+        this.scheduleController = new ScheduleController();
         this.view.setScheduleControllerNode(this.scheduleController.getNode());
+        this.fillAddMenuList(this.view.getAddList(), stage);
 
         this.view.getAddList().setOnMouseClicked(this::onAddListClicked);
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(ownerStage);
         stage.show();
     }
 
-    private void onAddListClicked(MouseEvent event)
-    {
-        MainView.Controllers controller = this.view.getAddList().getSelectionModel().getSelectedItem();
+    private void fillAddMenuList(ListView<AddMenuItem> addMenu, Stage stage) {
+        addMenu.getItems().add(new AddMenuItem(GroupController.class, "Groep", stage));
+        addMenu.getItems().add(new AddMenuItem(ClassroomController.class, "Klaslokaal", stage));
+        addMenu.getItems().add(new AddMenuItem(StudentController.class, "Student", stage));
+        addMenu.getItems().add(new AddMenuItem(TeacherController.class, "Docent", stage));
+        addMenu.getItems().add(new AddMenuItem(LessonController.class, "Les", stage));
 
-        switch (controller) {
-            case GROUP:
-                Group group = new Group("unnamed");
-                this.school.addGroup(group);
-                GroupController groupController = new GroupController(group);
-                groupController.show();
-                break;
-            case CLASSROOM:
-                Classroom classroom = new Classroom(0, 0, "unnamed", 0);
-                this.school.addRoom(classroom);
-                ClassroomController classroomController = new ClassroomController(classroom);
-                classroomController.show();
-                break;
-            case STUDENT:
-                Student student = new Student();
-                this.school.addStudent(student);
-                StudentController studentController = new StudentController(student);
-                studentController.show();
-                break;
-            case TEACHER:
-                Teacher teacher = new Teacher();
-                this.school.addTeacher(teacher);
-                TeacherController teacherController = new TeacherController(teacher);
-                teacherController.show();
-                break;
-            case APPOINTMENT: {
-                Lesson lesson = new Lesson(null, null, null, null, null, null, null);
-                this.school.getSchedule().getAppointments().add(lesson);
-                LessonController lessonController = new LessonController(this.school, lesson);
-                lessonController.onClose(event1 -> {this.scheduleController.refresh();});
-                lessonController.show();
-                break;
-            }
-        }
+    }
+
+    private void onAddListClicked(MouseEvent event) {
+        AddMenuItem menuItem = this.view.getAddList().getSelectionModel().getSelectedItem();
+        menuItem.onclick();
+//
+//        switch (controller) {
+//            case GROUP:
+//                Group group = new Group("unnamed");
+//                this.school.addGroup(group);
+//                GroupController groupController = new GroupController(group);
+//                groupController.show();
+//                break;
+//            case CLASSROOM:
+//                Classroom classroom = new Classroom(0, 0, "unnamed", 0);
+//                this.school.addRoom(classroom);
+//                ClassroomController classroomController = new ClassroomController(classroom);
+//                classroomController.show();
+//                break;
+//            case STUDENT:
+//                Student student = new Student();
+//                this.school.addStudent(student);
+//                StudentController studentController = new StudentController(student);
+//                studentController.show();
+//                break;
+//            case TEACHER:
+//                Teacher teacher = new Teacher();
+//                this.school.addTeacher(teacher);
+//                TeacherController teacherController = new TeacherController(teacher);
+//                teacherController.show();
+//                break;
+//            case APPOINTMENT: {
+//                Lesson lesson = new Lesson(null, null, null, null, null, null, null);
+//                this.school.getSchedule().getAppointments().add(lesson);
+//                LessonController lessonController = new LessonController(this.school, lesson);
+//                lessonController.onClose(event1 -> {this.scheduleController.refresh();});
+//                lessonController.show();
+//                break;
+//            }
+//        }
 
         this.view.onAddListClicked(event);
     }
