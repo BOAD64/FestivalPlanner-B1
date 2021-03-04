@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -52,6 +53,8 @@ public class MainView implements View {
             stackPane.getChildren().clear();
         }
 
+        ((Canvas)this.scheduleControllerNode).setWidth(Double.MAX_VALUE);
+        ((Canvas)this.scheduleControllerNode).setHeight(Double.MAX_VALUE);
         stackPane.getChildren().addAll(this.scheduleControllerNode, plusImageView, this.addList);
         stackPane.setAlignment(plusImageView, Pos.BOTTOM_RIGHT);
         stackPane.setAlignment(this.addList, Pos.BOTTOM_RIGHT);
