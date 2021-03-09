@@ -1,6 +1,5 @@
 package b1;
 
-import b1.io.ScheduleFile;
 import b1.io.SchoolFile;
 import b1.school.School;
 import javafx.application.Application;

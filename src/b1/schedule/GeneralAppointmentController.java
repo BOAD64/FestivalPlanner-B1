@@ -1,10 +1,8 @@
 package b1.schedule;
 
 import b1.ErrorMessage;
-import b1.io.ScheduleFile;
 import b1.io.SchoolFile;
 import b1.school.person.Person;
-import b1.school.room.Classroom;
 import b1.school.room.Room;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -14,7 +12,6 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
 
 public class GeneralAppointmentController extends AppointmentControllerAbstract
 {
