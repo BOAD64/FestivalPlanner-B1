@@ -184,9 +184,17 @@ public class MainView implements View {
     private void initButtons() {
         this.goToScheduleButton = new Button("Rooster");
         this.goToSimulationButton = new Button("Simulatie");
-        this.schoolEditButton = new Button("Edit School");
+        this.schoolEditButton = new Button("Verander School");
+
+        short buttonWidth = 130;
+        short buttonHeight = 50;
+        this.goToScheduleButton.setPrefSize(buttonWidth, buttonHeight);
+        this.goToSimulationButton.setPrefSize(buttonWidth, buttonHeight);
+        this.schoolEditButton.setPrefSize(buttonWidth, buttonHeight);
 
         this.optionMenuVBox.getChildren().addAll(this.goToScheduleButton, this.goToSimulationButton, this.schoolEditButton);
+        this.optionMenuVBox.setPadding(new Insets(15, 5, 10, 10));
+        this.optionMenuVBox.setSpacing(15);
     }
 
     private void changeVisibilityOfAddList() {
