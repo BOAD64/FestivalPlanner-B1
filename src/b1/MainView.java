@@ -23,6 +23,7 @@ public class MainView implements View {
     private boolean hamburgerIsOut;
     private ListView<AddMenuItem> addList;
     private ImageView plusImageView;
+    private HBox hamburger;
 
     private HBox HBox;
     private VBox optionMenuVBox;
@@ -125,18 +126,11 @@ public class MainView implements View {
             arrowImageView.setScaleX(Math.PI * 2 / 10.0f); //wtf
             arrowImageView.setScaleY(Math.PI * 2 / 10.0f);
 
-            this.addList = new ListView<>();
-            this.addList.setMaxHeight(200);
-            this.addList.setMaxWidth(150);
-            this.addList.setVisible(false);
+            initAddList();
             this.hamburgerIsOut = false;
 
             this.plusImageView.setOnMouseClicked(event -> this.changeVisibilityOfAddList());
-
-            //create HBox used for whole hamburger-menu
-            HBox hamburger = new HBox();
-            hamburger.getChildren().add(arrowImageView);
-
+            
             //test
             this.optionMenuVBox = new VBox();
             this.optionMenuVBox.setMinWidth(150);
@@ -146,25 +140,9 @@ public class MainView implements View {
             this.optionMenuVBox.setBackground(new Background(new BackgroundFill(Color.rgb(65, 65, 65), CornerRadii.EMPTY, Insets.EMPTY)));
             this.HBox.setBackground(new Background(new BackgroundFill(Color.rgb(65, 65, 65), CornerRadii.EMPTY, Insets.EMPTY)));
 
-            //Opening and closing of hamburger menu
-            arrowImageView.setOnMouseClicked(event -> {
+            initMainMenu(arrowImageView);
 
-                if(this.hamburgerIsOut) {
-                    this.hamburgerIsOut = false;
-                    hamburger.getChildren().remove(0, 2);
-                    arrowImageView.setRotate(0);
-                    hamburger.getChildren().addAll(arrowImageView);
-                } else {
-                    this.hamburgerIsOut = true;
-                    hamburger.getChildren().remove(0, 1);
-                    arrowImageView.setRotate(180);
-                    hamburger.getChildren().addAll(optionMenuVBox, arrowImageView);
-
-                }
-            });
-
-
-            this.HBox.getChildren().add(hamburger);
+            this.HBox.getChildren().add(this.hamburger);
 
             this.stage.setScene(new Scene(this.HBox));
             this.stage.setWidth(1200);
@@ -175,6 +153,36 @@ public class MainView implements View {
         this.initButtons();
         this.stage.getIcons().add(ImageFile.getLogo());
 
+    }
+
+    private void initMainMenu(ImageView arrowImageView) {
+        //create HBox used for whole hamburger-menu
+        this.hamburger = new HBox();
+        this.hamburger.getChildren().add(arrowImageView);
+
+        //Opening and closing of hamburger menu
+        arrowImageView.setOnMouseClicked(event -> {
+
+            if(this.hamburgerIsOut) {
+                this.hamburgerIsOut = false;
+                this.hamburger.getChildren().remove(0, 2);
+                arrowImageView.setRotate(0);
+                this.hamburger.getChildren().addAll(arrowImageView);
+            } else {
+                this.hamburgerIsOut = true;
+                this.hamburger.getChildren().remove(0, 1);
+                arrowImageView.setRotate(180);
+                this.hamburger.getChildren().addAll(optionMenuVBox, arrowImageView);
+
+            }
+        });
+    }
+
+    private void initAddList() {
+        this.addList = new ListView<>();
+        this.addList.setMaxHeight(200);
+        this.addList.setMaxWidth(150);
+        this.addList.setVisible(false);
     }
 
     private void initButtons() {
