@@ -11,8 +11,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-
 abstract class PersonView implements View {
 
     Stage stage;
@@ -47,9 +45,9 @@ abstract class PersonView implements View {
         this.saveButton = new Button("Opslaan");
         this.cancelButton = new Button("Annuleren");
 
-        this.undoButton.setPrefHeight(Setting.addMenuButtonHeigt);
-        this.saveButton.setPrefHeight(Setting.addMenuButtonHeigt);
-        this.cancelButton.setPrefHeight(Setting.addMenuButtonHeigt);
+        this.undoButton.setPrefHeight(Setting.ADD_MENU_BUTTON_HEIGHT);
+        this.saveButton.setPrefHeight(Setting.ADD_MENU_BUTTON_HEIGHT);
+        this.cancelButton.setPrefHeight(Setting.ADD_MENU_BUTTON_HEIGHT);
 
         HBox buttonHBox = new HBox();
         buttonHBox.getChildren().addAll(this.undoButton, this.cancelButton, this.saveButton);
@@ -77,9 +75,9 @@ abstract class PersonView implements View {
         Label ageLabel = new Label("Leeftijd:");
         Label genderLabel = new Label("Geslacht:");
 
-        nameLabel.setPrefHeight(Setting.addMenuLabelAndTextHeight);
-        ageLabel.setPrefHeight(Setting.addMenuLabelAndTextHeight);
-        genderLabel.setPrefHeight(Setting.addMenuLabelAndTextHeight);
+        nameLabel.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
+        ageLabel.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
+        genderLabel.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
 
         this.tagsVBox.getChildren().addAll(nameLabel, ageLabel, genderLabel);
         this.tagsVBox.setSpacing(5);
@@ -90,9 +88,9 @@ abstract class PersonView implements View {
         this.ageField = new TextField();
         this.genderField = new TextField();
 
-        this.nameField.setPrefHeight(Setting.addMenuLabelAndTextHeight);
-        this.ageField.setPrefHeight(Setting.addMenuLabelAndTextHeight);
-        this.genderField.setPrefHeight(Setting.addMenuLabelAndTextHeight);
+        this.nameField.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
+        this.ageField.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
+        this.genderField.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
 
         this.inputFieldVBox.getChildren().addAll(this.nameField, this.ageField, this.genderField);
         this.inputFieldVBox.setSpacing(5);

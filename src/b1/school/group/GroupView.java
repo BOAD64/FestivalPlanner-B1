@@ -64,7 +64,7 @@ public class GroupView implements View {
         //VBox that has the labels
         Label groupCodeLabel = new Label("Klas naam:");
         Label studentsLabel = new Label("Studenten:");
-        groupCodeLabel.setPrefHeight(Setting.addMenuLabelAndTextHeight);
+        groupCodeLabel.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
         studentsLabel.setPrefHeight(200);
         VBox labelVBox = new VBox();
         labelVBox.getChildren().addAll(groupCodeLabel, studentsLabel);
@@ -75,9 +75,9 @@ public class GroupView implements View {
         this.studentButton = new Button("Open student");
         this.applyButton = new Button("Toepasssen");
         this.okButton = new Button("Opslaan");
-        this.studentButton.setPrefHeight(Setting.addMenuButtonHeigt);
-        this.applyButton.setPrefHeight(Setting.addMenuButtonHeigt);
-        this.okButton.setPrefHeight(Setting.addMenuButtonHeigt);
+        this.studentButton.setPrefHeight(Setting.ADD_MENU_BUTTON_HEIGHT);
+        this.applyButton.setPrefHeight(Setting.ADD_MENU_BUTTON_HEIGHT);
+        this.okButton.setPrefHeight(Setting.ADD_MENU_BUTTON_HEIGHT);
         HBox buttonsHBox = new HBox();
         buttonsHBox.getChildren().addAll(this.studentButton, this.applyButton, this.okButton);
         buttonsHBox.setSpacing(5);
@@ -85,7 +85,7 @@ public class GroupView implements View {
 
         //VBox that has the input fields
         this.groupCodeTextField = new TextField(this.group.getGroupCode());
-        this.groupCodeTextField.setPrefHeight(Setting.addMenuLabelAndTextHeight);
+        this.groupCodeTextField.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
         this.studentListView = new ListView<>();
         this.studentListView.setPrefHeight(200);
 
