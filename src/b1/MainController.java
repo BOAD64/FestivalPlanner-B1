@@ -1,15 +1,12 @@
 package b1;
 
 import b1.io.SchoolFile;
-import b1.schedule.Lesson;
 import b1.schedule.LessonController;
 import b1.school.SchoolController;
-import b1.school.group.Group;
 import b1.school.group.GroupController;
 import b1.school.person.*;
 import b1.schedule.ScheduleController;
 import b1.school.School;
-import b1.school.room.Classroom;
 import b1.school.room.ClassroomController;
 import javafx.event.EventHandler;
 import javafx.scene.Node;

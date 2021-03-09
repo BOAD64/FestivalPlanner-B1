@@ -5,9 +5,6 @@ import b1.io.SchoolFile;
 import b1.school.person.Student;
 import b1.school.person.StudentController;
 import javafx.collections.FXCollections;
-import javafx.collections.transformation.FilteredList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 

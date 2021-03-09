@@ -2,7 +2,6 @@ package b1.schedule;
 
 import b1.View;
 import b1.io.ImageFile;
-import b1.school.room.Room;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -12,7 +11,6 @@ import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
 
-import javax.swing.text.html.ImageView;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;

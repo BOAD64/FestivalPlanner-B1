@@ -1,6 +1,7 @@
 package b1.school.person;
 
 import b1.Controller;
+import b1.ErrorMessage;
 import b1.io.SchoolFile;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -45,7 +46,7 @@ public class StudentController extends PersonController implements Controller {
         try {
             if(this.view.getGroupComboBox().getSelectionModel().isEmpty()|| this.view.getIdField().getText().isEmpty() ||
                     Integer.parseInt(this.view.getIdField().getText()) < 0 || !super.personIsValid(this.view)) {
-                super.showErrorMessage();
+                ErrorMessage.show();
 
             } else {
                 this.student.setName(this.view.getNameField().getText());
@@ -61,7 +62,7 @@ public class StudentController extends PersonController implements Controller {
                 this.view.getStage().close();
             }
         } catch(Exception e) {
-            super.showErrorMessage();
+            ErrorMessage.show();
         }
     }
 

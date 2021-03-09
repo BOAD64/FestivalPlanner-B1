@@ -1,11 +1,6 @@
 package b1;
 
-import b1.school.person.Student;
-import b1.school.person.StudentController;
 import javafx.stage.Stage;
-
-import javax.naming.ldap.Control;
-import java.lang.reflect.Constructor;
 
 public class AddMenuItem
 {
