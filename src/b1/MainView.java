@@ -91,14 +91,14 @@ public class MainView implements View {
             this.stackPane.getChildren().clear();
         }
 
-        ((Canvas) scheduleControllerNode).setWidth(Double.MAX_VALUE);
-        ((Canvas) scheduleControllerNode).setHeight(Double.MAX_VALUE);
         this.stackPane.getChildren().addAll(scheduleControllerNode, this.plusImageView, this.addList);
         StackPane.setAlignment(this.plusImageView, Pos.BOTTOM_RIGHT);
         StackPane.setAlignment(this.addList, Pos.BOTTOM_RIGHT);
         this.addList.setTranslateY(-125);
         this.plusImageView.setTranslateX(-20);
         this.plusImageView.setTranslateY(-10);
+        ((Canvas) scheduleControllerNode).setWidth(Double.MAX_VALUE);
+        ((Canvas) scheduleControllerNode).setHeight(Double.MAX_VALUE);
 
         this.HBox.getChildren().add(this.stackPane);
     }
@@ -132,7 +132,6 @@ public class MainView implements View {
             this.addList = new ListView<>();
             this.addList.setMaxHeight(200);
             this.addList.setMaxWidth(150);
-            this.addList.getItems().addListener(this::onListViewItemsChanged);
             this.addList.setVisible(false);
             this.hamburgerIsOut = false;
 
@@ -168,11 +167,6 @@ public class MainView implements View {
                 }
             });
 
-            VBox addMenu = new VBox();
-            addMenu.getChildren().addAll(this.addList, this.plusImageView);
-            addMenu.setSpacing(20);
-            addMenu.setAlignment(Pos.BOTTOM_RIGHT);
-
 
             this.HBox.getChildren().add(hamburger);
 
@@ -205,9 +199,5 @@ public class MainView implements View {
 
     Button getGoToSimulationButton() {
         return this.goToSimulationButton;
-    }
-
-    private void onListViewItemsChanged(ListChangeListener.Change change) {
-        this.addList.setMaxHeight(this.addList.getItems().size() * 25);
     }
 }
