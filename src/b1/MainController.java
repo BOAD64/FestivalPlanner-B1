@@ -95,7 +95,7 @@ public class MainController implements Controller {
 
     private void onSchoolEditButtonClick() {
         SchoolController schoolController = new SchoolController(SchoolFile.getSchool());
-        schoolController.show();
+        schoolController.show(this.view.getStage());
     }
 
     public void onClose(EventHandler<WindowEvent> eventEventHandler) {
