@@ -49,6 +49,12 @@ public class SchoolController implements Controller
         this.schoolView.getRefreshGroup().setOnAction(event -> this.refreshGroup());
         this.schoolView.getRefreshStudent().setOnAction(event -> this.refreshStudent());
         this.schoolView.getRefreshTeacher().setOnAction(event -> this.refreshTeacher());
+
+        this.schoolView.getDeleteClassroom().setOnAction(event -> this.deleteClassroom());
+        this.schoolView.getDeleteGroup().setOnAction(event -> this.deleteGroup());
+        this.schoolView.getDeleteStudent().setOnAction(event -> this.deleteStudent());
+        this.schoolView.getDeleteTeacher().setOnAction(event -> this.deleteTeacher());
+
         this.schoolView.getStage().initModality(Modality.WINDOW_MODAL);
         this.schoolView.getStage().initOwner(ownerStage);
         this.schoolView.getStage().show();
@@ -135,4 +141,19 @@ public class SchoolController implements Controller
         this.schoolView.getTeacherListView().refresh();
     }
 
+    private void deleteClassroom(){
+        this.schoolView.getClassroomListView().getItems().remove(this.schoolView.getClassroomListView().getSelectionModel().getSelectedItem());
+    }
+
+    private void deleteGroup(){
+        this.schoolView.getGroupListView().getItems().remove(this.schoolView.getGroupListView().getSelectionModel().getSelectedItem());
+    }
+
+    private void deleteStudent(){
+        this.schoolView.getStudentListView().getItems().remove(this.schoolView.getStudentListView().getSelectionModel().getSelectedItem());
+    }
+
+    private void deleteTeacher(){
+        this.schoolView.getTeacherListView().getItems().remove(this.schoolView.getTeacherListView().getSelectionModel().getSelectedItem());
+    }
 }
