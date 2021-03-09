@@ -52,7 +52,6 @@ public class TeacherController extends PersonController implements Controller {
                 this.teacher.setGender(this.view.getGenderField().getText());
                 this.teacher.setSubject(this.view.getSubjectField().getText());
 
-                //ToDo add teacher to school
                 SchoolFile.getSchool().addTeacher(this.teacher);
 
                 this.view.getStage().close();

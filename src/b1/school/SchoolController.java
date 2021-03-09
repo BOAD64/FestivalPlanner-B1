@@ -79,7 +79,6 @@ public class SchoolController implements Controller
     }
 
     private void openTeacher() {
-        //ToDo open teacher window
         Teacher teacher = this.schoolView.getTeacherListView().getSelectionModel().getSelectedItem();
 
         if (!(teacher == null)) {

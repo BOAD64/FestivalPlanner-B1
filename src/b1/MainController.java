@@ -53,9 +53,6 @@ public class MainController implements Controller {
             this.view.setScheduleControllerNode(this.scheduleController.getNode());
             this.fillAddMenuList(this.view.getAddList(), stage);
             this.view.getAddList().setOnMouseClicked(this::onAddListClicked);
-        } else {
-            //this.view.setSimulationNode(); ToDo ask for simulation node to add as parameter
-
         }
         stage.initModality(Modality.WINDOW_MODAL);
         stage.initOwner(ownerStage);
