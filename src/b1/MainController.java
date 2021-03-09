@@ -71,9 +71,13 @@ public class MainController implements Controller {
 
     }
 
-    private void onAddListClicked(MouseEvent event) {
+    private void onAddListClicked(MouseEvent event)
+    {
         AddMenuItem menuItem = this.view.getAddList().getSelectionModel().getSelectedItem();
-        menuItem.onclick();
+        if (menuItem != null)
+        {
+            menuItem.onclick();
+        }
 
         this.view.onAddListClicked(event);
     }

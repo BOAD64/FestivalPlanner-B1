@@ -1,6 +1,9 @@
 package b1;
 
 import b1.io.ImageFile;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -129,14 +132,11 @@ public class MainView implements View {
             this.addList = new ListView<>();
             this.addList.setMaxHeight(200);
             this.addList.setMaxWidth(150);
+            this.addList.getItems().addListener(this::onListViewItemsChanged);
             this.addList.setVisible(false);
             this.hamburgerIsOut = false;
 
             plusImageView.setOnMouseClicked(event -> this.changeVisibilityOfAddList());
-
-            this.addList.setOnMouseClicked(event -> {
-
-            });
 
             //create HBox used for whole hamburger-menu
             HBox hamburger = new HBox();
@@ -205,5 +205,10 @@ public class MainView implements View {
 
     Button getGoToSimulationButton() {
         return goToSimulationButton;
+    }
+
+    private void onListViewItemsChanged(ListChangeListener.Change change)
+    {
+        this.addList.setMaxHeight(this.addList.getItems().size() * 25);
     }
 }
