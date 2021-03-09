@@ -119,10 +119,10 @@ public class SchoolView implements View {
         borderPane.setTop(vBox);
         this.stage = new Stage();
         this.stage.setScene(new Scene(borderPane));
-        stage.setMinWidth(600);
-        stage.setMinHeight(700);
-        stage.setMaxWidth(600);
-        stage.setMaxHeight(700);
+        this.stage.setMinWidth(600);
+        this.stage.setMinHeight(700);
+        this.stage.setMaxWidth(600);
+        this.stage.setMaxHeight(700);
     }
 
     private void createListViews(){
@@ -165,78 +165,78 @@ public class SchoolView implements View {
     }
 
     public ListView<Classroom> getClassroomListView() {
-        return classroomListView;
+        return this.classroomListView;
     }
 
     public ListView<Group> getGroupListView() {
-        return groupListView;
+        return this.groupListView;
     }
 
     public ListView<Student> getStudentListView() {
-        return studentListView;
+        return this.studentListView;
     }
 
     public ListView<Teacher> getTeacherListView() {
-        return teacherListView;
+        return this.teacherListView;
     }
 
     public Button getSelectClassroomButton() {
-        return selectClassroomButton;
+        return this.selectClassroomButton;
     }
 
     public Button getSelectGroupButton() {
-        return selectGroupButton;
+        return this.selectGroupButton;
     }
 
     public Button getSelectStudentButton() {
-        return selectStudentButton;
+        return this.selectStudentButton;
     }
 
     public Button getSelectTeacherButton() {
-        return selectTeacherButton;
+        return this.selectTeacherButton;
     }
 
     public Button getApplyButton() {
-        return applyButton;
+        return this.applyButton;
     }
 
     public Button getOkButton() {
-        return okButton;
+        return this.okButton;
     }
 
     public Button getRefreshClassroom() {
-        return refreshClassroom;
+        return this.refreshClassroom;
     }
 
     public Button getRefreshGroup() {
-        return refreshGroup;
+        return this.refreshGroup;
     }
 
     public Button getRefreshStudent() {
-        return refreshStudent;
+        return this.refreshStudent;
     }
 
     public Button getRefreshTeacher() {
-        return refreshTeacher;
+        return this.refreshTeacher;
     }
 
     public TextField getSchoolNameField() {
-        return schoolNameField;
+        return this.schoolNameField;
     }
 
     public Button getDeleteClassroom() {
-        return deleteClassroom;
+        return this.deleteClassroom;
     }
 
     public Button getDeleteGroup() {
-        return deleteGroup;
+        return this.deleteGroup;
     }
 
     public Button getDeleteStudent() {
-        return deleteStudent;
+        return this.deleteStudent;
     }
 
     public Button getDeleteTeacher() {
-        return deleteTeacher;
+        return this.deleteTeacher;
     }
 }

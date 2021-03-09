@@ -40,8 +40,8 @@ public class GeneralAppointmentController extends AppointmentControllerAbstract
     public void show(Stage ownerStage) {
         if (!this.view.getStage().isShowing()) {
             Stage stage = this.view.getStage();
-            this.view.getCancelButton().setOnAction(onCancelClicked());
-            this.view.getSaveButton().setOnAction(onSaveClicked());
+            this.view.getCancelButton().setOnAction(this.onCancelClicked());
+            this.view.getSaveButton().setOnAction(this.onSaveClicked());
             this.view.getPersonAddButton().setOnAction(this.onPersonAddButton());
             this.view.getPersonRemoveButton().setOnAction(this.onPersonRemoveButton());
 

@@ -20,7 +20,7 @@ public class AddMenuItem
     }
 
     public Class<? extends Controller> getController() {
-        return controller;
+        return this.controller;
     }
 
     public void setController(Class<? extends Controller> controller) {
@@ -28,7 +28,7 @@ public class AddMenuItem
     }
 
     public String getTitle() {
-        return title;
+        return this.title;
     }
 
     public void setTitle(String title) {

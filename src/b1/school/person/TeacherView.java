@@ -66,6 +66,6 @@ public class TeacherView extends PersonView {
     }
 
     public TextField getSubjectField() {
-        return subjectField;
+        return this.subjectField;
     }
 }

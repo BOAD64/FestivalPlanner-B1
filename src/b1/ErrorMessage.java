@@ -9,7 +9,7 @@ public class ErrorMessage
 {
     public static void show()
     {
-        show("Er is een fout bij het opslaan, check of u overal valide waarde heeft ingevuld!");
+        show("Er is een fout bij het opslaan, check of u overal valide waarden heeft ingevuld!");
     }
 
     public static void show(String contextText)

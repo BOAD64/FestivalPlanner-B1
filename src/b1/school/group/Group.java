@@ -17,7 +17,7 @@ public class Group implements Data, Serializable
     }
 
     public void addStudent(Student student) {
-        if (!students.contains(student)) {
+        if (!this.students.contains(student)) {
             this.students.add(student);
         }
     }

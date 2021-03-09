@@ -74,11 +74,11 @@ public class StudentController extends PersonController implements Controller {
             this.view.getAgeField().setText("");
             this.view.getGenderField().setText("");
         } else {
-            this.view.getIdField().setText(student.getIdNumber() + "");
+            this.view.getIdField().setText(this.student.getIdNumber() + "");
             this.view.getGroupComboBox().getSelectionModel().select(this.student.getGroup());
-            this.view.getNameField().setText(student.getName());
-            this.view.getAgeField().setText(student.getAge() + "");
-            this.view.getGenderField().setText(student.getGender());
+            this.view.getNameField().setText(this.student.getName());
+            this.view.getAgeField().setText(this.student.getAge() + "");
+            this.view.getGenderField().setText(this.student.getGender());
         }
     }
 }

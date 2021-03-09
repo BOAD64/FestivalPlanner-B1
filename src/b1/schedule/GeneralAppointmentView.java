@@ -83,11 +83,11 @@ public class GeneralAppointmentView extends AppointmentViewAbstract
     }
 
     public Button getSaveButton() {
-        return saveButton;
+        return this.saveButton;
     }
 
     public Button getCancelButton() {
-        return cancelButton;
+        return this.cancelButton;
     }
 
     public ComboBox<Person> getPersonComboBox() {

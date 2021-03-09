@@ -32,12 +32,12 @@ public class ScheduleView implements View
 
     public ScheduleView() {
         this.stage = new Stage();
-        this.appointmentShapes = new ArrayList<AppointmentShape>();
+        this.appointmentShapes = new ArrayList<>();
 
     }
 
     public HashMap<Object, ArrayList<AppointmentAbstract>> getAppointments() {
-        return appointments;
+        return this.appointments;
     }
 
     public void setAppointments(HashMap<Object, ArrayList<AppointmentAbstract>> appointments) {

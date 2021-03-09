@@ -69,7 +69,7 @@ abstract class PersonView implements View {
     }
 
     Button getCancelButton() {
-        return cancelButton;
+        return this.cancelButton;
     }
 
     void createTags() {

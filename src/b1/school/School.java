@@ -132,7 +132,7 @@ public class School implements Serializable
     }
 
     public ArrayList<Person> getPersons() {
-        return persons;
+        return this.persons;
     }
 
     public void setPersons(ArrayList<Person> persons) {
@@ -140,7 +140,7 @@ public class School implements Serializable
     }
 
     public Schedule getSchedule() {
-        return schedule;
+        return this.schedule;
     }
 
     public void setSchedule(Schedule schedule) {

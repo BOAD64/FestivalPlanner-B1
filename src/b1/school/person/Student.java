@@ -23,7 +23,7 @@ public class Student extends Person {
     }
 
     public Group getGroup() {
-        return group;
+        return this.group;
     }
 
     public void setGroup(Group group) {
@@ -31,7 +31,7 @@ public class Student extends Person {
     }
 
     public short getIdNumber() {
-        return idNumber;
+        return this.idNumber;
     }
 
     public void setIdNumber(short idNumber) {

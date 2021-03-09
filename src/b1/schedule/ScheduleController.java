@@ -28,7 +28,7 @@ public class ScheduleController implements Controller
     }
 
     public AppointmentSorter getSorter() {
-        return sorter;
+        return this.sorter;
     }
 
     public void setSorter(AppointmentSorter sorter) {

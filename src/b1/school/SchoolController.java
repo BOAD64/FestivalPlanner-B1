@@ -38,12 +38,12 @@ public class SchoolController implements Controller
     @Override
     public void show(Stage ownerStage) {
 
-        this.schoolView.getSelectClassroomButton().setOnAction(event -> openClassroom());
-        this.schoolView.getSelectGroupButton().setOnAction(event -> openGroup());
-        this.schoolView.getSelectStudentButton().setOnAction(event -> openStudent());
-        this.schoolView.getSelectTeacherButton().setOnAction(event -> openTeacher());
-        this.schoolView.getApplyButton().setOnAction(event -> apply());
-        this.schoolView.getOkButton().setOnAction(event -> ok());
+        this.schoolView.getSelectClassroomButton().setOnAction(event -> this.openClassroom());
+        this.schoolView.getSelectGroupButton().setOnAction(event -> this.openGroup());
+        this.schoolView.getSelectStudentButton().setOnAction(event -> this.openStudent());
+        this.schoolView.getSelectTeacherButton().setOnAction(event -> this.openTeacher());
+        this.schoolView.getApplyButton().setOnAction(event -> this.apply());
+        this.schoolView.getOkButton().setOnAction(event -> this.ok());
 
         this.schoolView.getRefreshClassroom().setOnAction(event -> this.refreshClassroom());
         this.schoolView.getRefreshGroup().setOnAction(event -> this.refreshGroup());
@@ -79,7 +79,7 @@ public class SchoolController implements Controller
     }
 
     private void openTeacher() {
-        //todo open teacher window
+        //ToDo open teacher window
         Teacher teacher = this.schoolView.getTeacherListView().getSelectionModel().getSelectedItem();
 
         if (!(teacher == null)) {
@@ -99,10 +99,10 @@ public class SchoolController implements Controller
     }
 
     private void apply() {
-        refreshClassroom();
-        refreshGroup();
-        refreshStudent();
-        refreshTeacher();
+        this.refreshClassroom();
+        this.refreshGroup();
+        this.refreshStudent();
+        this.refreshTeacher();
 
         ArrayList<Group> groups = new ArrayList<>();
         ArrayList<Student> students = new ArrayList<>();

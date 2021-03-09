@@ -24,7 +24,7 @@ public class AppointmentShape extends Rectangle2D.Double
     }
 
     public Color getBackgroundColor() {
-        return backgroundColor;
+        return this.backgroundColor;
     }
 
     public void setBackgroundColor(Color backgroundColor) {
@@ -38,11 +38,12 @@ public class AppointmentShape extends Rectangle2D.Double
         fxGraphics2D.draw(this);
 
         if (this.getHeight() > 15) {
-            fxGraphics2D.drawString(appointment.getName(), (int) this.getX() + 10, (int) this.getY() + 15);
+            fxGraphics2D.drawString(this.appointment.getName(), (int) this.getX() + 10, (int) this.getY() + 15);
         }
 
         if (this.getHeight() > 30) {
-            fxGraphics2D.drawString(appointment.getStartTime().toString() + " - " + appointment.getEndTime().toString(), (int) this.getX() + 10, (int) this.getY() + 30);
+            fxGraphics2D.drawString(this.appointment.getStartTime().toString() + " - " +
+                    this.appointment.getEndTime().toString(), (int) this.getX() + 10, (int) this.getY() + 30);
         }
     }
 }

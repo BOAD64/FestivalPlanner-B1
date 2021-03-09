@@ -52,7 +52,7 @@ public class MainView implements View {
     }
 
     public ListView<AddMenuItem> getAddList() {
-        return addList;
+        return this.addList;
     }
 
     public Button getSchoolEditButton() {
@@ -86,15 +86,15 @@ public class MainView implements View {
 
         this.scheduleControllerNode = scheduleControllerNode;
         if(this.stackPane == null) {
-            stackPane = new StackPane();
+            this.stackPane = new StackPane();
         } else {
             this.stackPane.getChildren().clear();
         }
 
         ((Canvas) scheduleControllerNode).setWidth(Double.MAX_VALUE);
         ((Canvas) scheduleControllerNode).setHeight(Double.MAX_VALUE);
-        this.stackPane.getChildren().addAll(scheduleControllerNode, plusImageView, this.addList);
-        StackPane.setAlignment(plusImageView, Pos.BOTTOM_RIGHT);
+        this.stackPane.getChildren().addAll(scheduleControllerNode, this.plusImageView, this.addList);
+        StackPane.setAlignment(this.plusImageView, Pos.BOTTOM_RIGHT);
         StackPane.setAlignment(this.addList, Pos.BOTTOM_RIGHT);
         this.addList.setTranslateY(-125);
         this.plusImageView.setTranslateX(-20);
@@ -136,7 +136,7 @@ public class MainView implements View {
             this.addList.setVisible(false);
             this.hamburgerIsOut = false;
 
-            plusImageView.setOnMouseClicked(event -> this.changeVisibilityOfAddList());
+            this.plusImageView.setOnMouseClicked(event -> this.changeVisibilityOfAddList());
 
             //create HBox used for whole hamburger-menu
             HBox hamburger = new HBox();
@@ -169,7 +169,7 @@ public class MainView implements View {
             });
 
             VBox addMenu = new VBox();
-            addMenu.getChildren().addAll(addList, plusImageView);
+            addMenu.getChildren().addAll(this.addList, this.plusImageView);
             addMenu.setSpacing(20);
             addMenu.setAlignment(Pos.BOTTOM_RIGHT);
 
@@ -200,15 +200,14 @@ public class MainView implements View {
     }
 
     Button getGoToScheduleButton() {
-        return goToScheduleButton;
+        return this.goToScheduleButton;
     }
 
     Button getGoToSimulationButton() {
-        return goToSimulationButton;
+        return this.goToSimulationButton;
     }
 
-    private void onListViewItemsChanged(ListChangeListener.Change change)
-    {
+    private void onListViewItemsChanged(ListChangeListener.Change change) {
         this.addList.setMaxHeight(this.addList.getItems().size() * 25);
     }
 }

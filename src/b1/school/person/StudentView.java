@@ -77,7 +77,7 @@ public class StudentView extends PersonView {
     }
 
     public TextField getIdField() {
-        return idField;
+        return this.idField;
     }
 
     public ComboBox<Group> getGroupComboBox() {

@@ -87,7 +87,7 @@ public class GroupView implements View {
         this.groupCodeTextField = new TextField(this.group.getGroupCode());
         this.groupCodeTextField.setPrefHeight(Setting.addMenuLabelAndTextHeight);
         this.studentListView = new ListView<>();
-        studentListView.setPrefHeight(200);
+        this.studentListView.setPrefHeight(200);
 
         VBox inputFieldVBox = new VBox();
         inputFieldVBox.getChildren().addAll(this.groupCodeTextField, this.studentListView);
@@ -103,11 +103,11 @@ public class GroupView implements View {
         mainBox.setPadding(new Insets(10, 10, 10, 10));
 
         //applying to stage
-        stage.setScene(new Scene(mainBox));
-        stage.setMinWidth(400);
-        stage.setMinHeight(400);
-        stage.setMaxWidth(400);
-        stage.setMaxHeight(400);
+        this.stage.setScene(new Scene(mainBox));
+        this.stage.setMinWidth(400);
+        this.stage.setMinHeight(400);
+        this.stage.setMaxWidth(400);
+        this.stage.setMaxHeight(400);
         this.stage.getIcons().add(ImageFile.getLogo());
         this.stage.setTitle("Groep");
     }

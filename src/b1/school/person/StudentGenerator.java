@@ -62,6 +62,6 @@ public class StudentGenerator {
     }
 
     public ArrayList<String> getNames() {
-        return names;
+        return this.names;
     }
 }

@@ -61,30 +61,30 @@ public abstract class AppointmentViewAbstract implements View {
     }
 
     public TextField getNameField() {
-        return nameField;
+        return this.nameField;
     }
 
     public Spinner<Integer> getBeginTimeHour() {
-        return beginTimeHour;
+        return this.beginTimeHour;
     }
 
     public Spinner<Integer> getBeginTimeMinute() {
-        return beginTimeMinute;
+        return this.beginTimeMinute;
     }
 
     public Spinner<Integer> getEndTimeHour() {
-        return endTimeHour;
+        return this.endTimeHour;
     }
 
     public Spinner<Integer> getEndTimeMinute() {
-        return endTimeMinute;
+        return this.endTimeMinute;
     }
 
     public ComboBox<Room> getLocationField() {
-        return locationField;
+        return this.locationField;
     }
 
     public TextArea getDescriptionField() {
-        return descriptionField;
+        return this.descriptionField;
     }
 }

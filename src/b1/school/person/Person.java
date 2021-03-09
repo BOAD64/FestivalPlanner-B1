@@ -31,7 +31,7 @@ public abstract class Person  implements Serializable
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -39,7 +39,7 @@ public abstract class Person  implements Serializable
     }
 
     public short getAge() {
-        return age;
+        return this.age;
     }
 
     public void setAge(short age) {
@@ -51,7 +51,7 @@ public abstract class Person  implements Serializable
     }
 
     public String getGender() {
-        return gender;
+        return this.gender;
     }
 
     public void setGender(String gender) {

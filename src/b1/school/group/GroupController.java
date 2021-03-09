@@ -43,6 +43,7 @@ public class GroupController implements Controller
         this.groupView.getApplyButton().setOnAction(event -> this.onApplyButtonClick());
         this.groupView.getOkButton().setOnAction(event -> this.onOkButtonClick());
         this.groupView.getStudentListView().setItems(FXCollections.observableList(this.group.getStudentsList()));
+
         this.groupView.getStage().initModality(Modality.WINDOW_MODAL);
         this.groupView.getStage().initOwner(ownerStage);
         this.groupView.getStage().show();

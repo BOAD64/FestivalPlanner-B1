@@ -70,10 +70,10 @@ public class TeacherController extends PersonController implements Controller {
             this.view.getAgeField().setText("");
             this.view.getGenderField().setText("");
         } else {
-            this.view.getSubjectField().setText(teacher.getSubject());
-            this.view.getNameField().setText(teacher.getName());
-            this.view.getAgeField().setText(teacher.getAge() + "");
-            this.view.getGenderField().setText(teacher.getGender());
+            this.view.getSubjectField().setText(this.teacher.getSubject());
+            this.view.getNameField().setText(this.teacher.getName());
+            this.view.getAgeField().setText(this.teacher.getAge() + "");
+            this.view.getGenderField().setText(this.teacher.getGender());
         }
     }
 }
