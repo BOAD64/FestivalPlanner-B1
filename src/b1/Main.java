@@ -26,6 +26,6 @@ public class Main extends Application
     public void start(Stage primaryStage) throws Exception {
         MainController mainController = new MainController();
         mainController.show();
-        mainController.onClose(event -> {ScheduleFile.save();});
+        mainController.onClose(event -> {SchoolFile.save();});
     }
 }

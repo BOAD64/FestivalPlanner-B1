@@ -2,6 +2,7 @@ package b1.schedule;
 
 import b1.View;
 import b1.io.ImageFile;
+import b1.school.room.Room;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -63,6 +64,10 @@ public class ScheduleView implements View
 
         int index = 0;
         for(Map.Entry<Object, ArrayList<AppointmentAbstract>> appointments : this.appointments.entrySet()){
+            this.fxGraphics2D.setColor(Color.BLACK);
+            this.fxGraphics2D.setFont(this.fxGraphics2D.getFont().deriveFont(15.0f));
+            this.fxGraphics2D.drawString(appointments.getKey().toString(),(int)Math.round(columnWidth * (index+0.5)), 20);
+
             for (int j = 0; j < appointments.getValue().size(); j++) {
                 this.appointmentShapes.add(this.generateAppointmentShape(appointments.getValue().get(j), columnWidth * index, columnWidth));
             }

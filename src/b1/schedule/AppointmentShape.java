@@ -37,6 +37,8 @@ public class AppointmentShape extends Rectangle2D.Double
         fxGraphics2D.setColor(Color.BLACK);
         fxGraphics2D.draw(this);
 
+        fxGraphics2D.setFont(fxGraphics2D.getFont().deriveFont(12.0f));
+
         if (this.getHeight() > 15) {
             fxGraphics2D.drawString(this.appointment.getName(), (int) this.getX() + 10, (int) this.getY() + 15);
         }
