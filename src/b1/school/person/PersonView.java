@@ -11,8 +11,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-
 abstract class PersonView implements View {
 
     Stage stage;
@@ -47,9 +45,9 @@ abstract class PersonView implements View {
         this.saveButton = new Button("Opslaan");
         this.cancelButton = new Button("Annuleren");
 
-        this.undoButton.setPrefHeight(Setting.addMenuButtonHeigt);
-        this.saveButton.setPrefHeight(Setting.addMenuButtonHeigt);
-        this.cancelButton.setPrefHeight(Setting.addMenuButtonHeigt);
+        this.undoButton.setPrefHeight(Setting.addMenuButtonHeight);
+        this.saveButton.setPrefHeight(Setting.addMenuButtonHeight);
+        this.cancelButton.setPrefHeight(Setting.addMenuButtonHeight);
 
         HBox buttonHBox = new HBox();
         buttonHBox.getChildren().addAll(this.undoButton, this.cancelButton, this.saveButton);

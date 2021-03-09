@@ -39,8 +39,8 @@ public class LessonView extends AppointmentViewAbstract{
         VBox vBox = new VBox();
         this.saveButton = new Button("Opslaan");
         this.cancelButton = new Button("Annuleren");
-        this.saveButton.setPrefHeight(Setting.addMenuButtonHeigt);
-        this.cancelButton.setPrefHeight(Setting.addMenuButtonHeigt);
+        this.saveButton.setPrefHeight(Setting.addMenuButtonHeight);
+        this.cancelButton.setPrefHeight(Setting.addMenuButtonHeight);
         this.teacherComboBox = new ComboBox<>();
         this.groupComboBox = new ComboBox<>();
 

@@ -5,14 +5,19 @@ import b1.school.School;
 
 import java.io.*;
 
-public class SchoolFile
-{
+public class SchoolFile {
     private static String filePath;
     private static School school;
 
+    /**
+     * Checks whether school and/or filePath have a value. If school has no value, but there is a filePath,
+     * school is assigned the value of the contents of the file at the filePath. Then, school is returned.
+     *
+     * @return either school or null.
+     */
     public static School getSchool() {
         if (school == null) {
-            if(filePath == null || filePath.isEmpty()){
+            if (filePath == null || filePath.isEmpty()) {
                 return null;
             }
             school = readFile(filePath);
@@ -20,9 +25,9 @@ public class SchoolFile
         return school;
     }
 
-    public static void save(){
-        if(filePath == null || filePath.isEmpty()){
-           return;
+    public static void save() {
+        if (filePath == null || filePath.isEmpty()) {
+            return;
         }
         writeFile(filePath, school);
     }
@@ -41,7 +46,7 @@ public class SchoolFile
 
     private static School readFile(String fileName) {
         File file = new File(fileName);
-        if(file.exists()) {
+        if (file.exists()) {
             try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(fileName))) {
                 return (School) objectInputStream.readObject();
             } catch (Exception ex) {

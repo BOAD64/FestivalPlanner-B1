@@ -75,9 +75,9 @@ public class GroupView implements View {
         this.studentButton = new Button("Open student");
         this.applyButton = new Button("Toepasssen");
         this.okButton = new Button("Opslaan");
-        this.studentButton.setPrefHeight(Setting.addMenuButtonHeigt);
-        this.applyButton.setPrefHeight(Setting.addMenuButtonHeigt);
-        this.okButton.setPrefHeight(Setting.addMenuButtonHeigt);
+        this.studentButton.setPrefHeight(Setting.addMenuButtonHeight);
+        this.applyButton.setPrefHeight(Setting.addMenuButtonHeight);
+        this.okButton.setPrefHeight(Setting.addMenuButtonHeight);
         HBox buttonsHBox = new HBox();
         buttonsHBox.getChildren().addAll(this.studentButton, this.applyButton, this.okButton);
         buttonsHBox.setSpacing(5);

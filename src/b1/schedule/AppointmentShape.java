@@ -5,8 +5,7 @@ import org.jfree.fx.FXGraphics2D;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-public class AppointmentShape extends Rectangle2D.Double
-{
+public class AppointmentShape extends Rectangle2D.Double {
     private AppointmentAbstract appointment;
     private Color backgroundColor;
 

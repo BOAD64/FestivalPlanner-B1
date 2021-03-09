@@ -25,7 +25,7 @@ public abstract class AppointmentViewAbstract implements View {
     public AppointmentViewAbstract() {
     }
 
-    GridPane createAbstractAppointmentElements(){
+    GridPane createAbstractAppointmentElements() {
         this.nameField = new TextField();
         this.beginTimeHour = new Spinner<>(0, 23, 0, 1);
         this.beginTimeMinute = new Spinner<>(0, 59, 0, 1);

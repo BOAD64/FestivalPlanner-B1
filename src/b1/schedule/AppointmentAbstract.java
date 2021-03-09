@@ -8,8 +8,7 @@ import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public abstract class AppointmentAbstract implements Serializable
-{
+public abstract class AppointmentAbstract implements Serializable {
 
     private String name;
     private LocalTime startTime;

@@ -13,13 +13,11 @@ import javafx.stage.WindowEvent;
 
 import java.time.LocalTime;
 
-public class GeneralAppointmentController extends AppointmentControllerAbstract
-{
+public class GeneralAppointmentController extends AppointmentControllerAbstract {
     private GeneralAppointment appointment;
     private GeneralAppointmentView view;
 
-    public GeneralAppointmentController()
-    {
+    public GeneralAppointmentController() {
         this(new GeneralAppointment(null, null, null, null, null));
     }
 
@@ -33,6 +31,10 @@ public class GeneralAppointmentController extends AppointmentControllerAbstract
         show(null);
     }
 
+    /**
+     * The stage is built and EventHandlers are set for the elements on the stage from view.
+     * @param ownerStage 
+     */
     @Override
     public void show(Stage ownerStage) {
         if (!this.view.getStage().isShowing()) {
@@ -59,7 +61,7 @@ public class GeneralAppointmentController extends AppointmentControllerAbstract
         }
     }
 
-    public EventHandler<ActionEvent> onCancelClicked(){
+    public EventHandler<ActionEvent> onCancelClicked() {
         return new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -68,7 +70,7 @@ public class GeneralAppointmentController extends AppointmentControllerAbstract
         };
     }
 
-    public EventHandler<ActionEvent> onSaveClicked(){
+    public EventHandler<ActionEvent> onSaveClicked() {
         return new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -83,8 +85,7 @@ public class GeneralAppointmentController extends AppointmentControllerAbstract
                 LocalTime beginTime = LocalTime.of(beginHour, beginMinute);
                 LocalTime endTime = LocalTime.of(endHour, endMinute);
 
-                if(endTime.isBefore(beginTime))
-                {
+                if (endTime.isBefore(beginTime)) {
                     ErrorMessage.show("De begin tijd mag niet voor de eindtijd zijn.");
                     return;
                 }
@@ -100,7 +101,7 @@ public class GeneralAppointmentController extends AppointmentControllerAbstract
         };
     }
 
-    public EventHandler<ActionEvent> onPersonAddButton(){
+    public EventHandler<ActionEvent> onPersonAddButton() {
         return new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -111,7 +112,7 @@ public class GeneralAppointmentController extends AppointmentControllerAbstract
         };
     }
 
-    public EventHandler<ActionEvent> onPersonRemoveButton(){
+    public EventHandler<ActionEvent> onPersonRemoveButton() {
         return new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {

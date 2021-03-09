@@ -80,8 +80,8 @@ public class ClassroomView implements View {
         //HBox that has the buttons on the bottom
         this.applyButton = new Button("Toepassen");
         this.okButton = new Button("Opslaan");
-        this.applyButton.setPrefHeight(Setting.addMenuButtonHeigt);
-        this.okButton.setPrefHeight(Setting.addMenuButtonHeigt);
+        this.applyButton.setPrefHeight(Setting.addMenuButtonHeight);
+        this.okButton.setPrefHeight(Setting.addMenuButtonHeight);
         HBox buttonsHBox = new HBox();
         buttonsHBox.getChildren().addAll(this.applyButton, this.okButton);
         buttonsHBox.setSpacing(5);
