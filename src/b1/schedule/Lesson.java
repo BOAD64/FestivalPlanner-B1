@@ -1,9 +1,8 @@
 package b1.schedule;
 
-import b1.school.group.StudentGroup;
+import b1.school.group.Group;
 import b1.school.person.Person;
 import b1.school.person.Teacher;
-import b1.school.room.Classroom;
 import b1.school.room.Room;
 
 import java.time.LocalTime;
@@ -12,21 +11,21 @@ import java.util.ArrayList;
 public class Lesson extends AppointmentAbstract
 {
 
-    private StudentGroup studentGroup;
+    private Group group;
     private Teacher teacher;
 
-    public Lesson(String name, LocalTime startTime, LocalTime endTime, Room location, String description, StudentGroup studentGroup, Teacher teacher) {
+    public Lesson(String name, LocalTime startTime, LocalTime endTime, Room location, String description, Group group, Teacher teacher) {
         super(name, startTime, endTime, location, description);
-        this.studentGroup = studentGroup;
+        this.group = group;
         this.teacher = teacher;
     }
 
-    public StudentGroup getStudentGroup() {
-        return this.studentGroup;
+    public Group getGroup() {
+        return this.group;
     }
 
-    public void setStudentGroup(StudentGroup studentGroup) {
-        this.studentGroup = studentGroup;
+    public void setGroup(Group group) {
+        this.group = group;
     }
 
     public Teacher getTeacher() {
@@ -39,7 +38,7 @@ public class Lesson extends AppointmentAbstract
 
     @Override
     public ArrayList<Person> getPersons() {
-        ArrayList<Person> persons = new ArrayList<Person>(this.studentGroup.getStudentsList());
+        ArrayList<Person> persons = new ArrayList<Person>(this.group.getStudentsList());
         persons.add(this.teacher);
         return persons;
     }

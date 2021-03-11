@@ -1,5 +1,6 @@
 package b1.school.person;
 
+import b1.Setting;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -12,17 +13,20 @@ public class TeacherView extends PersonView {
     private TextField subjectField = new TextField();
 
     public TeacherView(Teacher teacher) {
-        super.stage = new Stage();
         this.teacher = teacher;
-        this.createStage();
     }
 
     @Override
     public Stage getStage() {
+        if(super.stage == null)
+        {
+            this.createStage();
+        }
         return super.stage;
     }
 
     private void createStage() {
+        super.stage = new Stage();
         this.addTags();
         this.addInputField();
 
@@ -33,13 +37,14 @@ public class TeacherView extends PersonView {
         super.stage.setWidth(400);
         super.stage.setResizable(false);
         super.stage.setScene(scene);
+        super.stage.setTitle("Docent");
     }
 
     private void addTags() {
         super.createTags();
 
         Label subjectLabel = new Label("Vak:");
-        subjectLabel.setPrefHeight(super.fieldHeight);
+        subjectLabel.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
 
         super.tagsVBox.getChildren().add(subjectLabel);
     }
@@ -47,7 +52,7 @@ public class TeacherView extends PersonView {
     private void addInputField() {
         super.createInputField();
 
-        this.subjectField.setPrefHeight(super.fieldHeight);
+        this.subjectField.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
 
         //if the age of the Teacher is not -1 than the program loads the attributes of the Teacher into the TextFields.
         if(this.teacher.getAge() != -1) {
@@ -61,6 +66,6 @@ public class TeacherView extends PersonView {
     }
 
     public TextField getSubjectField() {
-        return subjectField;
+        return this.subjectField;
     }
 }

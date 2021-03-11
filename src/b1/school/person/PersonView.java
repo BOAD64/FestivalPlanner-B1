@@ -1,6 +1,8 @@
 package b1.school.person;
 
+import b1.Setting;
 import b1.View;
+import b1.io.ImageFile;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -9,15 +11,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-
 abstract class PersonView implements View {
 
     Stage stage;
     private Button undoButton;
     private Button saveButton;
     private Button cancelButton;
-    short fieldHeight = 40;
     VBox mainVBox = new VBox();
     VBox tagsVBox = new VBox();
     VBox inputFieldVBox = new VBox();
@@ -37,6 +36,8 @@ abstract class PersonView implements View {
 
         this.mainVBox.getChildren().add(mainHBox);
         this.createButtons();
+
+        this.stage.getIcons().add(ImageFile.getLogo());
     }
 
     private void createButtons() {
@@ -44,9 +45,9 @@ abstract class PersonView implements View {
         this.saveButton = new Button("Opslaan");
         this.cancelButton = new Button("Annuleren");
 
-        this.undoButton.setPrefHeight(this.fieldHeight + 10);
-        this.saveButton.setPrefHeight(this.fieldHeight + 10);
-        this.cancelButton.setPrefHeight(this.fieldHeight + 10);
+        this.undoButton.setPrefHeight(Setting.ADD_MENU_BUTTON_HEIGHT);
+        this.saveButton.setPrefHeight(Setting.ADD_MENU_BUTTON_HEIGHT);
+        this.cancelButton.setPrefHeight(Setting.ADD_MENU_BUTTON_HEIGHT);
 
         HBox buttonHBox = new HBox();
         buttonHBox.getChildren().addAll(this.undoButton, this.cancelButton, this.saveButton);
@@ -66,7 +67,7 @@ abstract class PersonView implements View {
     }
 
     Button getCancelButton() {
-        return cancelButton;
+        return this.cancelButton;
     }
 
     void createTags() {
@@ -74,12 +75,11 @@ abstract class PersonView implements View {
         Label ageLabel = new Label("Leeftijd:");
         Label genderLabel = new Label("Geslacht:");
 
-        nameLabel.setPrefHeight(this.fieldHeight);
-        ageLabel.setPrefHeight(this.fieldHeight);
-        genderLabel.setPrefHeight(this.fieldHeight);
+        nameLabel.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
+        ageLabel.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
+        genderLabel.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
 
         this.tagsVBox.getChildren().addAll(nameLabel, ageLabel, genderLabel);
-        this.tagsVBox.setAlignment(Pos.TOP_RIGHT);
         this.tagsVBox.setSpacing(5);
     }
 
@@ -88,12 +88,11 @@ abstract class PersonView implements View {
         this.ageField = new TextField();
         this.genderField = new TextField();
 
-        this.nameField.setPrefHeight(this.fieldHeight);
-        this.ageField.setPrefHeight(this.fieldHeight);
-        this.genderField.setPrefHeight(this.fieldHeight);
+        this.nameField.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
+        this.ageField.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
+        this.genderField.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
 
         this.inputFieldVBox.getChildren().addAll(this.nameField, this.ageField, this.genderField);
-        this.inputFieldVBox.setAlignment(Pos.TOP_RIGHT);
         this.inputFieldVBox.setSpacing(5);
     }
 

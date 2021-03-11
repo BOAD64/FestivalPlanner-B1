@@ -1,5 +1,6 @@
 package b1.schedule;
 
+import b1.io.ImageFile;
 import b1.school.person.Person;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -67,6 +68,7 @@ public class GeneralAppointmentView extends AppointmentViewAbstract
 
         Scene scene = new Scene(vBox);
         this.stage.setScene(scene);
+        this.stage.getIcons().add(ImageFile.getLogo());
     }
 
     public ListView<Person> getParticipantsList() {
@@ -78,11 +80,11 @@ public class GeneralAppointmentView extends AppointmentViewAbstract
     }
 
     public Button getSaveButton() {
-        return saveButton;
+        return this.saveButton;
     }
 
     public Button getCancelButton() {
-        return cancelButton;
+        return this.cancelButton;
     }
 
     public ComboBox<Person> getPersonComboBox() {

@@ -1,6 +1,7 @@
 package b1.schedule;
 
 import b1.View;
+import b1.io.ImageFile;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -30,12 +31,12 @@ public class ScheduleView implements View
 
     public ScheduleView() {
         this.stage = new Stage();
-        this.appointmentShapes = new ArrayList<AppointmentShape>();
+        this.appointmentShapes = new ArrayList<>();
 
     }
 
     public HashMap<Object, ArrayList<AppointmentAbstract>> getAppointments() {
-        return appointments;
+        return this.appointments;
     }
 
     public void setAppointments(HashMap<Object, ArrayList<AppointmentAbstract>> appointments) {
@@ -61,20 +62,15 @@ public class ScheduleView implements View
 
         int index = 0;
         for(Map.Entry<Object, ArrayList<AppointmentAbstract>> appointments : this.appointments.entrySet()){
+            this.fxGraphics2D.setColor(Color.BLACK);
+            this.fxGraphics2D.setFont(this.fxGraphics2D.getFont().deriveFont(15.0f));
+            this.fxGraphics2D.drawString(appointments.getKey().toString(),(int)Math.round(columnWidth * (index+0.5)), 20);
+
             for (int j = 0; j < appointments.getValue().size(); j++) {
                 this.appointmentShapes.add(this.generateAppointmentShape(appointments.getValue().get(j), columnWidth * index, columnWidth));
             }
             index = index + 1;
         }
-
-        index = 0;
-        for(Map.Entry<Object, ArrayList<AppointmentAbstract>> appointments : this.appointments.entrySet()){
-            for (int j = 0; j < appointments.getValue().size(); j++) {
-                this.drawAppointment(this.appointmentShapes.get(j));
-            }
-            index = index + 1;
-        }
-
 
         for (int j = 0; j < this.appointmentShapes.size(); j++) {
             this.drawAppointment(this.appointmentShapes.get(j));
@@ -105,6 +101,7 @@ public class ScheduleView implements View
 
 
         this.stage.setScene(scene);
+        this.stage.getIcons().add(ImageFile.getLogo());
     }
 
     private void drawBackground(int appointmentCount, int columnWidth)
@@ -134,7 +131,7 @@ public class ScheduleView implements View
 
     private void drawAppointment(AppointmentShape appointmentRectangle) {
         Color backColor = Color.YELLOW;
-        AppointmentAbstract appointment = appointmentRectangle.getAppointment();
+//        AppointmentAbstract appointment = appointmentRectangle.getAppointment();
 
         for(AppointmentShape appointmentShape : this.appointmentShapes)
         {
@@ -145,21 +142,8 @@ public class ScheduleView implements View
             }
         }
 
-        this.fxGraphics2D.setColor(backColor);
-        this.fxGraphics2D.fill(appointmentRectangle);
-        this.fxGraphics2D.setColor(Color.BLACK);
-        this.fxGraphics2D.draw(appointmentRectangle);
-
-        if (appointmentRectangle.getHeight() > 14) {
-            this.fxGraphics2D.drawString(appointment.getName(), (int)appointmentRectangle.getX() + 10,
-                    (int)appointmentRectangle.getY() + 10);
-        }
-
-        if(appointmentRectangle.getHeight()  > 29)
-        {
-            this.fxGraphics2D.drawString(appointment.getStartTime().toString() +" - "+appointment.getEndTime().toString(),
-                    (int)appointmentRectangle.getX() + 10, (int)appointmentRectangle.getMaxY() - 10);
-        }
+        appointmentRectangle.setBackgroundColor(backColor);
+        appointmentRectangle.draw(this.fxGraphics2D);
     }
 
     private double getColumnWidth() {

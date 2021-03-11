@@ -1,7 +1,6 @@
 package b1.school;
 
 import b1.schedule.Schedule;
-import b1.school.group.StudentGroup;
 import b1.school.person.Person;
 import b1.school.room.Classroom;
 import b1.school.group.Group;
@@ -9,13 +8,14 @@ import b1.school.person.Student;
 import b1.school.person.Teacher;
 import b1.school.room.Room;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class School {
+public class School implements Serializable
+{
 
     private String schoolName;
     private ArrayList<Room> rooms;
-    private ArrayList<Classroom> classrooms;
     private ArrayList<Group> groups;
     private ArrayList<Person> persons;
     private Schedule schedule;
@@ -23,7 +23,6 @@ public class School {
     public School(String schoolName) {
         this.schoolName = schoolName;
         this.rooms = new ArrayList<>();
-        this.classrooms = new ArrayList<>();
         this.groups = new ArrayList<>();
         this.persons = new ArrayList<>();
         this.schedule = new Schedule();
@@ -45,17 +44,29 @@ public class School {
         this.rooms = rooms;
     }
 
-    public void addRoom(Room room)
-    {
-        this.rooms.add(room);
+    public void addRoom(Room room) {
+        if (!this.rooms.contains(room)) {
+            this.rooms.add(room);
+        }
     }
 
     public ArrayList<Classroom> getClassrooms() {
-        return this.classrooms;
+        ArrayList<Classroom> result = new ArrayList<>();
+        for(Room room : this.rooms)
+        {
+            if(room instanceof Classroom)
+            {
+                result.add((Classroom)room);
+            }
+        }
+
+        return result;
     }
 
-    public void setClassrooms(ArrayList<Classroom> classrooms) {
-        this.classrooms = classrooms;
+    public void addClassroom(Classroom classroom) {
+        if (!this.rooms.contains(classroom)) {
+            this.rooms.add(classroom);
+        }
     }
 
     public ArrayList<Group> getGroups() {
@@ -70,20 +81,6 @@ public class School {
         if (!this.groups.contains(group)) {
             this.groups.add(group);
         }
-    }
-
-    public ArrayList<StudentGroup> getStudentGroups()
-    {
-        ArrayList<StudentGroup> studentGroups = new ArrayList<>();
-        for(Group group : this.groups)
-        {
-            if(group instanceof StudentGroup)
-            {
-                studentGroups.add((StudentGroup) group);
-            }
-        }
-
-        return studentGroups;
     }
 
     public ArrayList<Student> getStudents() {
@@ -134,14 +131,8 @@ public class School {
         }
     }
 
-    public void addClassroom(Classroom classroom) {
-        if (!this.classrooms.contains(classroom)) {
-            this.classrooms.add(classroom);
-        }
-    }
-
     public ArrayList<Person> getPersons() {
-        return persons;
+        return this.persons;
     }
 
     public void setPersons(ArrayList<Person> persons) {
@@ -149,7 +140,7 @@ public class School {
     }
 
     public Schedule getSchedule() {
-        return schedule;
+        return this.schedule;
     }
 
     public void setSchedule(Schedule schedule) {

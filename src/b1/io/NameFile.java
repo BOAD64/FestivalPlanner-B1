@@ -11,17 +11,18 @@ public class NameFile {
 
     /**
      * This method reads the file names.txt and puts every line into an ArrayList.
-     * @return ArrayList with al the names read from the file
+     *
+     * @return ArrayList with all the names read from the file
      */
     public static ArrayList<String> readFile() {
         File file = new File("resources/names.txt");
 
-        try(Scanner scanner = new Scanner(file)) {
-            while(scanner.hasNext()) {
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNext()) {
                 names.add(scanner.nextLine());
             }
 
-        } catch(FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 

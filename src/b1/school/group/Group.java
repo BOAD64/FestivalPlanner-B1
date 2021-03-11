@@ -1,10 +1,13 @@
 package b1.school.group;
 
+import b1.Data;
 import b1.school.person.Student;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Group {
+public class Group implements Data, Serializable
+{
     private String groupCode;
     private ArrayList<Student> students;
 
@@ -14,7 +17,7 @@ public class Group {
     }
 
     public void addStudent(Student student) {
-        if (!students.contains(student)) {
+        if (!this.students.contains(student)) {
             this.students.add(student);
         }
     }
@@ -36,7 +39,7 @@ public class Group {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return this.groupCode;
     }
 }
