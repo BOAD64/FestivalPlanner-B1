@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 
 public class LessonController extends AppointmentControllerAbstract
 {
@@ -105,6 +106,28 @@ public class LessonController extends AppointmentControllerAbstract
                 if(endTime.isBefore(beginTime))
                 {
                     ErrorMessage.show("De begin tijd mag niet voor de eindtijd zijn.");
+                    return;
+                }
+                if(ChronoUnit.SECONDS.between(beginTime, endTime) < 60)
+                {
+                    ErrorMessage.show("De begin tijd moet minimaal 1 minuut van de eindtijd afwijken");
+                    return;
+                }
+                if(location == null)
+                {
+                    ErrorMessage.show("De locatie kan niet leeg zijn.");
+                    return;
+                }
+
+                if(studentGroup == null)
+                {
+                    ErrorMessage.show("De groep kan niet leeg zijn.");
+                    return;
+                }
+
+                if(teacher == null)
+                {
+                    ErrorMessage.show("De docent kan niet leeg zijn.");
                     return;
                 }
 
