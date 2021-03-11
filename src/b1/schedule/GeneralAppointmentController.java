@@ -33,7 +33,7 @@ public class GeneralAppointmentController extends AppointmentControllerAbstract 
 
     /**
      * The stage is built and EventHandlers are set for the elements on the stage from view.
-     * @param ownerStage 
+     * @param ownerStage is the stage that called for this stage to open.
      */
     @Override
     public void show(Stage ownerStage) {
@@ -61,7 +61,7 @@ public class GeneralAppointmentController extends AppointmentControllerAbstract 
         }
     }
 
-    public EventHandler<ActionEvent> onCancelClicked() {
+    private EventHandler<ActionEvent> onCancelClicked() {
         return new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -70,7 +70,7 @@ public class GeneralAppointmentController extends AppointmentControllerAbstract 
         };
     }
 
-    public EventHandler<ActionEvent> onSaveClicked() {
+    private EventHandler<ActionEvent> onSaveClicked() {
         return new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -101,7 +101,7 @@ public class GeneralAppointmentController extends AppointmentControllerAbstract 
         };
     }
 
-    public EventHandler<ActionEvent> onPersonAddButton() {
+    private EventHandler<ActionEvent> onPersonAddButton() {
         return new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -112,7 +112,7 @@ public class GeneralAppointmentController extends AppointmentControllerAbstract 
         };
     }
 
-    public EventHandler<ActionEvent> onPersonRemoveButton() {
+    private EventHandler<ActionEvent> onPersonRemoveButton() {
         return new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {

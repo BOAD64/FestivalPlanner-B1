@@ -4,15 +4,12 @@ import javafx.scene.control.Alert;
 
 import java.awt.*;
 
-public class ErrorMessage
-{
-    public static void show()
-    {
+public class ErrorMessage {
+    public static void show() {
         show("Er is een fout bij het opslaan, check of u overal valide waarden heeft ingevuld!");
     }
 
-    public static void show(String contextText)
-    {
+    public static void show(String contextText) {
         show("Er is iets fout gegaan", contextText);
     }
 

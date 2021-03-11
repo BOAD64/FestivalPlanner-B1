@@ -2,8 +2,7 @@ package b1;
 
 import javafx.stage.Stage;
 
-public class AddMenuItem
-{
+public class AddMenuItem {
     private Class<? extends Controller> controller;
     private String title;
     private Stage ownerStage;
@@ -34,8 +33,7 @@ public class AddMenuItem
         try {
             Controller controller = this.controller.getConstructor().newInstance();
             controller.show(this.ownerStage);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }

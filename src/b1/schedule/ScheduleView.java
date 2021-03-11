@@ -16,8 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ScheduleView implements View
-{
+public class ScheduleView implements View {
     private HashMap<Object, ArrayList<AppointmentAbstract>> appointments;
     private final ArrayList<AppointmentShape> appointmentShapes;
 
@@ -51,20 +50,23 @@ public class ScheduleView implements View
         return this.appointmentShapes;
     }
 
+    /**
+     * This method draws the appointments and the columns on the canvas.
+     */
     public void draw() {
         this.appointmentShapes.clear();
         this.fxGraphics2D.setBackground(Color.white);
         this.fxGraphics2D.clearRect(0, 0, (int) Math.round(this.canvas.getWidth()), (int) Math.round(this.canvas.getHeight()));
 
-        int columnWidth = (int)Math.round(this.getColumnWidth());
+        int columnWidth = (int) Math.round(this.getColumnWidth());
 
         this.drawBackground(this.appointments.size(), columnWidth);
 
         int index = 0;
-        for(Map.Entry<Object, ArrayList<AppointmentAbstract>> appointments : this.appointments.entrySet()){
+        for (Map.Entry<Object, ArrayList<AppointmentAbstract>> appointments : this.appointments.entrySet()) {
             this.fxGraphics2D.setColor(Color.BLACK);
             this.fxGraphics2D.setFont(this.fxGraphics2D.getFont().deriveFont(15.0f));
-            this.fxGraphics2D.drawString(appointments.getKey().toString(),(int)Math.round(columnWidth * (index+0.5)), 20);
+            this.fxGraphics2D.drawString(appointments.getKey().toString(), (int) Math.round(columnWidth * (index + 0.5)), 20);
 
             for (int j = 0; j < appointments.getValue().size(); j++) {
                 this.appointmentShapes.add(this.generateAppointmentShape(appointments.getValue().get(j), columnWidth * index, columnWidth));
@@ -90,7 +92,7 @@ public class ScheduleView implements View
         return this.stage;
     }
 
-    private void createStage() {
+    public void createStage() {
         BorderPane borderPane = new BorderPane();
         this.canvas = new ResizableCanvas(g -> draw(), borderPane);
         this.fxGraphics2D = new FXGraphics2D(this.canvas.getGraphicsContext2D());
@@ -104,24 +106,24 @@ public class ScheduleView implements View
         this.stage.getIcons().add(ImageFile.getLogo());
     }
 
-    private void drawBackground(int appointmentCount, int columnWidth)
-    {
+    /*
+     * This method draws the lines for the columns on the canvas.
+     */
+    private void drawBackground(int appointmentCount, int columnWidth) {
         this.fxGraphics2D.setColor(Color.LIGHT_GRAY);
         int hourCount = (this.END_TIME - this.START_TIME) / 3600;
-        int hourHeight = (int)Math.round(this.canvas.getHeight() / ((this.END_TIME - this.START_TIME) / 3600.0));
-        for(int i = 0; i < hourCount; i++)
-        {
-            this.fxGraphics2D.drawLine(0, hourHeight*i, (int)Math.round(this.canvas.getWidth()), hourHeight*i);
+        int hourHeight = (int) Math.round(this.canvas.getHeight() / ((this.END_TIME - this.START_TIME) / 3600.0));
+        for (int i = 0; i < hourCount; i++) {
+            this.fxGraphics2D.drawLine(0, hourHeight * i, (int) Math.round(this.canvas.getWidth()), hourHeight * i);
         }
 
         this.fxGraphics2D.setColor(Color.GRAY);
-        for(int i = 0; i < appointmentCount; i++) {
-            this.fxGraphics2D.drawLine(i*columnWidth, 0, i*columnWidth, (int) this.canvas.getHeight());
+        for (int i = 0; i < appointmentCount; i++) {
+            this.fxGraphics2D.drawLine(i * columnWidth, 0, i * columnWidth, (int) this.canvas.getHeight());
         }
     }
 
-    private AppointmentShape generateAppointmentShape(AppointmentAbstract appointment, int offsetX, int width)
-    {
+    private AppointmentShape generateAppointmentShape(AppointmentAbstract appointment, int offsetX, int width) {
         int y = this.getAppointmentY(appointment);
         int y2 = this.getAppointmentY2(appointment);
         int height = (y2 - y);
@@ -129,15 +131,15 @@ public class ScheduleView implements View
         return new AppointmentShape(appointment, offsetX, y, width, height);
     }
 
+    /*
+     * This method draws the appointments in the right column on the canvas.
+     */
     private void drawAppointment(AppointmentShape appointmentRectangle) {
         Color backColor = Color.YELLOW;
-//        AppointmentAbstract appointment = appointmentRectangle.getAppointment();
 
-        for(AppointmentShape appointmentShape : this.appointmentShapes)
-        {
-            if(appointmentRectangle!= appointmentShape &&
-                    appointmentRectangle.intersects(appointmentShape))
-            {
+        for (AppointmentShape appointmentShape : this.appointmentShapes) {
+            if (appointmentRectangle != appointmentShape &&
+                    appointmentRectangle.intersects(appointmentShape)) {
                 backColor = Color.RED;
             }
         }

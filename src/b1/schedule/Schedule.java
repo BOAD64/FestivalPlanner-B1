@@ -3,7 +3,7 @@ package b1.schedule;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Schedule  implements Serializable
+public class Schedule implements Serializable
 {
 
     private ArrayList<AppointmentAbstract> appointments;
