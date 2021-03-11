@@ -69,6 +69,14 @@ public class MainView implements View {
             this.HBox.getChildren().remove(this.stackPane);
         }
 
+        ((StackPane) simulationNode).setMaxWidth(Double.MAX_VALUE);
+        ((StackPane) simulationNode).setMaxHeight(Double.MAX_VALUE);
+        this.HBox.heightProperty().addListener((observable, oldValue, newValue) -> {
+            ((StackPane) simulationNode).setPrefHeight(newValue.doubleValue());
+        });
+        this.HBox.widthProperty().addListener((observable, oldValue, newValue) -> {
+            ((StackPane) simulationNode).setPrefWidth(newValue.doubleValue());
+        });
         this.HBox.getChildren().add(simulationNode);
     }
 
