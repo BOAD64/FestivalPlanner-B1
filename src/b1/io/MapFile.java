@@ -8,12 +8,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.net.URL;
 
 public class MapFile
 {
 
     private static JsonObject mapFile;
-    private static String path;
+    private static URL path;
 
     /**
      * This method reads the file logo.png to display the logo display in the window bars of every window.
@@ -22,10 +23,9 @@ public class MapFile
      */
     public static JsonObject getMapFile() {
         if (mapFile == null) {
-            if(path != null && !path.isEmpty()) {
+            if (path != null) {
                 try {
-                    InputStream inputStream = new FileInputStream(path);
-                    JsonReader reader = Json.createReader(inputStream);
+                    JsonReader reader = Json.createReader(path.openStream());
                     mapFile = reader.readObject();
                 }
                 catch (Exception e) {
@@ -36,11 +36,11 @@ public class MapFile
         return mapFile;
     }
 
-    public static String getPath() {
+    public static URL getPath() {
         return path;
     }
 
-    public static void setPath(String path) {
+    public static void setPath(URL path) {
         MapFile.path = path;
     }
 }

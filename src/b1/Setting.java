@@ -1,5 +1,7 @@
 package b1;
 
+import java.net.URL;
+
 public class Setting {
 
     public static final int ADD_MENU_LABEL_AND_TEXT_HEIGHT = 40;
@@ -7,7 +9,7 @@ public class Setting {
 
     public static class Map
     {
-        public static final String TilesetPath = Setting.class.getResource("/finalSchoolTileSet.png").getPath().replace("%20", " ");
-        public static final String MapJsonPath = Setting.class.getResource("/hogwardsMap.json").getPath().replace("%20", " ");
+        public static final URL TilesetPath = Setting.class.getResource("/finalSchoolTileSet.png");
+        public static final URL MapJsonPath = Setting.class.getResource("/hogwardsMapV2.json");
     }
 }

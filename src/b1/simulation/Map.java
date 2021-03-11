@@ -10,7 +10,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Map {
+public class Map
+{
 
     private int width;
     private int height;
@@ -24,6 +25,8 @@ public class Map {
 
     private int[][] map;
 
+    private BufferedImage cacheImage;
+
     public Map(BufferedImage tileSet, JsonObject mapObject) {
         this.tiles = new ArrayList<>();
 
@@ -35,10 +38,11 @@ public class Map {
 
         this.tiles = this.divideImage(tileSet);
         this.map = this.tileImageToTiles(mapObject);
+
+        this.cacheImage = null;
     }
 
-    private ArrayList<BufferedImage> divideImage(BufferedImage tileSet)
-    {
+    private ArrayList<BufferedImage> divideImage(BufferedImage tileSet) {
         ArrayList<BufferedImage> tiles = new ArrayList<BufferedImage>();
         for (int y = 0; y < tileSet.getHeight(); y += this.tileHeight) {
             for (int x = 0; x < tileSet.getWidth(); x += this.tileWidth) {
@@ -48,12 +52,11 @@ public class Map {
         return tiles;
     }
 
-    private int[][] tileImageToTiles(JsonObject tileObject)
-    {
+    private int[][] tileImageToTiles(JsonObject tileObject) {
         this.layersSize = tileObject.getJsonArray("layers").size();
         int[][] map = new int[this.width * this.height][layersSize];
         for (int layer = 0; layer < layersSize; layer++) {
-            if(tileObject.getJsonArray("layers").getJsonObject(layer).getJsonArray("data") != null) {
+            if (tileObject.getJsonArray("layers").getJsonObject(layer).getJsonArray("data") != null) {
                 int dataSize = tileObject.getJsonArray("layers").getJsonObject(layer).getJsonArray("data").size();
                 for (int i = 0; i < dataSize; i++) {
                     int tileIndex = tileObject.getJsonArray("layers").getJsonObject(layer).getJsonArray("data").getInt(i) - 1;
@@ -66,25 +69,28 @@ public class Map {
         return map;
     }
 
-    public void draw(Graphics2D graphics){
-        for (int layer = 0; layer < this.layersSize; layer++) {
-            int i = 0;
+    public void draw(Graphics2D graphics) {
+        if (this.cacheImage == null) {
+            this.cacheImage = new BufferedImage(this.width*this.tileWidth, this.height*this.tileHeight, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D cacheGraphics = this.cacheImage.createGraphics();
+            for (int layer = 0; layer < this.layersSize; layer++) {
+                int i = 0;
 
-            for (int y = 0; y < this.height; y++) {
-                for (int x = 0; x < this.width; x++) {
+                for (int y = 0; y < this.height; y++) {
+                    for (int x = 0; x < this.width; x++) {
 
-                    if (this.map[i][layer] <= 0){
+                        if (this.map[i][layer] <= 0) {
+                            i++;
+                            continue;
+                        }
+                        cacheGraphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+                        cacheGraphics.drawImage(this.tiles.get(this.map[i][layer]), AffineTransform.getTranslateInstance(x * this.tileWidth, y * this.tileHeight), null);
                         i++;
-                        continue;
                     }
-                    graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-                    graphics.drawImage(
-                            this.tiles.get(this.map[i][layer]),
-                            AffineTransform.getTranslateInstance(x * this.tileWidth, y * this.tileHeight),
-                            null);
-                    i++;
                 }
             }
         }
+
+        graphics.drawImage(this.cacheImage, new AffineTransform(), null);
     }
 }
