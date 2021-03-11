@@ -1,9 +1,8 @@
 package b1.schedule;
 
-import b1.io.ScheduleFile;
+import b1.ErrorMessage;
 import b1.io.SchoolFile;
 import b1.school.person.Person;
-import b1.school.room.Classroom;
 import b1.school.room.Room;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -13,15 +12,12 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
 
-public class GeneralAppointmentController extends AppointmentControllerAbstract
-{
+public class GeneralAppointmentController extends AppointmentControllerAbstract {
     private GeneralAppointment appointment;
     private GeneralAppointmentView view;
 
-    public GeneralAppointmentController()
-    {
+    public GeneralAppointmentController() {
         this(new GeneralAppointment(null, null, null, null, null));
     }
 
@@ -35,12 +31,16 @@ public class GeneralAppointmentController extends AppointmentControllerAbstract
         show(null);
     }
 
+    /**
+     * The stage is built and EventHandlers are set for the elements on the stage from view.
+     * @param ownerStage 
+     */
     @Override
     public void show(Stage ownerStage) {
         if (!this.view.getStage().isShowing()) {
             Stage stage = this.view.getStage();
-            this.view.getCancelButton().setOnAction(onCancelClicked());
-            this.view.getSaveButton().setOnAction(onSaveClicked());
+            this.view.getCancelButton().setOnAction(this.onCancelClicked());
+            this.view.getSaveButton().setOnAction(this.onSaveClicked());
             this.view.getPersonAddButton().setOnAction(this.onPersonAddButton());
             this.view.getPersonRemoveButton().setOnAction(this.onPersonRemoveButton());
 
@@ -61,7 +61,7 @@ public class GeneralAppointmentController extends AppointmentControllerAbstract
         }
     }
 
-    public EventHandler<ActionEvent> onCancelClicked(){
+    public EventHandler<ActionEvent> onCancelClicked() {
         return new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -70,7 +70,7 @@ public class GeneralAppointmentController extends AppointmentControllerAbstract
         };
     }
 
-    public EventHandler<ActionEvent> onSaveClicked(){
+    public EventHandler<ActionEvent> onSaveClicked() {
         return new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -85,6 +85,11 @@ public class GeneralAppointmentController extends AppointmentControllerAbstract
                 LocalTime beginTime = LocalTime.of(beginHour, beginMinute);
                 LocalTime endTime = LocalTime.of(endHour, endMinute);
 
+                if (endTime.isBefore(beginTime)) {
+                    ErrorMessage.show("De begin tijd mag niet voor de eindtijd zijn.");
+                    return;
+                }
+
                 appointment.setName(name);
                 appointment.setStartTime(beginTime);
                 appointment.setEndTime(endTime);
@@ -96,7 +101,7 @@ public class GeneralAppointmentController extends AppointmentControllerAbstract
         };
     }
 
-    public EventHandler<ActionEvent> onPersonAddButton(){
+    public EventHandler<ActionEvent> onPersonAddButton() {
         return new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -107,7 +112,7 @@ public class GeneralAppointmentController extends AppointmentControllerAbstract
         };
     }
 
-    public EventHandler<ActionEvent> onPersonRemoveButton(){
+    public EventHandler<ActionEvent> onPersonRemoveButton() {
         return new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {

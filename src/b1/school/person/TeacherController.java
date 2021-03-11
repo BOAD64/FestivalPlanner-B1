@@ -1,6 +1,7 @@
 package b1.school.person;
 
 import b1.Controller;
+import b1.ErrorMessage;
 import b1.io.SchoolFile;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -44,7 +45,7 @@ public class TeacherController extends PersonController implements Controller {
     private void saveTeacher() {
         try {
             if(this.view.getSubjectField().getText().isEmpty() || !super.personIsValid(this.view)) {
-                super.showErrorMessage();
+                ErrorMessage.show();
 
             } else {
                 this.teacher.setName(this.view.getNameField().getText());
@@ -52,13 +53,12 @@ public class TeacherController extends PersonController implements Controller {
                 this.teacher.setGender(this.view.getGenderField().getText());
                 this.teacher.setSubject(this.view.getSubjectField().getText());
 
-                //ToDo add teacher to school
                 SchoolFile.getSchool().addTeacher(this.teacher);
 
                 this.view.getStage().close();
             }
         } catch(Exception e) {
-            super.showErrorMessage();
+            ErrorMessage.show();
         }
     }
 
@@ -70,10 +70,10 @@ public class TeacherController extends PersonController implements Controller {
             this.view.getAgeField().setText("");
             this.view.getGenderField().setText("");
         } else {
-            this.view.getSubjectField().setText(teacher.getSubject());
-            this.view.getNameField().setText(teacher.getName());
-            this.view.getAgeField().setText(teacher.getAge() + "");
-            this.view.getGenderField().setText(teacher.getGender());
+            this.view.getSubjectField().setText(this.teacher.getSubject());
+            this.view.getNameField().setText(this.teacher.getName());
+            this.view.getAgeField().setText(this.teacher.getAge() + "");
+            this.view.getGenderField().setText(this.teacher.getGender());
         }
     }
 }

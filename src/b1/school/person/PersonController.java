@@ -1,8 +1,5 @@
 package b1.school.person;
 
-import javafx.scene.control.Alert;
-import javafx.stage.Stage;
-
 public abstract class PersonController {
 
     /**
@@ -19,17 +16,5 @@ public abstract class PersonController {
         } catch(Exception e) {
             return false;
         }
-    }
-
-    /**
-     * This method shows an error massage that displays that something went wrong while saving. It prompts the user
-     * to check if the inputs given are valid values.
-     */
-    void showErrorMessage() {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText("Er is iets fout gegaan");
-        alert.setContentText("Er is een fout bij het opslaan, check of u overal valide waarde heeft ingevuld!");
-        alert.showAndWait();
     }
 }

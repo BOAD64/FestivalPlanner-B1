@@ -1,7 +1,6 @@
 package b1.school;
 
 import b1.schedule.Schedule;
-import b1.school.group.StudentGroup;
 import b1.school.person.Person;
 import b1.school.room.Classroom;
 import b1.school.group.Group;
@@ -9,14 +8,14 @@ import b1.school.person.Student;
 import b1.school.person.Teacher;
 import b1.school.room.Room;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class School
+public class School implements Serializable
 {
 
     private String schoolName;
     private ArrayList<Room> rooms;
-//    private ArrayList<Classroom> classrooms;
     private ArrayList<Group> groups;
     private ArrayList<Person> persons;
     private Schedule schedule;
@@ -24,7 +23,6 @@ public class School
     public School(String schoolName) {
         this.schoolName = schoolName;
         this.rooms = new ArrayList<>();
-//        this.classrooms = new ArrayList<>();
         this.groups = new ArrayList<>();
         this.persons = new ArrayList<>();
         this.schedule = new Schedule();
@@ -85,20 +83,6 @@ public class School
         }
     }
 
-    public ArrayList<StudentGroup> getStudentGroups()
-    {
-        ArrayList<StudentGroup> studentGroups = new ArrayList<>();
-        for(Group group : this.groups)
-        {
-            if(group instanceof StudentGroup)
-            {
-                studentGroups.add((StudentGroup) group);
-            }
-        }
-
-        return studentGroups;
-    }
-
     public ArrayList<Student> getStudents() {
         ArrayList<Student> students = new ArrayList<>();
         for (Person person : this.persons) {
@@ -148,7 +132,7 @@ public class School
     }
 
     public ArrayList<Person> getPersons() {
-        return persons;
+        return this.persons;
     }
 
     public void setPersons(ArrayList<Person> persons) {
@@ -156,7 +140,7 @@ public class School
     }
 
     public Schedule getSchedule() {
-        return schedule;
+        return this.schedule;
     }
 
     public void setSchedule(Schedule schedule) {

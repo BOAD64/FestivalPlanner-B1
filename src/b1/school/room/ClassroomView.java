@@ -1,12 +1,14 @@
 package b1.school.room;
 
+import b1.Setting;
 import b1.View;
+import b1.io.ImageFile;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -17,8 +19,6 @@ public class ClassroomView implements View {
 
     private Button applyButton;
     private Button okButton;
-
-
 
     private TextField classroomCode;
     private TextField classroomCapacity;
@@ -43,64 +43,65 @@ public class ClassroomView implements View {
 
     public void createStage() {
         this.stage = new Stage();
-        BorderPane borderPane = new BorderPane();
+        this.stage.getIcons().add(ImageFile.getLogo());
+        this.stage.setTitle("Klaslokaal");
 
-        //object for stage
+        //VBox that has the labels
         Label classroomCodeLabel = new Label("Lokaalcode:");
-        Label classroomCapacityLabel = new Label("Capaciteit: ");
-        Label classroomWidthLabel = new Label("Width: ");
-        Label classroomLengthLabel = new Label("Length: ");
+        Label classroomCapacityLabel = new Label("Capaciteit:");
+        Label classroomWidthLabel = new Label("Width:");
+        Label classroomLengthLabel = new Label("Length:");
+        classroomCodeLabel.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
+        classroomCapacityLabel.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
+        classroomWidthLabel.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
+        classroomLengthLabel.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
+        VBox labelVBox = new VBox();
+        labelVBox.getChildren().addAll(
+                classroomCodeLabel, classroomCapacityLabel,
+                classroomWidthLabel, classroomLengthLabel);
+        labelVBox.setSpacing(10);
+        labelVBox.setPadding(new Insets(5, 5, 5, 5));
 
+        //VBox that has the input fields
         this.classroomCode = new TextField(this.classroom.getRoomCode());
         this.classroomCapacity = new TextField("" + this.classroom.getCapacity());
         this.classroomWidth = new TextField("" + this.classroom.getWidth());
         this.classroomLength = new TextField("" + this.classroom.getLength());
+        this.classroomCode.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
+        this.classroomCapacity.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
+        this.classroomWidth.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
+        this.classroomLength.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
+        VBox inputFieldVBox = new VBox();
+        inputFieldVBox.getChildren().addAll(
+                this.classroomCode, this.classroomCapacity,
+                this.classroomWidth, this.classroomLength);
+        inputFieldVBox.setSpacing(10);
 
-        this.applyButton = new Button("Apply");
-        this.okButton = new Button("Ok");
+        //HBox that has the buttons on the bottom
+        this.applyButton = new Button("Toepassen");
+        this.okButton = new Button("Opslaan");
+        this.applyButton.setPrefHeight(Setting.ADD_MENU_BUTTON_HEIGHT);
+        this.okButton.setPrefHeight(Setting.ADD_MENU_BUTTON_HEIGHT);
+        HBox buttonsHBox = new HBox();
+        buttonsHBox.getChildren().addAll(this.applyButton, this.okButton);
+        buttonsHBox.setSpacing(5);
+        buttonsHBox.setAlignment(Pos.CENTER);
 
-        //ordering
-        VBox vBox = new VBox();
-        vBox.getChildren().addAll(
-                classroomCodeLabel, classroomCode,
-                classroomCapacityLabel, classroomCapacity,
-                classroomLengthLabel, classroomLength,
-                classroomWidthLabel, classroomWidth,
-                this.applyButton, this.okButton
-        );
-        vBox.setSpacing(10);
-        vBox.setAlignment(Pos.CENTER);
-        HBox hBox = new HBox();
-        hBox.getChildren().addAll(vBox);
-        hBox.setSpacing(20);
-        hBox.setAlignment(Pos.CENTER);
+        //ordering the boxes
+        HBox topBox = new HBox();
+        topBox.getChildren().addAll(labelVBox, inputFieldVBox);
 
-        borderPane.setTop(hBox);
-
-        //button actions
-        this.applyButton.setOnAction( event -> {
-            //read and save from text fields
-            this.classroom.setCapacity(Integer.parseInt(classroomCapacity.getText()));
-            this.classroom.setRoomCode(classroomCode.getText());
-            this.classroom.setLength(Double.parseDouble(classroomLength.getText()));
-            this.classroom.setWidth(Double.parseDouble(classroomWidth.getText()));
-        });
-        this.okButton.setOnAction( event -> {
-            //read and save from text fields
-            this.classroom.setCapacity(Integer.parseInt(classroomCapacity.getText()));
-            this.classroom.setRoomCode(classroomCode.getText());
-            this.classroom.setLength(Double.parseDouble(classroomLength.getText()));
-            this.classroom.setWidth(Double.parseDouble(classroomWidth.getText()));
-            //exit window
-            this.stage.close();
-        });
+        VBox mainBox = new VBox();
+        mainBox.getChildren().addAll(topBox, buttonsHBox);
+        mainBox.setSpacing(20);
+        mainBox.setPadding(new Insets(10, 10, 10, 10));
 
         //applying to stage
-        this.stage.setScene(new Scene(borderPane));
-        stage.setMinWidth(500);
-        stage.setMinHeight(500);
-        stage.setMaxWidth(500);
-        stage.setMaxHeight(500);
+        this.stage.setScene(new Scene(mainBox));
+        stage.setMinWidth(325);
+        stage.setMinHeight(350);
+        stage.setMaxWidth(325);
+        stage.setMaxHeight(350);
     }
 
     public Button getApplyButton() {

@@ -10,6 +10,7 @@ public class Main extends Application
     private School school;
 
     public Main() {
+        SchoolFile.setFilePath(System.getProperty("user.dir") + System.getProperty("file.separator")+"/data.dat");
         if (SchoolFile.getSchool() == null) {
             SchoolFile.setSchool(new School("lala land"));
         }
@@ -22,7 +23,8 @@ public class Main extends Application
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        //MainController mainController = new MainController(this.school);
-        //mainController.show();
+        MainController mainController = new MainController();
+        mainController.show();
+        mainController.onClose(event -> {SchoolFile.save();});
     }
 }

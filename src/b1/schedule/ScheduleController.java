@@ -3,20 +3,12 @@ package b1.schedule;
 import b1.Controller;
 import b1.io.SchoolFile;
 import b1.school.School;
-import b1.school.group.StudentGroup;
-import b1.school.person.Person;
-import b1.school.person.Student;
-import b1.school.person.Teacher;
-import b1.school.room.Room;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ScheduleController implements Controller
 {
@@ -33,7 +25,7 @@ public class ScheduleController implements Controller
     }
 
     public AppointmentSorter getSorter() {
-        return sorter;
+        return this.sorter;
     }
 
     public void setSorter(AppointmentSorter sorter) {

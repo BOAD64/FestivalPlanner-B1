@@ -1,16 +1,10 @@
 package b1.schedule;
 
 import b1.View;
-import b1.school.room.Classroom;
 import b1.school.room.Room;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 public abstract class AppointmentViewAbstract implements View {
 
@@ -25,7 +19,7 @@ public abstract class AppointmentViewAbstract implements View {
     public AppointmentViewAbstract() {
     }
 
-    GridPane createAbstractAppointmentElements(){
+    GridPane createAbstractAppointmentElements() {
         this.nameField = new TextField();
         this.beginTimeHour = new Spinner<>(0, 23, 0, 1);
         this.beginTimeMinute = new Spinner<>(0, 59, 0, 1);
@@ -61,30 +55,30 @@ public abstract class AppointmentViewAbstract implements View {
     }
 
     public TextField getNameField() {
-        return nameField;
+        return this.nameField;
     }
 
     public Spinner<Integer> getBeginTimeHour() {
-        return beginTimeHour;
+        return this.beginTimeHour;
     }
 
     public Spinner<Integer> getBeginTimeMinute() {
-        return beginTimeMinute;
+        return this.beginTimeMinute;
     }
 
     public Spinner<Integer> getEndTimeHour() {
-        return endTimeHour;
+        return this.endTimeHour;
     }
 
     public Spinner<Integer> getEndTimeMinute() {
-        return endTimeMinute;
+        return this.endTimeMinute;
     }
 
     public ComboBox<Room> getLocationField() {
-        return locationField;
+        return this.locationField;
     }
 
     public TextArea getDescriptionField() {
-        return descriptionField;
+        return this.descriptionField;
     }
 }

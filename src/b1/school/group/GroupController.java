@@ -4,8 +4,7 @@ import b1.Controller;
 import b1.io.SchoolFile;
 import b1.school.person.Student;
 import b1.school.person.StudentController;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.collections.FXCollections;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -40,6 +39,8 @@ public class GroupController implements Controller
         this.groupView.getStudentButton().setOnAction(event -> this.onStudentButtonClick());
         this.groupView.getApplyButton().setOnAction(event -> this.onApplyButtonClick());
         this.groupView.getOkButton().setOnAction(event -> this.onOkButtonClick());
+        this.groupView.getStudentListView().setItems(FXCollections.observableList(this.group.getStudentsList()));
+
         this.groupView.getStage().initModality(Modality.WINDOW_MODAL);
         this.groupView.getStage().initOwner(ownerStage);
         this.groupView.getStage().show();

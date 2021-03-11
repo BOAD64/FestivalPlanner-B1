@@ -1,5 +1,6 @@
 package b1;
 
+import b1.io.ImageFile;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -12,7 +13,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import java.io.FileInputStream;
@@ -23,6 +23,7 @@ public class MainView implements View {
     private boolean hamburgerIsOut;
     private ListView<AddMenuItem> addList;
     private ImageView plusImageView;
+    private HBox hamburger;
 
     private HBox HBox;
     private VBox optionMenuVBox;
@@ -32,6 +33,7 @@ public class MainView implements View {
 
     private Button goToScheduleButton;
     private Button goToSimulationButton;
+    private Button schoolEditButton;
 
 //    enum Controllers{GROUP,CLASSROOM, STUDENT, TEACHER, APPOINTMENT}
 
@@ -47,7 +49,11 @@ public class MainView implements View {
     }
 
     public ListView<AddMenuItem> getAddList() {
-        return addList;
+        return this.addList;
+    }
+
+    public Button getSchoolEditButton() {
+        return this.schoolEditButton;
     }
 
     void setSimulationNode(Node simulationNode) {
@@ -77,19 +83,19 @@ public class MainView implements View {
 
         this.scheduleControllerNode = scheduleControllerNode;
         if(this.stackPane == null) {
-            stackPane = new StackPane();
+            this.stackPane = new StackPane();
         } else {
             this.stackPane.getChildren().clear();
         }
 
-        ((Canvas) scheduleControllerNode).setWidth(Double.MAX_VALUE);
-        ((Canvas) scheduleControllerNode).setHeight(Double.MAX_VALUE);
-        this.stackPane.getChildren().addAll(scheduleControllerNode, plusImageView, this.addList);
-        StackPane.setAlignment(plusImageView, Pos.BOTTOM_RIGHT);
+        this.stackPane.getChildren().addAll(scheduleControllerNode, this.plusImageView, this.addList);
+        StackPane.setAlignment(this.plusImageView, Pos.BOTTOM_RIGHT);
         StackPane.setAlignment(this.addList, Pos.BOTTOM_RIGHT);
         this.addList.setTranslateY(-125);
         this.plusImageView.setTranslateX(-20);
         this.plusImageView.setTranslateY(-10);
+        ((Canvas) scheduleControllerNode).setWidth(Double.MAX_VALUE);
+        ((Canvas) scheduleControllerNode).setHeight(Double.MAX_VALUE);
 
         this.HBox.getChildren().add(this.stackPane);
     }
@@ -103,15 +109,9 @@ public class MainView implements View {
         this.HBox = new HBox();
         FileInputStream plusInputStream = null;
         FileInputStream arrowInputStream = null;
-        FileInputStream logoInputStream;
         try {
             plusInputStream = new FileInputStream("resources\\plus.png");
             arrowInputStream = new FileInputStream("resources\\arrow.png");
-            logoInputStream = new FileInputStream("resources\\logo.png");
-
-
-            Image image = new Image(logoInputStream);
-            this.stage.getIcons().add(image);
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -126,22 +126,11 @@ public class MainView implements View {
             arrowImageView.setScaleX(Math.PI * 2 / 10.0f); //wtf
             arrowImageView.setScaleY(Math.PI * 2 / 10.0f);
 
-            this.addList = new ListView<>();
-            this.addList.setMaxHeight(200);
-            this.addList.setMaxWidth(150);
-            this.addList.setVisible(false);
+            initAddList();
             this.hamburgerIsOut = false;
 
-            plusImageView.setOnMouseClicked(event -> this.changeVisibilityOfAddList());
-
-            this.addList.setOnMouseClicked(event -> {
-
-            });
-
-            //create HBox used for whole hamburger-menu
-            HBox hamburger = new HBox();
-            hamburger.getChildren().add(arrowImageView);
-
+            this.plusImageView.setOnMouseClicked(event -> this.changeVisibilityOfAddList());
+            
             //test
             this.optionMenuVBox = new VBox();
             this.optionMenuVBox.setMinWidth(150);
@@ -151,30 +140,9 @@ public class MainView implements View {
             this.optionMenuVBox.setBackground(new Background(new BackgroundFill(Color.rgb(65, 65, 65), CornerRadii.EMPTY, Insets.EMPTY)));
             this.HBox.setBackground(new Background(new BackgroundFill(Color.rgb(65, 65, 65), CornerRadii.EMPTY, Insets.EMPTY)));
 
-            //Opening and closing of hamburger menu
-            arrowImageView.setOnMouseClicked(event -> {
+            initMainMenu(arrowImageView);
 
-                if(this.hamburgerIsOut) {
-                    this.hamburgerIsOut = false;
-                    hamburger.getChildren().remove(0, 2);
-                    arrowImageView.setRotate(0);
-                    hamburger.getChildren().addAll(arrowImageView);
-                } else {
-                    this.hamburgerIsOut = true;
-                    hamburger.getChildren().remove(0, 1);
-                    arrowImageView.setRotate(180);
-                    hamburger.getChildren().addAll(optionMenuVBox, arrowImageView);
-
-                }
-            });
-
-            VBox addMenu = new VBox();
-            addMenu.getChildren().addAll(addList, plusImageView);
-            addMenu.setSpacing(20);
-            addMenu.setAlignment(Pos.BOTTOM_RIGHT);
-
-
-            this.HBox.getChildren().add(hamburger);
+            this.HBox.getChildren().add(this.hamburger);
 
             this.stage.setScene(new Scene(this.HBox));
             this.stage.setWidth(1200);
@@ -183,14 +151,54 @@ public class MainView implements View {
         }
 
         this.initButtons();
+        this.stage.getIcons().add(ImageFile.getLogo());
 
+    }
+
+    private void initMainMenu(ImageView arrowImageView) {
+        //create HBox used for whole hamburger-menu
+        this.hamburger = new HBox();
+        this.hamburger.getChildren().add(arrowImageView);
+
+        //Opening and closing of hamburger menu
+        arrowImageView.setOnMouseClicked(event -> {
+
+            if(this.hamburgerIsOut) {
+                this.hamburgerIsOut = false;
+                this.hamburger.getChildren().remove(0, 2);
+                arrowImageView.setRotate(0);
+                this.hamburger.getChildren().addAll(arrowImageView);
+            } else {
+                this.hamburgerIsOut = true;
+                this.hamburger.getChildren().remove(0, 1);
+                arrowImageView.setRotate(180);
+                this.hamburger.getChildren().addAll(optionMenuVBox, arrowImageView);
+
+            }
+        });
+    }
+
+    private void initAddList() {
+        this.addList = new ListView<>();
+        this.addList.setMaxHeight(200);
+        this.addList.setMaxWidth(150);
+        this.addList.setVisible(false);
     }
 
     private void initButtons() {
         this.goToScheduleButton = new Button("Rooster");
         this.goToSimulationButton = new Button("Simulatie");
+        this.schoolEditButton = new Button("Verander School");
 
-        this.optionMenuVBox.getChildren().addAll(this.goToScheduleButton, this.goToSimulationButton);
+        short buttonWidth = 130;
+        short buttonHeight = 50;
+        this.goToScheduleButton.setPrefSize(buttonWidth, buttonHeight);
+        this.goToSimulationButton.setPrefSize(buttonWidth, buttonHeight);
+        this.schoolEditButton.setPrefSize(buttonWidth, buttonHeight);
+
+        this.optionMenuVBox.getChildren().addAll(this.goToScheduleButton, this.goToSimulationButton, this.schoolEditButton);
+        this.optionMenuVBox.setPadding(new Insets(15, 5, 10, 10));
+        this.optionMenuVBox.setSpacing(15);
     }
 
     private void changeVisibilityOfAddList() {
@@ -198,10 +206,10 @@ public class MainView implements View {
     }
 
     Button getGoToScheduleButton() {
-        return goToScheduleButton;
+        return this.goToScheduleButton;
     }
 
     Button getGoToSimulationButton() {
-        return goToSimulationButton;
+        return this.goToSimulationButton;
     }
 }

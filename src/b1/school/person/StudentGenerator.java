@@ -1,6 +1,7 @@
 package b1.school.person;
 
 import b1.io.NameFile;
+import b1.io.SchoolFile;
 
 import java.util.ArrayList;
 
@@ -53,15 +54,14 @@ public class StudentGenerator {
         for(String name : this.names) {
             short age = (short)(Math.random() * 20 + 10);
             String gender = this.genders[(int)(Math.random() * this.genders.length)];
-            short id = 0; //ToDo request new id from school
-            String group = ""; //ToDo request group list
+            short id = 0;
 
-            Student student = new Student(name, age, gender, id, group);
-            //ToDo add student to school
+            Student student = new Student(name, age, gender, id, null);
+            SchoolFile.getSchool().addStudent(student);
         }
     }
 
     public ArrayList<String> getNames() {
-        return names;
+        return this.names;
     }
 }

@@ -1,6 +1,9 @@
 package b1.school.person;
 
-public abstract class Person {
+import java.io.Serializable;
+
+public abstract class Person  implements Serializable
+{
 
     String name;
     short age;
@@ -28,7 +31,7 @@ public abstract class Person {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -36,7 +39,7 @@ public abstract class Person {
     }
 
     public short getAge() {
-        return age;
+        return this.age;
     }
 
     public void setAge(short age) {
@@ -48,7 +51,7 @@ public abstract class Person {
     }
 
     public String getGender() {
-        return gender;
+        return this.gender;
     }
 
     public void setGender(String gender) {

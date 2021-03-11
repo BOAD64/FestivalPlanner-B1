@@ -5,8 +5,7 @@ import org.jfree.fx.FXGraphics2D;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-public class AppointmentShape extends Rectangle2D.Double
-{
+public class AppointmentShape extends Rectangle2D.Double {
     private AppointmentAbstract appointment;
     private Color backgroundColor;
 
@@ -24,7 +23,7 @@ public class AppointmentShape extends Rectangle2D.Double
     }
 
     public Color getBackgroundColor() {
-        return backgroundColor;
+        return this.backgroundColor;
     }
 
     public void setBackgroundColor(Color backgroundColor) {
@@ -37,12 +36,15 @@ public class AppointmentShape extends Rectangle2D.Double
         fxGraphics2D.setColor(Color.BLACK);
         fxGraphics2D.draw(this);
 
+        fxGraphics2D.setFont(fxGraphics2D.getFont().deriveFont(12.0f));
+
         if (this.getHeight() > 15) {
-            fxGraphics2D.drawString(appointment.getName(), (int) this.getX() + 10, (int) this.getY() + 15);
+            fxGraphics2D.drawString(this.appointment.getName(), (int) this.getX() + 10, (int) this.getY() + 15);
         }
 
         if (this.getHeight() > 30) {
-            fxGraphics2D.drawString(appointment.getStartTime().toString() + " - " + appointment.getEndTime().toString(), (int) this.getX() + 10, (int) this.getY() + 30);
+            fxGraphics2D.drawString(this.appointment.getStartTime().toString() + " - " +
+                    this.appointment.getEndTime().toString(), (int) this.getX() + 10, (int) this.getY() + 30);
         }
     }
 }
