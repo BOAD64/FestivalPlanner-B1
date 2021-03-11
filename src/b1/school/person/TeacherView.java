@@ -44,7 +44,7 @@ public class TeacherView extends PersonView {
         super.createTags();
 
         Label subjectLabel = new Label("Vak:");
-        subjectLabel.setPrefHeight(Setting.addMenuLabelAndTextHeight);
+        subjectLabel.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
 
         super.tagsVBox.getChildren().add(subjectLabel);
     }
@@ -52,7 +52,7 @@ public class TeacherView extends PersonView {
     private void addInputField() {
         super.createInputField();
 
-        this.subjectField.setPrefHeight(Setting.addMenuLabelAndTextHeight);
+        this.subjectField.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
 
         //if the age of the Teacher is not -1 than the program loads the attributes of the Teacher into the TextFields.
         if(this.teacher.getAge() != -1) {

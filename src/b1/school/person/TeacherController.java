@@ -1,6 +1,7 @@
 package b1.school.person;
 
 import b1.Controller;
+import b1.ErrorMessage;
 import b1.io.SchoolFile;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -44,7 +45,7 @@ public class TeacherController extends PersonController implements Controller {
     private void saveTeacher() {
         try {
             if(this.view.getSubjectField().getText().isEmpty() || !super.personIsValid(this.view)) {
-                super.showErrorMessage();
+                ErrorMessage.show();
 
             } else {
                 this.teacher.setName(this.view.getNameField().getText());
@@ -57,7 +58,7 @@ public class TeacherController extends PersonController implements Controller {
                 this.view.getStage().close();
             }
         } catch(Exception e) {
-            super.showErrorMessage();
+            ErrorMessage.show();
         }
     }
 

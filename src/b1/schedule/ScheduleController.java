@@ -7,11 +7,8 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ScheduleController implements Controller
 {

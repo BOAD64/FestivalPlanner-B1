@@ -1,16 +1,10 @@
 package b1.schedule;
 
 import b1.View;
-import b1.school.room.Classroom;
 import b1.school.room.Room;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 public abstract class AppointmentViewAbstract implements View {
 

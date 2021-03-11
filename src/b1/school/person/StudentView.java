@@ -52,8 +52,8 @@ public class StudentView extends PersonView {
         Label idLabel = new Label("Studentnummer:");
         Label groupLabel = new Label("Klas:");
 
-        idLabel.setPrefHeight(Setting.addMenuLabelAndTextHeight);
-        groupLabel.setPrefHeight(Setting.addMenuLabelAndTextHeight);
+        idLabel.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
+        groupLabel.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
 
         super.tagsVBox.getChildren().addAll(idLabel, groupLabel);
     }
@@ -61,8 +61,8 @@ public class StudentView extends PersonView {
     private void addInputField() {
         super.createInputField();
 
-        this.idField.setPrefHeight(Setting.addMenuLabelAndTextHeight);
-        this.groupComboBox.setPrefHeight(Setting.addMenuLabelAndTextHeight);
+        this.idField.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
+        this.groupComboBox.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
         this.groupComboBox.setItems(FXCollections.observableList(SchoolFile.getSchool().getGroups()));
 
         //if the age of the Student is not -1 than the program loads the attributes of the Student into the TextFields.
