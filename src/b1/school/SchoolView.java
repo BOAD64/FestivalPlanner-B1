@@ -32,14 +32,14 @@ public class SchoolView implements View {
     private Button selectTeacherButton;
     private Button applyButton;
     private Button okButton;
-    private Button refreshClassroom;
-    private Button refreshGroup;
-    private Button refreshStudent;
-    private Button refreshTeacher;
-    private Button deleteClassroom;
-    private Button deleteGroup;
-    private Button deleteStudent;
-    private Button deleteTeacher;
+    private Button refreshClassroomButton;
+    private Button refreshGroupButton;
+    private Button refreshStudentButton;
+    private Button refreshTeacherButton;
+    private Button deleteClassroomButton;
+    private Button deleteGroupButton;
+    private Button deleteStudentButton;
+    private Button deleteTeacherButton;
 
 
     public SchoolView(School school) {
@@ -71,15 +71,15 @@ public class SchoolView implements View {
         this.applyButton = new Button("Toepassen");
         this.okButton = new Button("Opslaan");
 
-        this.refreshClassroom = new Button("Refresh");
-        this.refreshGroup = new Button("Refresh");
-        this.refreshStudent = new Button("Refresh");
-        this.refreshTeacher = new Button("Refresh");
+        this.refreshClassroomButton = new Button("Refresh");
+        this.refreshGroupButton = new Button("Refresh");
+        this.refreshStudentButton = new Button("Refresh");
+        this.refreshTeacherButton = new Button("Refresh");
 
-        this.deleteClassroom = new Button("Delete");
-        this.deleteGroup = new Button("Delete");
-        this.deleteStudent = new Button("Delete");
-        this.deleteTeacher = new Button("Delete");
+        this.deleteClassroomButton = new Button("Delete");
+        this.deleteGroupButton = new Button("Delete");
+        this.deleteStudentButton = new Button("Delete");
+        this.deleteTeacherButton = new Button("Delete");
 
         HBox classroomButtons = new HBox();
         classroomButtons.setSpacing(10);
@@ -90,10 +90,10 @@ public class SchoolView implements View {
         HBox teacherButtons = new HBox();
         teacherButtons.setSpacing(10);
 
-        classroomButtons.getChildren().addAll(this.selectClassroomButton, this.refreshClassroom, this.deleteClassroom);
-        groupButtons.getChildren().addAll(this.selectGroupButton, this.refreshGroup, this.deleteGroup);
-        studentButtons.getChildren().addAll(this.selectStudentButton, this.refreshStudent, this.deleteStudent);
-        teacherButtons.getChildren().addAll(this.selectTeacherButton, this.refreshTeacher, this.deleteTeacher);
+        classroomButtons.getChildren().addAll(this.selectClassroomButton, this.refreshClassroomButton, this.deleteClassroomButton);
+        groupButtons.getChildren().addAll(this.selectGroupButton, this.refreshGroupButton, this.deleteGroupButton);
+        studentButtons.getChildren().addAll(this.selectStudentButton, this.refreshStudentButton, this.deleteStudentButton);
+        teacherButtons.getChildren().addAll(this.selectTeacherButton, this.refreshTeacherButton, this.deleteTeacherButton);
 
         GridPane gridPane = new GridPane();
         gridPane.add(classroomLabel, 1, 1);
@@ -204,39 +204,39 @@ public class SchoolView implements View {
         return this.okButton;
     }
 
-    public Button getRefreshClassroom() {
-        return this.refreshClassroom;
+    public Button getRefreshClassroomButton() {
+        return this.refreshClassroomButton;
     }
 
-    public Button getRefreshGroup() {
-        return this.refreshGroup;
+    public Button getRefreshGroupButton() {
+        return this.refreshGroupButton;
     }
 
-    public Button getRefreshStudent() {
-        return this.refreshStudent;
+    public Button getRefreshStudentButton() {
+        return this.refreshStudentButton;
     }
 
-    public Button getRefreshTeacher() {
-        return this.refreshTeacher;
+    public Button getRefreshTeacherButton() {
+        return this.refreshTeacherButton;
     }
 
     public TextField getSchoolNameField() {
         return this.schoolNameField;
     }
 
-    public Button getDeleteClassroom() {
-        return this.deleteClassroom;
+    public Button getDeleteClassroomButton() {
+        return this.deleteClassroomButton;
     }
 
-    public Button getDeleteGroup() {
-        return this.deleteGroup;
+    public Button getDeleteGroupButton() {
+        return this.deleteGroupButton;
     }
 
-    public Button getDeleteStudent() {
-        return this.deleteStudent;
+    public Button getDeleteStudentButton() {
+        return this.deleteStudentButton;
     }
 
-    public Button getDeleteTeacher() {
-        return this.deleteTeacher;
+    public Button getDeleteTeacherButton() {
+        return this.deleteTeacherButton;
     }
 }

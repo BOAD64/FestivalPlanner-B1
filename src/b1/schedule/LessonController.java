@@ -42,8 +42,8 @@ public class LessonController extends AppointmentControllerAbstract
     public void show(Stage ownerStage) {
         if (!this.view.getStage().isShowing()) {
             Stage stage = this.view.getStage();
-            this.view.getCancelButton().setOnAction(onCancelClicked());
-            this.view.getSaveButton().setOnAction(onSaveClicked());
+            this.view.getCancelButton().setOnAction(this.onCancelClicked());
+            this.view.getSaveButton().setOnAction(this.onSaveClicked());
 
             if (this.lesson.getName() != null) {
                 this.view.getNameField().setText(this.lesson.getName());
@@ -75,7 +75,7 @@ public class LessonController extends AppointmentControllerAbstract
         }
     }
 
-    public EventHandler<ActionEvent> onCancelClicked() {
+    private EventHandler<ActionEvent> onCancelClicked() {
         return new EventHandler<ActionEvent>()
         {
             @Override
@@ -85,7 +85,7 @@ public class LessonController extends AppointmentControllerAbstract
         };
     }
 
-    public EventHandler<ActionEvent> onSaveClicked() {
+    private EventHandler<ActionEvent> onSaveClicked() {
         return new EventHandler<ActionEvent>()
         {
             @Override

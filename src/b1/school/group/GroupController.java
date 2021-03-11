@@ -8,8 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class GroupController implements Controller
-{
+public class GroupController implements Controller {
 
     private Group group;
     private GroupView groupView;

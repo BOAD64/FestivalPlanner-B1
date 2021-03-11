@@ -11,7 +11,6 @@ public class Classroom extends Room {
         this.capacity = capacity;
     }
 
-
     public String getRoomCode() {
         return this.roomCode;
     }
@@ -34,14 +33,11 @@ public class Classroom extends Room {
             return false;
         }
         Classroom toCheck = (Classroom) obj;
-        if (toCheck.getRoomCode().equals(this.roomCode)) {
-            return true;
-        }
-        return false;
+        return toCheck.getRoomCode().equals(this.roomCode);
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return this.roomCode;
     }
 }

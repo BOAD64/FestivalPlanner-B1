@@ -5,14 +5,13 @@ import b1.school.School;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-public class Main extends Application
-{
+public class Main extends Application {
     private School school;
 
     public Main() {
-        SchoolFile.setFilePath(System.getProperty("user.dir") + System.getProperty("file.separator")+"/data.dat");
+        SchoolFile.setFilePath(System.getProperty("user.dir") + System.getProperty("file.separator") + "/data.dat");
         if (SchoolFile.getSchool() == null) {
-            SchoolFile.setSchool(new School("lala land"));
+            SchoolFile.setSchool(new School("Hogwarts"));
         }
         this.school = SchoolFile.getSchool();
     }
@@ -25,6 +24,8 @@ public class Main extends Application
     public void start(Stage primaryStage) throws Exception {
         MainController mainController = new MainController();
         mainController.show();
-        mainController.onClose(event -> {SchoolFile.save();});
+        mainController.onClose(event -> {
+            SchoolFile.save();
+        });
     }
 }
