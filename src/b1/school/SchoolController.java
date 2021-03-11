@@ -15,8 +15,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
-public class SchoolController implements Controller
-{
+public class SchoolController implements Controller {
 
     private School school;
     private SchoolView schoolView;
@@ -38,29 +37,29 @@ public class SchoolController implements Controller
     @Override
     public void show(Stage ownerStage) {
 
-        this.schoolView.getSelectClassroomButton().setOnAction(event -> this.openClassroom());
-        this.schoolView.getSelectGroupButton().setOnAction(event -> this.openGroup());
-        this.schoolView.getSelectStudentButton().setOnAction(event -> this.openStudent());
-        this.schoolView.getSelectTeacherButton().setOnAction(event -> this.openTeacher());
-        this.schoolView.getApplyButton().setOnAction(event -> this.apply());
-        this.schoolView.getOkButton().setOnAction(event -> this.ok());
+        this.schoolView.getSelectClassroomButton().setOnAction(event -> this.onOpenClassroomButtonClicked());
+        this.schoolView.getSelectGroupButton().setOnAction(event -> this.onOpenGroupButtonClicked());
+        this.schoolView.getSelectStudentButton().setOnAction(event -> this.onOpenStudentButtonClicked());
+        this.schoolView.getSelectTeacherButton().setOnAction(event -> this.onOpenTeacherButtonClicked());
+        this.schoolView.getApplyButton().setOnAction(event -> this.onApplyButtonClicked());
+        this.schoolView.getOkButton().setOnAction(event -> this.onOkButtonClicked());
 
-        this.schoolView.getRefreshClassroom().setOnAction(event -> this.refreshClassroom());
-        this.schoolView.getRefreshGroup().setOnAction(event -> this.refreshGroup());
-        this.schoolView.getRefreshStudent().setOnAction(event -> this.refreshStudent());
-        this.schoolView.getRefreshTeacher().setOnAction(event -> this.refreshTeacher());
+        this.schoolView.getRefreshClassroomButton().setOnAction(event -> this.onRefreshClassroomButtonClicked());
+        this.schoolView.getRefreshGroupButton().setOnAction(event -> this.onRefreshGroupButtonClicked());
+        this.schoolView.getRefreshStudentButton().setOnAction(event -> this.onRefreshStudentButtonClicked());
+        this.schoolView.getRefreshTeacherButton().setOnAction(event -> this.onRefreshTeacherButtonClicked());
 
-        this.schoolView.getDeleteClassroom().setOnAction(event -> this.deleteClassroom());
-        this.schoolView.getDeleteGroup().setOnAction(event -> this.deleteGroup());
-        this.schoolView.getDeleteStudent().setOnAction(event -> this.deleteStudent());
-        this.schoolView.getDeleteTeacher().setOnAction(event -> this.deleteTeacher());
+        this.schoolView.getDeleteClassroomButton().setOnAction(event -> this.onDeleteClassroomButtonClicked());
+        this.schoolView.getDeleteGroupButton().setOnAction(event -> this.onDeleteGroupButtonClicked());
+        this.schoolView.getDeleteStudentButton().setOnAction(event -> this.onDeleteStudentButtonClicked());
+        this.schoolView.getDeleteTeacherButton().setOnAction(event -> this.onDeleteTeacherButtonClicked());
 
         this.schoolView.getStage().initModality(Modality.WINDOW_MODAL);
         this.schoolView.getStage().initOwner(ownerStage);
         this.schoolView.getStage().show();
     }
 
-    private void openClassroom() {
+    private void onOpenClassroomButtonClicked() {
         Classroom classroom = this.schoolView.getClassroomListView().getSelectionModel().getSelectedItem();
 
         if (!(classroom == null)) {
@@ -69,7 +68,7 @@ public class SchoolController implements Controller
         }
     }
 
-    private void openGroup() {
+    private void onOpenGroupButtonClicked() {
         Group group = this.schoolView.getGroupListView().getSelectionModel().getSelectedItem();
 
         if (!(group == null)) {
@@ -78,7 +77,7 @@ public class SchoolController implements Controller
         }
     }
 
-    private void openTeacher() {
+    private void onOpenTeacherButtonClicked() {
         Teacher teacher = this.schoolView.getTeacherListView().getSelectionModel().getSelectedItem();
 
         if (!(teacher == null)) {
@@ -87,7 +86,7 @@ public class SchoolController implements Controller
         }
     }
 
-    private void openStudent() {
+    private void onOpenStudentButtonClicked() {
         Student student = this.schoolView.getStudentListView().getSelectionModel().getSelectedItem();
 
         if (!(student == null)) {
@@ -97,11 +96,11 @@ public class SchoolController implements Controller
 
     }
 
-    private void apply() {
-        this.refreshClassroom();
-        this.refreshGroup();
-        this.refreshStudent();
-        this.refreshTeacher();
+    private void onApplyButtonClicked() {
+        this.onRefreshClassroomButtonClicked();
+        this.onRefreshGroupButtonClicked();
+        this.onRefreshStudentButtonClicked();
+        this.onRefreshTeacherButtonClicked();
 
         ArrayList<Group> groups = new ArrayList<>();
         ArrayList<Student> students = new ArrayList<>();
@@ -119,40 +118,40 @@ public class SchoolController implements Controller
         this.school.setSchoolName(this.schoolView.getSchoolNameField().getText());
     }
 
-    private void ok() {
-        apply();
+    private void onOkButtonClicked() {
+        this.onApplyButtonClicked();
         this.schoolView.getStage().close();
     }
 
-    private void refreshClassroom() {
+    private void onRefreshClassroomButtonClicked() {
         this.schoolView.getClassroomListView().refresh();
     }
 
-    private void refreshGroup() {
+    private void onRefreshGroupButtonClicked() {
         this.schoolView.getGroupListView().refresh();
     }
 
-    private void refreshStudent() {
+    private void onRefreshStudentButtonClicked() {
         this.schoolView.getStudentListView().refresh();
     }
 
-    private void refreshTeacher() {
+    private void onRefreshTeacherButtonClicked() {
         this.schoolView.getTeacherListView().refresh();
     }
 
-    private void deleteClassroom(){
+    private void onDeleteClassroomButtonClicked() {
         this.schoolView.getClassroomListView().getItems().remove(this.schoolView.getClassroomListView().getSelectionModel().getSelectedItem());
     }
 
-    private void deleteGroup(){
+    private void onDeleteGroupButtonClicked() {
         this.schoolView.getGroupListView().getItems().remove(this.schoolView.getGroupListView().getSelectionModel().getSelectedItem());
     }
 
-    private void deleteStudent(){
+    private void onDeleteStudentButtonClicked() {
         this.schoolView.getStudentListView().getItems().remove(this.schoolView.getStudentListView().getSelectionModel().getSelectedItem());
     }
 
-    private void deleteTeacher(){
+    private void onDeleteTeacherButtonClicked() {
         this.schoolView.getTeacherListView().getItems().remove(this.schoolView.getTeacherListView().getSelectionModel().getSelectedItem());
     }
 }

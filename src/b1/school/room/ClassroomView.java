@@ -40,8 +40,7 @@ public class ClassroomView implements View {
         return this.stage;
     }
 
-
-    public void createStage() {
+    private void createStage() {
         this.stage = new Stage();
         this.stage.getIcons().add(ImageFile.getLogo());
         this.stage.setTitle("Klaslokaal");
@@ -98,10 +97,10 @@ public class ClassroomView implements View {
 
         //applying to stage
         this.stage.setScene(new Scene(mainBox));
-        stage.setMinWidth(325);
-        stage.setMinHeight(350);
-        stage.setMaxWidth(325);
-        stage.setMaxHeight(350);
+        this.stage.setMinWidth(325);
+        this.stage.setMinHeight(350);
+        this.stage.setMaxWidth(325);
+        this.stage.setMaxHeight(350);
     }
 
     public Button getApplyButton() {
@@ -113,18 +112,18 @@ public class ClassroomView implements View {
     }
 
     public TextField getClassroomCode() {
-        return classroomCode;
+        return this.classroomCode;
     }
 
     public TextField getClassroomCapacity() {
-        return classroomCapacity;
+        return this.classroomCapacity;
     }
 
     public TextField getClassroomWidth() {
-        return classroomWidth;
+        return this.classroomWidth;
     }
 
     public TextField getClassroomLength() {
-        return classroomLength;
+        return this.classroomLength;
     }
 }

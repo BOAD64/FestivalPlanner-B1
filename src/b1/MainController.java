@@ -45,7 +45,7 @@ public class MainController implements Controller {
         this.view.getGoToSimulationButton().setOnAction(e -> this.onGoToSimulationClick());
         this.view.getSchoolEditButton().setOnAction(e -> this.onSchoolEditButtonClick());
 
-        if(this.showingSchedule) {
+        if (this.showingSchedule) {
             this.scheduleController = new ScheduleController();
             this.view.setScheduleControllerNode(this.scheduleController.getNode());
             this.fillAddMenuList(this.view.getAddList(), stage);
@@ -65,11 +65,9 @@ public class MainController implements Controller {
 
     }
 
-    private void onAddListClicked(MouseEvent event)
-    {
+    private void onAddListClicked(MouseEvent event) {
         AddMenuItem menuItem = this.view.getAddList().getSelectionModel().getSelectedItem();
-        if (menuItem != null)
-        {
+        if (menuItem != null) {
             menuItem.onclick();
         }
 
@@ -78,16 +76,12 @@ public class MainController implements Controller {
 
     private void onGoToScheduleClick() {
         this.showingSchedule = true;
-        //this.stage.close();
         this.view.setScheduleControllerNode(this.scheduleController.getNode());
-        //this.show();
     }
 
     private void onGoToSimulationClick() {
         this.showingSchedule = false;
-        //this.stage.close();
         this.view.setSimulationNode(this.simulationNode);
-        //this.show();
     }
 
     private void onSchoolEditButtonClick() {

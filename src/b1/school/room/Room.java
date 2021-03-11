@@ -13,7 +13,7 @@ public abstract class Room implements Serializable
     }
 
     public double getWidth() {
-        return width;
+        return this.width;
     }
 
     public void setWidth(double width) {
@@ -21,7 +21,7 @@ public abstract class Room implements Serializable
     }
 
     public double getLength() {
-        return length;
+        return this.length;
     }
 
     public void setLength(double length) {

@@ -10,8 +10,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
-public class ScheduleController implements Controller
-{
+public class ScheduleController implements Controller {
     private School school;
     private final Schedule schedule;
     private final ScheduleView view;
@@ -48,9 +47,14 @@ public class ScheduleController implements Controller
         }
     }
 
+    /**
+     * @return canvas with schedule as Node.
+     */
     public Node getNode() {
         this.view.setAppointments(this.sorter.sort(this.schedule));
-        Stage stage = this.view.getStage();
+        if(this.view.getCanvas() == null) {
+            this.view.createStage();
+        }
         this.view.getCanvas().setOnMouseClicked(this.onCanvasClick());
         this.view.draw();
         return this.view.getCanvas();
@@ -61,24 +65,9 @@ public class ScheduleController implements Controller
         this.view.draw();
     }
 
-//    private HashMap<Object, ArrayList<AppointmentAbstract>> sort(Schedule schedule, SortingType sortingType) {
-//        HashMap<Object, ArrayList<AppointmentAbstract>> result = new HashMap<>();
-//        for (AppointmentAbstract appointment : schedule.getAppointments()) {
-//            if (appointment.getStartTime() == null || appointment.getEndTime() == null) {
-//                continue;
-//            }
-//            if (sortingType == SortingType.Room) {
-//                ArrayList<AppointmentAbstract> appointments = result.computeIfAbsent(appointment.getLocation(), k -> new ArrayList<>());
-//                appointments.add(appointment);
-//            }
-//        }
-//
-//        return result;
-//    }
 
     private EventHandler<MouseEvent> onCanvasClick() {
-        return new EventHandler<MouseEvent>()
-        {
+        return new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent t) {
                 ArrayList<AppointmentShape> appointmentShapes = view.getAppointmentShapes();
@@ -101,15 +90,15 @@ public class ScheduleController implements Controller
         AppointmentControllerAbstract controller;
         if (appointmentShape.getAppointment() instanceof GeneralAppointment) {
             controller = new GeneralAppointmentController((GeneralAppointment) appointmentShape.getAppointment());
-        }
-        else if (appointmentShape.getAppointment() instanceof Lesson) {
+        } else if (appointmentShape.getAppointment() instanceof Lesson) {
             controller = new LessonController((Lesson) appointmentShape.getAppointment());
-        }
-        else {
+        } else {
             return;
         }
 
-        controller.onClose(event -> {this.refresh();});
+        controller.onClose(event -> {
+            this.refresh();
+        });
 
         controller.show();
         this.view.draw();
