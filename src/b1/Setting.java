@@ -7,7 +7,7 @@ public class Setting {
 
     public static class Map
     {
-        public static final String TilesetPath = Setting.class.getResource("/finalSchoolTileSet.png").getPath();
-        public static final String MapJsonPath = Setting.class.getResource("/hogwardsMap.json").getPath();
+        public static final String TilesetPath = Setting.class.getResource("/finalSchoolTileSet.png").getPath().replace("%20", " ");
+        public static final String MapJsonPath = Setting.class.getResource("/hogwardsMap.json").getPath().replace("%20", " ");
     }
 }
