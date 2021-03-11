@@ -22,8 +22,7 @@ public class LessonController extends AppointmentControllerAbstract
     private LessonView view;
     private School school;
 
-    public LessonController()
-    {
+    public LessonController() {
         this(new Lesson(null, null, null, null, null, null, null));
     }
 
@@ -45,6 +44,9 @@ public class LessonController extends AppointmentControllerAbstract
             this.view.getCancelButton().setOnAction(this.onCancelClicked());
             this.view.getSaveButton().setOnAction(this.onSaveClicked());
 
+            this.view.getGroupComboBox().setItems(FXCollections.observableList(this.school.getGroups()));
+            this.view.getTeacherComboBox().setItems(FXCollections.observableList(this.school.getTeachers()));
+
             if (this.lesson.getName() != null) {
                 this.view.getNameField().setText(this.lesson.getName());
             }
@@ -56,18 +58,23 @@ public class LessonController extends AppointmentControllerAbstract
                 this.view.getEndTimeHour().increment(this.lesson.getEndTime().getHour());
                 this.view.getEndTimeMinute().increment(this.lesson.getEndTime().getMinute());
             }
-            if(this.school.getClassrooms() != null) {
+            if (this.school.getClassrooms() != null) {
                 this.view.getLocationField().setItems(FXCollections.observableList(this.school.getRooms()));
             }
-            if(this.lesson.getLocation() != null) {
+            if (this.lesson.getLocation() != null) {
                 this.view.getLocationField().getSelectionModel().select(this.lesson.getLocation());
             }
-            if(this.lesson.getDescription() != null) {
+            if (this.lesson.getDescription() != null) {
                 this.view.getDescriptionField().setText(this.lesson.getDescription());
             }
-
-            this.view.getGroupComboBox().setItems(FXCollections.observableList(this.school.getGroups()));
-            this.view.getTeacherComboBox().setItems(FXCollections.observableList(this.school.getTeachers()));
+            if(this.lesson.getTeacher() != null)
+            {
+                this.view.getTeacherComboBox().getSelectionModel().select(this.lesson.getTeacher());
+            }
+            if(this.lesson.getGroup() != null)
+            {
+                this.view.getGroupComboBox().getSelectionModel().select(this.lesson.getGroup());
+            }
 
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(ownerStage);
@@ -103,30 +110,25 @@ public class LessonController extends AppointmentControllerAbstract
                 LocalTime beginTime = LocalTime.of(beginHour, beginMinute);
                 LocalTime endTime = LocalTime.of(endHour, endMinute);
 
-                if(endTime.isBefore(beginTime))
-                {
+                if (endTime.isBefore(beginTime)) {
                     ErrorMessage.show("De begin tijd mag niet voor de eindtijd zijn.");
                     return;
                 }
-                if(ChronoUnit.SECONDS.between(beginTime, endTime) < 60)
-                {
+                if (ChronoUnit.SECONDS.between(beginTime, endTime) < 60) {
                     ErrorMessage.show("De begin tijd moet minimaal 1 minuut van de eindtijd afwijken");
                     return;
                 }
-                if(location == null)
-                {
+                if (location == null) {
                     ErrorMessage.show("De locatie kan niet leeg zijn.");
                     return;
                 }
 
-                if(studentGroup == null)
-                {
+                if (studentGroup == null) {
                     ErrorMessage.show("De groep kan niet leeg zijn.");
                     return;
                 }
 
-                if(teacher == null)
-                {
+                if (teacher == null) {
                     ErrorMessage.show("De docent kan niet leeg zijn.");
                     return;
                 }
