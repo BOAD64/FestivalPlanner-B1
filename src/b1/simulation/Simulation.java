@@ -5,11 +5,12 @@ import b1.io.MapFile;
 import b1.io.TilesetFile;
 import javafx.animation.AnimationTimer;
 import javafx.beans.value.ChangeListener;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.geometry.Insets;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.StackPane;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.layout.*;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
 
@@ -61,6 +62,17 @@ public class Simulation
         }.start();
 
         this.pane.getChildren().add(this.canvas);
+
+        VBox zoomButtons = new VBox();
+        zoomButtons.setAlignment(Pos.TOP_RIGHT);
+        Button plus = new Button("+");
+        Button min = new Button("-");
+        plus.setOnAction(this::onZoomButtonPress);
+        min.setOnAction(this::onZoomButtonPress);
+        plus.setPrefSize(25, 25);
+        min.setPrefSize(25, 25);
+        zoomButtons.getChildren().addAll(plus, min);
+        this.pane.getChildren().add(zoomButtons);
     }
 
     public void init() {
@@ -88,5 +100,19 @@ public class Simulation
             this.canvas.setWidth(this.pane.getWidth());
             this.canvas.setHeight(this.pane.getHeight());
         };
+    }
+
+    private void onZoomButtonPress(ActionEvent e){
+        double zoom = this.camera.getZoom();
+        switch (((Button)e.getSource()).getText()){
+            case "+": {
+                this.camera.setZoom(zoom * 1.2);
+                break;
+            }
+            case "-": {
+                this.camera.setZoom(zoom * 0.8);
+                break;
+            }
+        }
     }
 }

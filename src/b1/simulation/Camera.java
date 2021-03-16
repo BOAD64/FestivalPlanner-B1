@@ -53,8 +53,17 @@ public class Camera {
     }
 
     public void mouseScroll(ScrollEvent e) {
-        zoom *= (1 + e.getDeltaY()/250.0f);
-        zoom = Math.max(Math.min(zoom, Setting.Map.MAX_ZOOM),  Setting.Map.MIN_ZOOM);
+        this.zoom *= (1 + e.getDeltaY()/250.0f);
+        this.zoom = Math.max(Math.min(this.zoom, Setting.Map.MAX_ZOOM),  Setting.Map.MIN_ZOOM);
+        this.resizable.draw(g2d);
+    }
+
+    public void setZoom(double zoom) {
+        this.zoom = Math.max(Math.min(zoom, Setting.Map.MAX_ZOOM),  Setting.Map.MIN_ZOOM);
         resizable.draw(g2d);
+    }
+
+    public double getZoom() {
+        return zoom;
     }
 }

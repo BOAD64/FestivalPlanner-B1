@@ -46,13 +46,13 @@ public class SimpleScheduleTest extends Application implements Test
             testSchool.getSchedule().getAppointments().add(new Lesson("OGP1", LocalTime.of(9, 0), LocalTime.of(10, 0), testSchool.getRooms().get(1), "Hallo", studentGroup, testSchool.getTeachers().get(0)));
             testSchool.getSchedule().getAppointments().add(new Lesson("OGP1", LocalTime.of(9, 30), LocalTime.of(10, 30), testSchool.getRooms().get(1), "Hallo", studentGroup, testSchool.getTeachers().get(0)));
 
-            SchoolFile.setFilePath(System.getenv("APPDATA")
-                    + System.getProperty("file.separator")
-                    + "HogwartsSimulator"
-                    + System.getProperty("file.separator")
-                    + "data.dat");
+            //SchoolFile.setFilePath(System.getenv("APPDATA")
+              //      + System.getProperty("file.separator")
+                //    + "HogwartsSimulator"
+                  //  + System.getProperty("file.separator")
+                    //+ "data.dat");
 
-            if(SchoolFile.getSchool() == null)
+            //if(SchoolFile.getSchool() == null)
             {
                 SchoolFile.setSchool(testSchool);
             }
