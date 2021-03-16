@@ -14,10 +14,12 @@ import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 
 public class Simulation
 {
     private ResizableCanvas canvas;
+    private Camera camera;
     private StackPane pane;
     private Map map;
 
@@ -39,11 +41,11 @@ public class Simulation
         }
 
         this.pane = new StackPane();
-        this.pane.setBackground(new Background(new BackgroundFill(javafx.scene.paint.Color.rgb(255, 65, 65), CornerRadii.EMPTY, Insets.EMPTY)));
         this.pane.heightProperty().addListener(this.onPaneResize());
         this.pane.widthProperty().addListener(this.onPaneResize());
         this.canvas = new ResizableCanvas(this::draw, this.pane);
         FXGraphics2D g2d = new FXGraphics2D(canvas.getGraphicsContext2D());
+        this.camera = new Camera(this.canvas, this::draw, g2d);
         draw(g2d);
 
         new AnimationTimer() {
@@ -70,9 +72,15 @@ public class Simulation
     }
 
     public void draw(FXGraphics2D graphics) {
-        graphics.setBackground(Color.WHITE);
+        graphics.setBackground(Setting.Map.SIM_BACKGROUND_COLOR);
         graphics.clearRect(0,0,(int)this.canvas.getWidth(),(int)this.canvas.getHeight());
+
+        AffineTransform originalTransform = graphics.getTransform();
+        graphics.setTransform(camera.getTransform());
+
         this.map.draw(graphics);
+
+        graphics.setTransform(originalTransform);
     }
 
     private ChangeListener<Number> onPaneResize() {
