@@ -16,7 +16,7 @@ public class ImageFile {
     public static Image getLogo() {
         if (logo == null) {
             try {
-                FileInputStream inputStream = new FileInputStream("resources\\logo.png");
+                FileInputStream inputStream = new FileInputStream("resources/logo.png");
                 logo = new Image(inputStream);
             } catch (Exception e) {
                 e.printStackTrace();
