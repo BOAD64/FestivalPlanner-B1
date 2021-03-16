@@ -35,14 +35,13 @@ public class MainView implements View {
     private Button goToSimulationButton;
     private Button schoolEditButton;
 
-//    enum Controllers{GROUP,CLASSROOM, STUDENT, TEACHER, APPOINTMENT}
 
     public MainView() {
     }
 
     @Override
     public Stage getStage() {
-        if(this.stage == null) {
+        if (this.stage == null) {
             createStage();
         }
         return this.stage;
@@ -57,32 +56,40 @@ public class MainView implements View {
     }
 
     void setSimulationNode(Node simulationNode) {
-        if(this.HBox.getChildren().contains(simulationNode)) {
+        if (this.HBox.getChildren().contains(simulationNode)) {
             return;
         }
 
-        if(simulationNode == null) {
+        if (simulationNode == null) {
             return;
         }
 
         this.simulationNode = simulationNode;
-        if(this.scheduleControllerNode != null) {
+        if (this.scheduleControllerNode != null) {
             this.HBox.getChildren().remove(this.stackPane);
         }
 
+        ((StackPane) simulationNode).setMaxWidth(Double.MAX_VALUE);
+        ((StackPane) simulationNode).setMaxHeight(Double.MAX_VALUE);
+        this.HBox.heightProperty().addListener((observable, oldValue, newValue) -> {
+            ((StackPane) simulationNode).setPrefHeight(newValue.doubleValue());
+        });
+        this.HBox.widthProperty().addListener((observable, oldValue, newValue) -> {
+            ((StackPane) simulationNode).setPrefWidth(newValue.doubleValue());
+        });
         this.HBox.getChildren().add(simulationNode);
     }
 
     void setScheduleControllerNode(Node scheduleControllerNode) {
-        if(this.HBox.getChildren().contains(this.stackPane)) {
+        if (this.HBox.getChildren().contains(this.stackPane)) {
             return;
         }
-        if(this.simulationNode != null) {
+        if (this.simulationNode != null) {
             this.HBox.getChildren().remove(this.simulationNode);
         }
 
         this.scheduleControllerNode = scheduleControllerNode;
-        if(this.stackPane == null) {
+        if (this.stackPane == null) {
             this.stackPane = new StackPane();
         } else {
             this.stackPane.getChildren().clear();
@@ -112,10 +119,10 @@ public class MainView implements View {
         try {
             plusInputStream = new FileInputStream("resources\\plus.png");
             arrowInputStream = new FileInputStream("resources\\arrow.png");
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        if(plusInputStream != null && arrowInputStream != null) {
+        if (plusInputStream != null && arrowInputStream != null) {
             Image plus = new Image(plusInputStream);
             Image arrow = new Image(arrowInputStream);
             this.plusImageView = new ImageView(plus);
@@ -130,13 +137,12 @@ public class MainView implements View {
             this.hamburgerIsOut = false;
 
             this.plusImageView.setOnMouseClicked(event -> this.changeVisibilityOfAddList());
-            
+
             //test
             this.optionMenuVBox = new VBox();
             this.optionMenuVBox.setMinWidth(150);
             this.optionMenuVBox.setAlignment(Pos.TOP_CENTER);
 
-            //comboBoxes.setBackground(new Background(new BackgroundFill(Color.hsb(0, 0, 0.255), CornerRadii.EMPTY, Insets.EMPTY)));
             this.optionMenuVBox.setBackground(new Background(new BackgroundFill(Color.rgb(65, 65, 65), CornerRadii.EMPTY, Insets.EMPTY)));
             this.HBox.setBackground(new Background(new BackgroundFill(Color.rgb(65, 65, 65), CornerRadii.EMPTY, Insets.EMPTY)));
 
@@ -163,7 +169,7 @@ public class MainView implements View {
         //Opening and closing of hamburger menu
         arrowImageView.setOnMouseClicked(event -> {
 
-            if(this.hamburgerIsOut) {
+            if (this.hamburgerIsOut) {
                 this.hamburgerIsOut = false;
                 this.hamburger.getChildren().remove(0, 2);
                 arrowImageView.setRotate(0);

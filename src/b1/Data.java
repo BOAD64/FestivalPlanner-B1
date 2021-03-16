@@ -1,5 +1,4 @@
 package b1;
 
-public interface Data
-{
+public interface Data {
 }

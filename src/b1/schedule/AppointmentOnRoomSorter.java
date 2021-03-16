@@ -6,7 +6,8 @@ import b1.school.room.Room;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class AppointmentOnRoomSorter implements AppointmentSorter {
+public class AppointmentOnRoomSorter implements AppointmentSorter
+{
     @Override
     public HashMap<Object, ArrayList<AppointmentAbstract>> sort(Schedule schedule) {
         HashMap<Object, ArrayList<AppointmentAbstract>> result = new HashMap<>();
@@ -19,6 +20,10 @@ public class AppointmentOnRoomSorter implements AppointmentSorter {
             if (appointment.getStartTime() == null || appointment.getEndTime() == null) {
                 continue;
             }
+            if (appointment.getLocation() == null) {
+                continue;
+            }
+
             ArrayList<AppointmentAbstract> appointments = result.get(appointment.getLocation());
             appointments.add(appointment);
         }

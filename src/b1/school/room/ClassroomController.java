@@ -10,8 +10,7 @@ public class ClassroomController implements Controller {
     private ClassroomView classroomView;
     private Classroom classroom;
 
-    public ClassroomController()
-    {
+    public ClassroomController() {
         this(new Classroom(0, 0, "", 0));
     }
 
@@ -32,28 +31,28 @@ public class ClassroomController implements Controller {
     @Override
     public void show(Stage ownerStage) {
         Stage stage = classroomView.getStage();
-        this.classroomView.getOkButton().setOnAction(event -> this.okButton());
-        this.classroomView.getApplyButton().setOnAction(event -> this.applyButton());
+        this.classroomView.getOkButton().setOnAction(event -> this.onOkButtonClicked());
+        this.classroomView.getApplyButton().setOnAction(event -> this.onApplyButtonClicked());
 
         stage.initModality(Modality.WINDOW_MODAL);
         stage.initOwner(ownerStage);
         stage.show();
     }
 
-    private void okButton(){
-        if(this.applyButton()) {
+    private void onOkButtonClicked() {
+        if (this.onApplyButtonClicked()) {
             this.getClassroomView().getStage().close();
         }
     }
 
-    private boolean applyButton(){
+    private boolean onApplyButtonClicked() {
         try {
             this.classroom.setCapacity(Integer.parseInt(this.classroomView.getClassroomCapacity().getText()));
             this.classroom.setRoomCode(this.classroomView.getClassroomCode().getText());
             this.classroom.setLength(Double.parseDouble(this.getClassroomView().getClassroomLength().getText()));
             this.classroom.setWidth(Double.parseDouble(this.getClassroomView().getClassroomWidth().getText()));
             SchoolFile.getSchool().addClassroom(this.classroom);
-        } catch(Exception e) {
+        } catch (Exception e) {
             ErrorMessage.show();
             return false;
         }

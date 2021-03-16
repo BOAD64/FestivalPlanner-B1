@@ -65,7 +65,7 @@ public class StudentView extends PersonView {
         this.groupComboBox.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
         this.groupComboBox.setItems(FXCollections.observableList(SchoolFile.getSchool().getGroups()));
 
-        //if the age of the Student is not -1 than the program loads the attributes of the Student into the TextFields.
+        //if the age of the Student is not -1 than the program loads the attributes of the Student into the TextFields
         if(this.student.getAge() != -1) {
             super.nameField.setText(this.student.getName());
             super.ageField.setText(this.student.getAge() + "");

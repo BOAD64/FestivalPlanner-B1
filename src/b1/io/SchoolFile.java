@@ -5,7 +5,8 @@ import b1.school.School;
 
 import java.io.*;
 
-public class SchoolFile {
+public class SchoolFile
+{
     private static String filePath;
     private static School school;
 
@@ -49,7 +50,8 @@ public class SchoolFile {
         if (file.exists()) {
             try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(fileName))) {
                 return (School) objectInputStream.readObject();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
@@ -57,9 +59,15 @@ public class SchoolFile {
     }
 
     private static void writeFile(String filename, School school) {
+        File file = new File(filename);
+        File directory = file.getParentFile();
+        if (!directory.exists()) {
+            directory.mkdir();
+        }
         try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(filename))) {
             objectOutputStream.writeObject(school);
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             ex.printStackTrace();
         }
     }
