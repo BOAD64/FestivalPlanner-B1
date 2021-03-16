@@ -6,6 +6,8 @@ import b1.io.TilesetFile;
 import javafx.animation.AnimationTimer;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -22,12 +24,14 @@ public class Simulation {
     private StackPane pane;
     private Map map;
     private Clock clock;
+    private Slider slider;
 
     public Simulation() {
         TilesetFile.setPath(Setting.Map.TilesetPath);
         MapFile.setPath(Setting.Map.MapJsonPath);
         this.map = new Map(TilesetFile.getTileset(), MapFile.getMapFile());
-        this.clock = new Clock(2, LocalTime.now(), new Point2D.Double(0, 70));
+        this.clock = new Clock(2, LocalTime.of(8, 0), new Point2D.Double(0, 70));
+        this.slider = new Slider(-60, 60, 1);
     }
 
     public StackPane getPane() {
@@ -61,21 +65,36 @@ public class Simulation {
         }.start();
 
         this.pane.getChildren().add(this.canvas);
+
+        this.slider.setMaxWidth(400);
+        this.pane.getChildren().add(this.slider);
+        StackPane.setAlignment(this.slider, Pos.BOTTOM_RIGHT);
+        this.pane.setMargin(this.slider, new Insets(0,30,30,0));
     }
 
     public void init() {
 
     }
 
+    /**
+     * currently updates the clock
+     * @param deltaTime
+     */
     public void update(double deltaTime) {
-        this.clock.update(deltaTime, new Point2D.Double(canvas.getWidth() - 200, 70));
+        this.clock.setSpeedMultiplier(slider.getValue());
+        this.clock.update(deltaTime);
+        Double newDeltaTime = this.clock.getNewDeltaTime(deltaTime); //use this instead of deltaTime
     }
 
     public void draw(FXGraphics2D graphics) {
         graphics.setBackground(Color.WHITE);
         graphics.clearRect(0,0,(int)this.canvas.getWidth(),(int)this.canvas.getHeight());
         this.map.draw(graphics);
-        this.clock.draw(graphics);
+        double clockXpos = this.canvas.getWidth() - 300;
+        if (clockXpos < 0) {
+            clockXpos = 0;
+        }
+        this.clock.draw(graphics, new Point2D.Double(clockXpos, this.canvas.getHeight() - 70));
     }
 
     private ChangeListener<Number> onPaneResize() {

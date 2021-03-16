@@ -30,24 +30,47 @@ public class Clock {
         this.clockFont = new Font("Rockwell", Font.PLAIN, 70);
     }
 
+    /**
+     * gets the current time
+     * @return
+     */
     public LocalTime getCurrentTime(){
         return this.currentTime;
     }
 
+    /**
+     * gets the new Delta time
+     * used to apply speed multiplier to delta time in simulation class
+     * @param deltaTime
+     * @return
+     */
     public double getNewDeltaTime(double deltaTime){
         return deltaTime * speedMultiplier;
     }
 
+    /**
+     * sets the speed multiplier to the value
+     * @param speedMultiplier
+     */
     public void setSpeedMultiplier(double speedMultiplier){
         this.speedMultiplier = speedMultiplier;
     }
 
-    public void update(double originalDeltaTime, Point2D location){
+    /**
+     * updates the current time to the given value
+     * @param originalDeltaTime
+     */
+    public void update(double originalDeltaTime){
         this.currentTime = this.currentTime.plusNanos((long)((originalDeltaTime * Math.pow(10, 9)) * 60 * speedMultiplier));
-        this.location = location;
     }
 
-    public void draw(FXGraphics2D graphics){
+    /**
+     * draws the clock with the current time
+     * @param graphics
+     * @param location
+     */
+    public void draw(FXGraphics2D graphics, Point2D location){
+        this.location = location;
         graphics.setColor(Color.white);
         graphics.setFont(clockFont);
         String time = currentTime.format(DateTimeFormatter.ofPattern("HH:mm"));
