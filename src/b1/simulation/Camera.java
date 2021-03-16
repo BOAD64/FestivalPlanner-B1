@@ -42,7 +42,6 @@ public class Camera {
                     centerPoint.getX() - (lastMousePos.getX() - e.getX()) / zoom,
                     centerPoint.getY() - (lastMousePos.getY() - e.getY()) / zoom
             );
-            System.out.println(centerPoint);
             centerPoint.setLocation(
                     Math.max(Math.min(centerPoint.getX(),  Setting.Map.MIN_X_BOUND),  Setting.Map.MAX_X_BOUND),
                     Math.max(Math.min(centerPoint.getY(),  Setting.Map.MIN_Y_BOUND), Setting.Map.MAX_Y_BOUND)

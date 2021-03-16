@@ -17,6 +17,7 @@ import javafx.scene.layout.StackPane;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
 
@@ -79,7 +80,7 @@ public class Simulation {
         this.pane.setMargin(this.slider, new Insets(0,30,30,0));
 
         VBox zoomButtons = new VBox();
-        zoomButtons.setAlignment(Pos.TOP_RIGHT);
+        zoomButtons.setMaxSize(25, 50);
         Button plus = new Button("+");
         Button min = new Button("-");
         plus.setOnAction(this::onZoomButtonPress);
@@ -88,6 +89,7 @@ public class Simulation {
         min.setPrefSize(25, 25);
         zoomButtons.getChildren().addAll(plus, min);
         this.pane.getChildren().add(zoomButtons);
+        StackPane.setAlignment(zoomButtons, Pos.TOP_RIGHT);
     }
 
     public void init() {
@@ -111,14 +113,21 @@ public class Simulation {
         AffineTransform originalTransform = graphics.getTransform();
         graphics.setTransform(camera.getTransform());
 
-        this.map.draw(graphics);
-        double clockXpos = this.canvas.getWidth() - 300;
-        if (clockXpos < 0) {
-            clockXpos = 0;
+        //with camera
+        {
+            this.map.draw(graphics);
         }
-        this.clock.draw(graphics, new Point2D.Double(clockXpos, this.canvas.getHeight() - 70));
 
         graphics.setTransform(originalTransform);
+
+        //without camera
+        {
+            double clockXpos = this.canvas.getWidth() - 300;
+            if (clockXpos < 0) {
+                clockXpos = 0;
+            }
+            this.clock.draw(graphics, new Point2D.Double(clockXpos, this.canvas.getHeight() - 70));
+        }
     }
 
     private ChangeListener<Number> onPaneResize() {
