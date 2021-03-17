@@ -1,11 +1,35 @@
 package b1.simulation.NPC;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public abstract class NPC {
-    private Point2D position;
+    Point2D position;
+    double angle;
+    ArrayList<BufferedImage> sprites;
+    double frame;
+    Point2D target;
+    double rotationSpeed;
+    double speed;
 
+    public NPC(Point2D position, double angle) {
+        this.position = position;
+        this.angle = angle;
+    }
 
+    public void setTarget(Point2D position) {
+        this.target = position;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
+    abstract public void update();
+
+    abstract public void draw(Graphics2D graphics);
 }
 
 //notes van opstart week 5

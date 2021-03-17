@@ -3,28 +3,25 @@ package b1.simulation;
 import b1.Setting;
 import b1.io.MapFile;
 import b1.io.TilesetFile;
+import b1.simulation.NPC.NPC;
+import b1.simulation.NPC.StudentNPC;
 import javafx.animation.AnimationTimer;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Slider;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Paint;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 import java.time.LocalTime;
 import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
 
 public class Simulation {
     private ResizableCanvas canvas;
@@ -33,6 +30,12 @@ public class Simulation {
     private Map map;
     private Clock clock;
     private Slider slider;
+    private ArrayList<NPC> NPCs;
+    private Button clockSpeedButton;
+    private TextField speedValueField;
+
+    //NPC test
+    private Point2D mousePos;
 
     public Simulation() {
         TilesetFile.setPath(Setting.Map.TilesetPath);
@@ -40,6 +43,17 @@ public class Simulation {
         this.map = new Map(TilesetFile.getTileset(), MapFile.getMapFile());
         this.clock = new Clock(2, LocalTime.of(8, 0), new Point2D.Double(0, 70));
         this.slider = new Slider(-60, 60, 1);
+        this.clockSpeedButton = new Button("tijd snelheid naar 1x");
+        this.speedValueField = new TextField("Snelheid: 1x");
+        this.NPCs = new ArrayList<>();
+
+        //test NPCs
+        addTestNPCs();
+        this.mousePos = new Point2D.Double(500, 500);
+    }
+
+    private void addTestNPCs() {
+        this.NPCs.add(new StudentNPC(new Point2D.Double(500, 500), 0));
     }
 
     public StackPane getPane() {
@@ -72,13 +86,40 @@ public class Simulation {
             }
         }.start();
 
+        //NPC test
+        canvas.setOnMouseMoved(e -> {
+            try {
+                this.mousePos = camera.getTransform().inverseTransform(new Point2D.Double(e.getX(), e.getY()), null);
+            } catch (Exception exeption) {
+                exeption.printStackTrace();
+            }
+
+        });
+
         this.pane.getChildren().add(this.canvas);
 
-        this.slider.setMaxWidth(400);
-        this.pane.getChildren().add(this.slider);
-        StackPane.setAlignment(this.slider, Pos.BOTTOM_RIGHT);
-        this.pane.setMargin(this.slider, new Insets(0,30,30,0));
+        //clock functions
+        VBox clockVBox = new VBox();
+        HBox clockHBox = new HBox();
+        this.clockSpeedButton.setOnAction(e -> this.slider.setValue(1));
+        this.speedValueField.setEditable(false);
+        clockHBox.getChildren().add(clockSpeedButton);
+        clockHBox.getChildren().add(speedValueField);
+        clockHBox.setAlignment(Pos.CENTER);
+        clockVBox.setSpacing(10);
 
+
+        this.slider.setMaxWidth(400);
+        clockVBox.getChildren().add(clockHBox);
+        clockVBox.getChildren().add(this.slider);
+        clockVBox.setAlignment(Pos.CENTER);
+        clockVBox.setMaxSize(400, 40);
+
+        this.pane.getChildren().add(clockVBox);
+        StackPane.setAlignment(clockVBox, Pos.BOTTOM_RIGHT);
+        this.pane.setMargin(clockVBox, new Insets(0,30,30,0));
+
+        //camera functions
         VBox zoomButtons = new VBox();
         zoomButtons.setMaxSize(25, 50);
         Button plus = new Button("+");
@@ -92,18 +133,25 @@ public class Simulation {
         StackPane.setAlignment(zoomButtons, Pos.TOP_RIGHT);
     }
 
-    public void init() {
-
-    }
+    public void init() {}
 
     /**
      * currently updates the clock
      * @param deltaTime
      */
     public void update(double deltaTime) {
+        this.speedValueField.setText("Snelheid: " + (Math.round(slider.getValue() * 100)/100.0) + "x");
         this.clock.setSpeedMultiplier(slider.getValue());
         this.clock.update(deltaTime);
         Double newDeltaTime = this.clock.getNewDeltaTime(deltaTime); //use this instead of deltaTime
+
+        if (newDeltaTime > 0) {
+            for (NPC npc : this.NPCs) {
+                npc.setSpeed(newDeltaTime * 100);
+                npc.setTarget(this.mousePos);
+                npc.update();
+            }
+        }
     }
 
     public void draw(FXGraphics2D graphics) {
@@ -116,17 +164,20 @@ public class Simulation {
         //with camera
         {
             this.map.draw(graphics);
+            for (NPC npc : this.NPCs) {
+                npc.draw(graphics);
+            }
         }
 
         graphics.setTransform(originalTransform);
 
         //without camera
         {
-            double clockXpos = this.canvas.getWidth() - 300;
+            double clockXpos = this.canvas.getWidth() - 330;
             if (clockXpos < 0) {
                 clockXpos = 0;
             }
-            this.clock.draw(graphics, new Point2D.Double(clockXpos, this.canvas.getHeight() - 70));
+            this.clock.draw(graphics, new Point2D.Double(clockXpos, this.canvas.getHeight() - 100));
         }
     }
 
