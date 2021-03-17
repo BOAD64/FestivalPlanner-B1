@@ -1,35 +1,48 @@
 package b1.simulation.NPC;
 
+import b1.school.person.Person;
+
 import java.awt.*;
+import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public abstract class NPC {
     Point2D position;
+    double hitBoxSize;
     double angle;
     ArrayList<BufferedImage> sprites;
     double frame;
     Point2D target;
     double rotationSpeed;
     double speed;
+    Person person;
 
-    public NPC(Point2D position, double angle) {
+    public NPC(Point2D position, double angle, Person person) {
         this.position = position;
         this.angle = angle;
+        this.person = person;
+        this.target = position;
     }
 
     public void setTarget(Point2D position) {
         this.target = position;
     }
 
-    public void setSpeed(double speed) {
-        this.speed = speed;
-    }
+    abstract public void setSpeed(double speed);
 
-    abstract public void update();
+    abstract public void update(ArrayList<NPC> CollisionNPCs);
 
     abstract public void draw(Graphics2D graphics);
+
+    public double getHitBoxSize() {
+        return this.hitBoxSize;
+    };
+
+    public Point2D getPosition() {
+        return this.position;
+    }
 }
 
 //notes van opstart week 5

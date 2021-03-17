@@ -1,5 +1,9 @@
 package b1.simulation.NPC;
 
+import b1.school.person.Person;
+import b1.school.person.Student;
+import sun.nio.cs.ext.MacHebrew;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -11,15 +15,18 @@ import java.util.ArrayList;
 
 public class StudentNPC extends NPC {
 
-    public StudentNPC(Point2D position, double angle) {
-        super(position, angle);
+    public StudentNPC(Point2D position, double angle, Student student) {
+        super(position, angle, student);
+        this.hitBoxSize = 64;
         this.frame = Math.random() * 10;
-        this.target = position;
-        this.rotationSpeed = 0.1;
         this.sprites = new ArrayList<>();
         this.speed = 2;
+        this.rotationSpeed = 0.05;
+
+
         try {
             BufferedImage image = ImageIO.read(getClass().getResourceAsStream("/testNPC.png"));
+
             sprites.add(image);
         } catch (Exception e) {
             e.printStackTrace();
@@ -33,19 +40,59 @@ public class StudentNPC extends NPC {
 
     @Override
     public void setSpeed(double speed) {
-        super.setSpeed(speed);
+        this.speed = speed * 2;
+        this.rotationSpeed = speed * 0.05;
     }
 
     @Override
-    public void update() {
-        if(target.distanceSq(position) < 10)
-            return;
+    public void update(ArrayList<NPC> collisionNPCs) {
+        if(target.distanceSq(position) < 10) return;
 
-        this.angle = Math.atan2(this.target.getY() - this.position.getY(), this.target.getX() - this.position.getX());
+        double targetAngle = Math.atan2(this.target.getY() - this.position.getY(), this.target.getX() - this.position.getX());
+        double rotation = targetAngle - this.angle;
+        while(rotation < -Math.PI) {
+            rotation += 2*Math.PI;
+        }
+        while(rotation > Math.PI) {
+            rotation -= 2*Math.PI;
+        }
 
-        this.position = new Point2D.Double(
-                this.position.getX() + this.speed * Math.cos(this.angle),
-                this.position.getY() + this.speed * Math.sin(this.angle));
+        if(rotation < -rotationSpeed) {
+            this.angle -= rotationSpeed;
+        } else if(rotation > rotationSpeed) {
+            this.angle += rotationSpeed;
+        } else {
+            this.angle = targetAngle;
+        }
+
+        boolean hasCollision = false;
+        hasCollision = checkCollision(collisionNPCs);
+
+        if (!hasCollision) {
+            Point2D nextPos = new Point2D.Double(
+                    this.position.getX() + this.speed * Math.cos(this.angle),
+                    this.position.getY() + this.speed * Math.sin(this.angle));
+            this.position = nextPos;
+        }
+    }
+
+    private boolean checkCollision(ArrayList<NPC> collisionNPCs) {
+        boolean hasCollision = false;
+        for (NPC npc : collisionNPCs) {
+            if (npc != this) {
+                double thereSize = npc.getHitBoxSize();
+                if (npc.getPosition().distanceSq(this.position) < this.hitBoxSize * thereSize + 10) {
+                    hasCollision = true;
+                    double angleToNPC = Math.atan2(
+                            npc.getPosition().getY() -this.position.getY(),
+                            npc.getPosition().getX() -this.position.getX());
+                    this.position = new Point2D.Double(
+                            this.position.getX() - (this.speed / 2) * Math.cos(angleToNPC),
+                            this.position.getY() - (this.speed / 2) * Math.sin(angleToNPC));
+                }
+            }
+        }
+        return hasCollision;
     }
 
     @Override
@@ -53,16 +100,14 @@ public class StudentNPC extends NPC {
         int centerX = sprites.get(0).getWidth()/(2 * 20); //(...) must be 2 in real picture
         int centerY = sprites.get(0).getHeight()/(2 * 20); //(...) must be 2 in real picture
         AffineTransform tx = new AffineTransform();
-
         tx.translate(position.getX() - centerX, position.getY() - centerY);
         tx.rotate(angle + Math.PI/2, centerX, centerY);
         tx.scale(0.05, 0.05);
 
         graphics.drawImage(this.sprites.get(0), tx, null);
 
-
-
         graphics.setColor(Color.white);
-        graphics.draw(new Ellipse2D.Double(position.getX()-32, position.getY()-32, 64, 64));
+        graphics.draw(new Ellipse2D.Double(position.getX()-32, position.getY()-32, this.hitBoxSize, this.hitBoxSize));
+        graphics.draw(new Line2D.Double(position, target));
     }
 }

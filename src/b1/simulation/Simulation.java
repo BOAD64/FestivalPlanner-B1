@@ -3,6 +3,8 @@ package b1.simulation;
 import b1.Setting;
 import b1.io.MapFile;
 import b1.io.TilesetFile;
+import b1.school.group.Group;
+import b1.school.person.Student;
 import b1.simulation.NPC.NPC;
 import b1.simulation.NPC.StudentNPC;
 import javafx.animation.AnimationTimer;
@@ -53,7 +55,14 @@ public class Simulation {
     }
 
     private void addTestNPCs() {
-        this.NPCs.add(new StudentNPC(new Point2D.Double(500, 500), 0));
+        this.NPCs.add(new StudentNPC(new Point2D.Double(200, 200), 0, new Student(
+                "testBoy", (short)34, "Bird", (short)1,new Group("Birdy Boys"))));
+        this.NPCs.add(new StudentNPC(new Point2D.Double(200, 600), 0, new Student(
+                "testGirl", (short)25, "Bird", (short)2,new Group("Birdy Boys"))));
+        this.NPCs.add(new StudentNPC(new Point2D.Double(600, 200), 0, new Student(
+                "testBuddy", (short)19, "Bird", (short)3,new Group("Birdy Boys"))));
+        this.NPCs.add(new StudentNPC(new Point2D.Double(600, 600), 0, new Student(
+                "testYesnt", (short)22, "Bird", (short)4,new Group("Birdy Boys"))));
     }
 
     public StackPane getPane() {
@@ -149,7 +158,7 @@ public class Simulation {
             for (NPC npc : this.NPCs) {
                 npc.setSpeed(newDeltaTime * 100);
                 npc.setTarget(this.mousePos);
-                npc.update();
+                npc.update(this.NPCs);
             }
         }
     }
