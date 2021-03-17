@@ -30,6 +30,8 @@ public abstract class NPC {
         this.target = position;
     }
 
+    abstract public void openPerson(Point2D mousePos);
+
     abstract public void setSpeed(double speed);
 
     abstract public void update(ArrayList<NPC> CollisionNPCs);

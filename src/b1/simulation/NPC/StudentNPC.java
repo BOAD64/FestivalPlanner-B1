@@ -1,7 +1,9 @@
 package b1.simulation.NPC;
 
 import b1.school.person.Person;
+import b1.school.person.PersonController;
 import b1.school.person.Student;
+import b1.school.person.StudentController;
 import sun.nio.cs.ext.MacHebrew;
 
 import javax.imageio.ImageIO;
@@ -36,6 +38,14 @@ public class StudentNPC extends NPC {
     @Override
     public void setTarget(Point2D position) {
         super.setTarget(position);
+    }
+
+    @Override
+    public void openPerson(Point2D mousePos) {
+        if (this.position.distance(mousePos) < hitBoxSize * 0.5) {
+            StudentController studentController = new StudentController((Student) this.person);
+            studentController.show();
+        }
     }
 
     @Override

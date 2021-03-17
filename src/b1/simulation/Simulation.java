@@ -2,11 +2,16 @@ package b1.simulation;
 
 import b1.Setting;
 import b1.io.MapFile;
+import b1.io.SchoolFile;
 import b1.io.TilesetFile;
+import b1.school.School;
 import b1.school.group.Group;
+import b1.school.person.Person;
 import b1.school.person.Student;
+import b1.school.person.Teacher;
 import b1.simulation.NPC.NPC;
 import b1.simulation.NPC.StudentNPC;
+import b1.simulation.NPC.TeacherNPC;
 import javafx.animation.AnimationTimer;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
@@ -14,6 +19,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
@@ -26,6 +32,7 @@ import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 public class Simulation {
+    private School school;
     private ResizableCanvas canvas;
     private Camera camera;
     private StackPane pane;
@@ -40,6 +47,7 @@ public class Simulation {
     private Point2D mousePos;
 
     public Simulation() {
+        this.school =  SchoolFile.getSchool(); //moet dit of moet maincontroller.getschool???
         TilesetFile.setPath(Setting.Map.TilesetPath);
         MapFile.setPath(Setting.Map.MapJsonPath);
         this.map = new Map(TilesetFile.getTileset(), MapFile.getMapFile());
@@ -50,8 +58,20 @@ public class Simulation {
         this.NPCs = new ArrayList<>();
 
         //test NPCs
-        addTestNPCs();
+        //addTestNPCs();
+        addNPCs();
         this.mousePos = new Point2D.Double(500, 500);
+    }
+
+    private void addNPCs() {
+        for (Student student : this.school.getStudents()) {
+            this.NPCs.add(new StudentNPC(
+                    new Point2D.Double(Math.random() * 500, Math.random() * 500), 0, student));
+        }
+        /*for (Teacher teacher : this.school.getTeachers()) {
+            this.NPCs.add(new TeacherNPC(
+            new Point2D.Double(Math.random() * 500, Math.random() * 500), 0, teacher));
+        }*/
     }
 
     private void addTestNPCs() {
@@ -104,6 +124,7 @@ public class Simulation {
             }
 
         });
+        canvas.setOnMouseClicked(e -> CheckIfNPCclicked(e));
 
         this.pane.getChildren().add(this.canvas);
 
@@ -140,6 +161,17 @@ public class Simulation {
         zoomButtons.getChildren().addAll(plus, min);
         this.pane.getChildren().add(zoomButtons);
         StackPane.setAlignment(zoomButtons, Pos.TOP_RIGHT);
+    }
+
+    private void CheckIfNPCclicked(MouseEvent e) {
+        try {
+            this.mousePos = camera.getTransform().inverseTransform(new Point2D.Double(e.getX(), e.getY()), null);
+        } catch (Exception exeption) {
+            exeption.printStackTrace();
+        }
+        for (NPC npc : this.NPCs) {
+            npc.openPerson(this.mousePos);
+        }
     }
 
     public void init() {}
