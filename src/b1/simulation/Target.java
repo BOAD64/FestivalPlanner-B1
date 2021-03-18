@@ -1,12 +1,12 @@
 package b1.simulation;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
+import com.sun.istack.internal.NotNull;
 
-public class Target {
+import java.awt.*;
+import java.util.*;
+
+public class Target
+{
     private Point position;
     private int[][] distanceMap;
 
@@ -14,9 +14,14 @@ public class Target {
         this.position = position;
     }
 
-    public void build(Layer layer){
+    public void build(Layer layer) {
         this.distanceMap = new int[layer.getWidth()][layer.getHeight()];
-        Arrays.fill(this.distanceMap, 99999);
+        for (int i = 0; i < this.distanceMap.length; i++) {
+            this.distanceMap[i] = new int[layer.getHeight()];
+            for (int j = 0; j < this.distanceMap[i].length; j++) {
+                this.distanceMap[i][j] = 99999;
+            }
+        }
 
         Queue<Point> queue = new LinkedList<>();
         ArrayList<Point> visitedPoints = new ArrayList<>();
@@ -25,51 +30,95 @@ public class Target {
         queue.add(this.position);
         visitedPoints.add(this.position);
 
-        Point[] offsets = {
-                new Point(1,0), new Point(-1,0), new Point(0, 1), new Point(0, -1)};
+        Point[] offsets = {new Point(1, 0), new Point(-1, 0), new Point(0, 1), new Point(0, -1)};
 
-        while (!queue.isEmpty()){
+        while (!queue.isEmpty()) {
             Point current = queue.remove();
 
-            OffsetLoop:
-            for (Point offset: offsets) {
+            for (Point offset : offsets) {
                 Point point = new Point(current.x + offset.x, current.y + offset.y);
-                if (point.x < 0 || point.x > layer.getWidth() -1 || point.y < 0 || point.y > layer.getHeight() -1){
+                if (point.x < 0 || point.x > layer.getWidth() - 1 || point.y < 0 || point.y > layer.getHeight() - 1) {
                     continue;
                 }
-                if (visitedPoints.contains(point)){
+                if (visitedPoints.contains(point)) {
                     continue;
                 }
 
-                for (Tile tile : layer.getTiles()){
-                    if (tile.getX() == point.x && tile.getY() == point.y){
-                        if (tile.getTileSetIndex() == 243){
-                            continue OffsetLoop;
+                Tile foundTile = null;
+                for (Tile tile : layer.getTiles()) {
+                    if (tile.getX() == point.x && tile.getY() == point.y) {
+                        if (tile.getTileSetIndex() == 242) {
+                            foundTile = tile;
                         }
+                        break;
                     }
                 }
+
+                visitedPoints.add(point);
+
+                if(foundTile != null)
+                {
+                    continue;
+                }
+
                 this.distanceMap[point.x][point.y] = this.distanceMap[current.x][current.y] + 1;
                 queue.add(point);
-                visitedPoints.add(point);
             }
         }
     }
 
-    public Point getDirection(Point point){
-        int number = this.distanceMap[point.x][point.y];
-        Point[] offsets = {
-                new Point(1,0), new Point(-1,0), new Point(0, 1), new Point(0, -1)};
-        Point next = point;
-        for (Point offset : offsets){
-            if (this.distanceMap[point.x + offset.x][point.y + offset.y] > number) {
-                number = this.distanceMap[point.x + offset.x][point.y + offset.y];
-                next = new Point(point.x + offset.x, point.y + offset.y);
+    public Point getDirection(Point point) {
+        Point[] offsets = {new Point(1, 0), new Point(-1, 0), new Point(0, 1), new Point(0, -1)};
+        Point next = new Point(0,0);
+        for (Point offset : offsets) {
+            if (point.x + offset.x < 0 || point.y + offset.y < 0) {
+                continue;
+            }
+            if (this.distanceMap[point.x + offset.x][point.y + offset.y] < this.distanceMap[point.x][point.y]) {
+                next = offset;
+
+                if(Math.random() > 0.7) {
+                    break;
+                }
             }
         }
         return next;
     }
 
+    public int getDistance(Point point) {
+        return this.distanceMap[point.x][point.y];
+    }
+
     public int[][] getDistanceMap() {
         return distanceMap;
+    }
+
+    public void draw(Graphics graphics) {
+        for (int i = 0; i < this.distanceMap.length; i++) {
+            for (int j = 0; j < this.distanceMap[i].length; j++) {
+                graphics.setFont(graphics.getFont().deriveFont(10.0f));
+                graphics.setColor(Color.GREEN);
+                if(this.distanceMap[i][j] != 99999)
+                {
+                    graphics.drawString(Integer.toString(this.distanceMap[i][j]), i * 32 + 16, j * 32 + 16);
+                }
+            }
+        }
+    }
+
+    public Point getPosition() {
+        return this.position;
+    }
+
+    private static int compare(Tile u1, Tile u2) {
+        if (u1.getX() == u2.getX()) {
+            return Integer.compare(u1.getY(), u2.getY());
+        }
+        return Integer.compare(u1.getX(), u2.getX());
+    }
+
+    @Override
+    public String toString() {
+        return this.position.toString();
     }
 }

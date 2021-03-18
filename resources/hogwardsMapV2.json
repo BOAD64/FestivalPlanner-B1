@@ -190,7 +190,7 @@
         {
          "columns":1,
          "firstgid":243,
-         "image":"..\/..\/Tiled\/walkableTileSet.png",
+         "image":"walkableTileSet.png",
          "imageheight":64,
          "imagewidth":32,
          "margin":0,

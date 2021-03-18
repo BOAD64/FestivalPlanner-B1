@@ -44,6 +44,7 @@ public class Simulation
     private Button clockSpeedButton;
     private TextField speedValueField;
     private Pathfinding pathfinding;
+    private Target debugTarget;
 
     //NPC test
     private Point2D mousePos;
@@ -180,6 +181,12 @@ public class Simulation
     public void init() {
         this.pathfinding = new Pathfinding(this.map, this.NPCs);
         this.pathfinding.init();
+
+        for (NPC npc : this.NPCs) {
+            Target target = this.pathfinding.getTargets().get(5);
+            this.debugTarget = target;
+            npc.setTarget(target);
+        }
     }
 
     /**
@@ -195,7 +202,6 @@ public class Simulation
 
         if (newDeltaTime > 0) {
             for (NPC npc : this.NPCs) {
-                npc.setTarget(this.mousePos);
                 npc.update(newDeltaTime);
             }
             this.NPCs.sort((p1, p2) -> (int)(p1.getPosition().getY() - p2.getPosition().getY()));
@@ -215,6 +221,10 @@ public class Simulation
             for (NPC npc : this.NPCs) {
                 npc.draw(graphics);
             }
+        }
+
+        if(this.debugTarget != null) {
+            this.debugTarget.draw(graphics);
         }
 
         graphics.setTransform(originalTransform);

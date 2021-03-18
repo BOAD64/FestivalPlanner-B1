@@ -1,6 +1,7 @@
 package b1.simulation.NPC;
 
 import b1.school.person.Person;
+import b1.simulation.Target;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -25,7 +26,8 @@ public abstract class NPC {
     double angle;
     ArrayList<BufferedImage> sprites;
     double frame;
-    Point2D target;
+//    Point2D target;
+    Target target;
     double rotationSpeed;
     double speed;
     Person person;
@@ -36,17 +38,22 @@ public abstract class NPC {
         this.position = position;
         this.angle = angle;
         this.person = person;
-        this.target = position;
+//        this.target = position;
         this.standStill = false;
     }
 
-    /**
-     * Set target position for NPC to walk to.
-     *
-     * @param position target position.
-     */
-    public void setTarget(Point2D position) {
-        this.target = position;
+//    /**
+//     * Set target position for NPC to walk to.
+//     *
+//     * @param position target position.
+//     */
+//    public void setTarget(Point2D position) {
+//        this.target = position;
+//    }
+
+    public void setTarget(Target target)
+    {
+        this.target = target;
     }
 
     /**
@@ -64,7 +71,8 @@ public abstract class NPC {
      * @param deltaTime declares animation speed.
      */
     public void update(double deltaTime) {
-        if (this.target.distanceSq(this.position) < 10) {
+        int distance = this.target.getDistance(new Point((int)this.position.getX() / 32, (int)this.position.getY() / 32));
+        if (distance < 5) {
             this.standStill = true;
             return;
         }
@@ -74,7 +82,13 @@ public abstract class NPC {
             this.frame = 0;
         }
 
-        double targetAngle = Math.atan2(this.target.getY() - this.position.getY(), this.target.getX() - this.position.getX());
+        int tileX = (int)this.position.getX() / 32;
+        int tileY= (int)this.position.getY() / 32;
+
+        Point direction = this.target.getDirection(new Point(tileX, tileY));
+
+        Point2D targetPost = new Point2D.Double(this.position.getX() + direction.getX(), this.position.getY() + direction.getY());
+        double targetAngle = Math.atan2(targetPost.getY() - this.position.getY(), targetPost.getX() - this.position.getX());
         double rotation = targetAngle - this.angle;
         while (rotation < -Math.PI) {
             rotation += 2 * Math.PI;
@@ -90,6 +104,7 @@ public abstract class NPC {
         } else {
             this.angle = targetAngle;
         }
+//        this.angle = targetAngle;
         boolean hasCollision = checkCollision(deltaTime);
 
         if (!hasCollision) {
@@ -127,9 +142,9 @@ public abstract class NPC {
         }
 
         //Draw hitBox and target
-//        graphics.setColor(Color.white);
-//        graphics.draw(new Ellipse2D.Double(this.position.getX() - this.hitBoxSize / 2, this.position.getY() - this.hitBoxSize / 2, this.hitBoxSize, this.hitBoxSize));
-//        graphics.draw(new Line2D.Double(this.position, this.target));
+        graphics.setColor(Color.white);
+        graphics.draw(new Ellipse2D.Double(this.position.getX() - this.hitBoxSize / 2, this.position.getY() - this.hitBoxSize / 2, this.hitBoxSize, this.hitBoxSize));
+        graphics.draw(new Line2D.Double(this.position, new Point2D.Double(this.target.getPosition().x*32, this.target.getPosition().y * 32 )));
     }
 
     public double getHitBoxSize() {

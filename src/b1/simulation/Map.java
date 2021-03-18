@@ -23,6 +23,7 @@ public class Map
 
     private Layer[] map;
     private TileObject[] objects;
+    private Layer walkableLayer;
 
     public Map(BufferedImage tileSet, JsonObject mapObject) {
         this.tiles = new ArrayList<>();
@@ -52,8 +53,8 @@ public class Map
         JsonArray layersArray = tileObject.getJsonArray("layers");
         this.layersSize = layersArray.size();
         ArrayList<Layer> layers = new ArrayList<>(this.layersSize);
-        for (int layer = 0; layer < layersSize; layer++) {
-            JsonObject layerObject = layersArray.getJsonObject(layer);
+        for (int layerCounter = 0; layerCounter < layersSize; layerCounter++) {
+            JsonObject layerObject = layersArray.getJsonObject(layerCounter);
             if (layerObject.getJsonArray("data") != null) {
                 JsonArray layerData = layerObject.getJsonArray("data");
                 ArrayList<Tile> tiles = new ArrayList<>();
@@ -63,12 +64,11 @@ public class Map
                         tiles.add(new Tile(i % this.width, i / this.height, tileIndex));
                     }
                 }
-                layers.add(new Layer(tiles.toArray(new Tile[0]),
-                        layerObject.getString("name"),
-                        this.width,
-                        this.height,
-                        this.tileWidth,
-                        this.tileHeight));
+                Layer layer = new Layer(tiles.toArray(new Tile[0]), layerObject.getString("name"), this.width, this.height, this.tileWidth, this.tileHeight);
+                layers.add(layer);
+                if (layer.getName().equals("walkable")) {
+                    this.walkableLayer = layer;
+                }
             }
         }
         return layers.toArray(new Layer[0]);
@@ -80,21 +80,11 @@ public class Map
         ArrayList<TileObject> tileObjects = new ArrayList<>();
         for (int layer = 0; layer < layersSize; layer++) {
             JsonObject layerObject = layersArray.getJsonObject(layer);
-                if (layerObject.getString("type").equals("objectgroup")) {
+            if (layerObject.getString("type").equals("objectgroup")) {
                 JsonArray objects = layerObject.getJsonArray("objects");
-                for(int objectIndex = 0; objectIndex < objects.size(); objectIndex++)
-                {
+                for (int objectIndex = 0; objectIndex < objects.size(); objectIndex++) {
                     JsonObject object = objects.getJsonObject(objectIndex);
-                    tileObjects.add(new TileObject(object.getInt("height"),
-                                    object.getInt("id"),
-                                    object.getString("name"),
-                                    object.getInt("width"),
-                                    new Point2D.Double(
-                                            object.getInt("x"),
-                                            object.getInt("y")
-                                    )
-                            )
-                    );
+                    tileObjects.add(new TileObject(object.getInt("height"), object.getInt("id"), object.getString("name"), object.getInt("width"), new Point2D.Double(object.getInt("x"), object.getInt("y"))));
                 }
             }
         }
@@ -119,5 +109,9 @@ public class Map
 
     public TileObject[] getObjects() {
         return objects;
+    }
+
+    public Layer getWalkableLayer() {
+        return this.walkableLayer;
     }
 }
