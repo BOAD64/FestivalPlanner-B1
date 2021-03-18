@@ -40,7 +40,7 @@ public abstract class NPC {
 
     abstract public void setSpeed(double speed);
 
-    abstract public void update(ArrayList<NPC> CollisionNPCs);
+    abstract public void update(ArrayList<NPC> CollisionNPCs, double deltaTime);
 
     abstract public void draw(Graphics2D graphics);
 

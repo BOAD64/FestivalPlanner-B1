@@ -25,7 +25,7 @@ public class TeacherNPC extends NPC {
     }
 
     @Override
-    public void update(ArrayList<NPC> CollisionNPCs) {
+    public void update(ArrayList<NPC> CollisionNPCs, double deltaTime) {
 
     }
 

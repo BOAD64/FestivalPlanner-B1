@@ -55,7 +55,7 @@ public class StudentNPC extends NPC {
     }
 
     @Override
-    public void update(ArrayList<NPC> collisionNPCs) {
+    public void update(ArrayList<NPC> collisionNPCs, double deltaTime) {
         if(target.distanceSq(position) < 10) return;
 
         double targetAngle = Math.atan2(this.target.getY() - this.position.getY(), this.target.getX() - this.position.getX());
