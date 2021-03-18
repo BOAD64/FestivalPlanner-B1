@@ -59,8 +59,8 @@ public class Simulation
         this.NPCs = new ArrayList<>();
 
         //test NPCs
-        addTestNPCs();
-        //addNPCs();
+//        addTestNPCs();
+        addNPCs();
         this.mousePos = new Point2D.Double(500, 500);
     }
 
@@ -70,11 +70,11 @@ public class Simulation
             studentNPC.setCollisionNPCS(this.NPCs);
             this.NPCs.add(studentNPC);
         }
-//        for (Teacher teacher : this.school.getTeachers()) {
-//            TeacherNPC teacherNPC = new TeacherNPC(new Point2D.Double(Math.random() * 500, Math.random() * 500), 0, teacher);
-//            teacherNPC.setCollisionNPCS(this.NPCs);
-//            this.NPCs.add(teacherNPC);
-//        }
+        for (Teacher teacher : this.school.getTeachers()) {
+            TeacherNPC teacherNPC = new TeacherNPC(new Point2D.Double(Math.random() * 500, Math.random() * 500), 0, teacher);
+            teacherNPC.setCollisionNPCS(this.NPCs);
+            this.NPCs.add(teacherNPC);
+        }
     }
 
     private void addTestNPCs() {
