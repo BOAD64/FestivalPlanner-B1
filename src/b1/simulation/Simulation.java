@@ -59,8 +59,8 @@ public class Simulation
         this.NPCs = new ArrayList<>();
 
         //test NPCs
-        //addTestNPCs();
-        addNPCs();
+        addTestNPCs();
+        //addNPCs();
         this.mousePos = new Point2D.Double(500, 500);
     }
 

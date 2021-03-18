@@ -34,15 +34,15 @@ public class StudentNPC extends NPC
             switch (characterset) {
                 case 1 :
                     xOfSet = 3;
-                    yOfSet = 4;
+                    yOfSet = 4 * 12;
                     break;
                 case 2 :
                     xOfSet = 6;
-                    yOfSet = 4;
+                    yOfSet = 4 * 12;
                     break;
                 case 3 :
                     xOfSet = 9;
-                    yOfSet = 4;
+                    yOfSet = 4 * 12;
                     break;
             }
             int rowStart = 0;
@@ -50,9 +50,9 @@ public class StudentNPC extends NPC
             for (int y = 0; y < 4; y++) {
                 rowStart += y * 12;
                 for (int x = 0; x < 3; x++) {
-                    this.sprites.add(spriteFile.getSprites().get(rowStart + (yOfSet * 12) + xOfSet));
-                    this.sprites.add(spriteFile.getSprites().get(rowStart + (yOfSet * 12) + xOfSet + 1));
-                    this.sprites.add(spriteFile.getSprites().get(rowStart + (yOfSet * 12) + xOfSet + 2));
+                    this.sprites.add(spriteFile.getSprites().get(rowStart + yOfSet + xOfSet));
+                    this.sprites.add(spriteFile.getSprites().get(rowStart + yOfSet + xOfSet + 1));
+                    this.sprites.add(spriteFile.getSprites().get(rowStart + yOfSet + xOfSet + 2));
                 }
             }
         }
@@ -142,6 +142,13 @@ public class StudentNPC extends NPC
 
     @Override
     public void draw(Graphics2D graphics) {
+        AffineTransform tx = new AffineTransform();
+        tx.translate(70, 70);
+        for (BufferedImage image: this.sprites) {
+            graphics.drawImage(image, tx, null);
+            tx.translate(48, 0);
+        }
+        /*
         int centerX = this.sprites.get(0).getWidth() / (2);
         int centerY = this.sprites.get(0).getHeight() / (2) + 25;
         AffineTransform tx = new AffineTransform();
@@ -153,7 +160,7 @@ public class StudentNPC extends NPC
 
         } else if (angle < Math.toRadians(45) && angle > Math.toRadians(-45)) {
             System.out.println("right");
-            graphics.drawImage(this.sprites.get(0), tx, null);
+            graphics.drawImage(this.sprites.get(7), tx, null);
 
         } else if (angle > Math.toRadians(45) && angle < Math.toRadians(135)) {
             System.out.println("down");
@@ -165,12 +172,12 @@ public class StudentNPC extends NPC
 
         } else {
             System.out.println("left");
-            graphics.drawImage(this.sprites.get(3), tx, null);
+            graphics.drawImage(this.sprites.get(9), tx, null);
         }
 
 
         graphics.setColor(Color.white);
         graphics.draw(new Ellipse2D.Double(position.getX() - this.hitBoxSize/2, position.getY() - this.hitBoxSize/2, this.hitBoxSize, this.hitBoxSize));
-        graphics.draw(new Line2D.Double(this.position, this.target));
+        graphics.draw(new Line2D.Double(this.position, this.target));*/
     }
 }
