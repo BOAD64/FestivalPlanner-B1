@@ -55,6 +55,20 @@ public class Target {
         }
     }
 
+    public Point getDirection(Point point){
+        int number = this.distanceMap[point.x][point.y];
+        Point[] offsets = {
+                new Point(1,0), new Point(-1,0), new Point(0, 1), new Point(0, -1)};
+        Point next = point;
+        for (Point offset : offsets){
+            if (this.distanceMap[point.x + offset.x][point.y + offset.y] > number) {
+                number = this.distanceMap[point.x + offset.x][point.y + offset.y];
+                next = new Point(point.x + offset.x, point.y + offset.y);
+            }
+        }
+        return next;
+    }
+
     public int[][] getDistanceMap() {
         return distanceMap;
     }
