@@ -117,8 +117,8 @@ public class MainView implements View {
         FileInputStream plusInputStream = null;
         FileInputStream arrowInputStream = null;
         try {
-            plusInputStream = new FileInputStream("resources\\plus.png");
-            arrowInputStream = new FileInputStream("resources\\arrow.png");
+            plusInputStream = new FileInputStream("resources/plus.png");
+            arrowInputStream = new FileInputStream("resources/arrow.png");
         } catch (Exception e) {
             e.printStackTrace();
         }
