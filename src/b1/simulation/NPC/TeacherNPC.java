@@ -2,6 +2,7 @@ package b1.simulation.NPC;
 
 import b1.school.person.Teacher;
 import b1.school.person.TeacherController;
+import javafx.collections.FXCollections;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -25,7 +26,13 @@ public class TeacherNPC extends NPC {
     }
 
     @Override
-    public void update(ArrayList<NPC> CollisionNPCs, double deltaTime) {
+    public void setCollisionNPCS(ArrayList<NPC> collisionNPCs)
+    {
+        super.collisionNPCs = FXCollections.observableList(collisionNPCs);
+    }
+
+    @Override
+    public void update(double deltaTime) {
 
     }
 

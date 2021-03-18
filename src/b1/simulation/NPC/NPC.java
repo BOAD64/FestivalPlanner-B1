@@ -1,6 +1,7 @@
 package b1.simulation.NPC;
 
 import b1.school.person.Person;
+import javafx.collections.ObservableList;
 
 import java.awt.*;
 import java.awt.event.MouseListener;
@@ -24,6 +25,7 @@ public abstract class NPC {
     double rotationSpeed;
     double speed;
     Person person;
+    ObservableList<NPC> collisionNPCs;
 
     public NPC(Point2D position, double angle, Person person) {
         this.position = position;
@@ -40,7 +42,9 @@ public abstract class NPC {
 
     abstract public void setSpeed(double speed);
 
-    abstract public void update(ArrayList<NPC> CollisionNPCs, double deltaTime);
+    public abstract void setCollisionNPCS(ArrayList<NPC> collisionNPCs);
+
+    abstract public void update(double deltaTime);
 
     abstract public void draw(Graphics2D graphics);
 

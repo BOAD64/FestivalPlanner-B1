@@ -31,7 +31,8 @@ import java.time.LocalTime;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
-public class Simulation {
+public class Simulation
+{
     private School school;
     private ResizableCanvas canvas;
     private Camera camera;
@@ -47,7 +48,7 @@ public class Simulation {
     private Point2D mousePos;
 
     public Simulation() {
-        this.school =  SchoolFile.getSchool(); //moet dit of moet maincontroller.getschool???
+        this.school = SchoolFile.getSchool(); //moet dit of moet maincontroller.getschool???
         TilesetFile.setPath(Setting.Map.TilesetPath);
         MapFile.setPath(Setting.Map.MapJsonPath);
         this.map = new Map(TilesetFile.getTileset(), MapFile.getMapFile());
@@ -65,24 +66,22 @@ public class Simulation {
 
     private void addNPCs() {
         for (Student student : this.school.getStudents()) {
-            this.NPCs.add(new StudentNPC(
-                    new Point2D.Double(Math.random() * 500, Math.random() * 500), 0, student));
+            StudentNPC studentNPC = new StudentNPC(new Point2D.Double(Math.random() * 500, Math.random() * 500), 0, student);
+            studentNPC.setCollisionNPCS(this.NPCs);
+            this.NPCs.add(studentNPC);
         }
-        /*for (Teacher teacher : this.school.getTeachers()) {
-            this.NPCs.add(new TeacherNPC(
-            new Point2D.Double(Math.random() * 500, Math.random() * 500), 0, teacher));
-        }*/
+//        for (Teacher teacher : this.school.getTeachers()) {
+//            TeacherNPC teacherNPC = new TeacherNPC(new Point2D.Double(Math.random() * 500, Math.random() * 500), 0, teacher);
+//            teacherNPC.setCollisionNPCS(this.NPCs);
+//            this.NPCs.add(teacherNPC);
+//        }
     }
 
     private void addTestNPCs() {
-        this.NPCs.add(new StudentNPC(new Point2D.Double(200, 200), 0, new Student(
-                "testBoy", (short)34, "Bird", (short)1,new Group("Birdy Boys"))));
-        this.NPCs.add(new StudentNPC(new Point2D.Double(200, 600), 0, new Student(
-                "testGirl", (short)25, "Bird", (short)2,new Group("Birdy Boys"))));
-        this.NPCs.add(new StudentNPC(new Point2D.Double(600, 200), 0, new Student(
-                "testBuddy", (short)19, "Bird", (short)3,new Group("Birdy Boys"))));
-        this.NPCs.add(new StudentNPC(new Point2D.Double(600, 600), 0, new Student(
-                "testYesnt", (short)22, "Bird", (short)4,new Group("Birdy Boys"))));
+        this.NPCs.add(new StudentNPC(new Point2D.Double(200, 200), 0, new Student("testBoy", (short) 34, "Bird", (short) 1, new Group("Birdy Boys"))));
+        this.NPCs.add(new StudentNPC(new Point2D.Double(200, 600), 0, new Student("testGirl", (short) 25, "Bird", (short) 2, new Group("Birdy Boys"))));
+        this.NPCs.add(new StudentNPC(new Point2D.Double(600, 200), 0, new Student("testBuddy", (short) 19, "Bird", (short) 3, new Group("Birdy Boys"))));
+        this.NPCs.add(new StudentNPC(new Point2D.Double(600, 600), 0, new Student("testYesnt", (short) 22, "Bird", (short) 4, new Group("Birdy Boys"))));
     }
 
     public StackPane getPane() {
@@ -90,8 +89,7 @@ public class Simulation {
     }
 
     public void createStage() {
-        if(this.pane != null)
-        {
+        if (this.pane != null) {
             return;
         }
 
@@ -103,11 +101,13 @@ public class Simulation {
         FXGraphics2D g2d = new FXGraphics2D(canvas.getGraphicsContext2D());
         this.camera = new Camera(this.canvas, this::draw, g2d);
         draw(g2d);
-        new AnimationTimer() {
+        new AnimationTimer()
+        {
             long last = -1;
+
             @Override
             public void handle(long now) {
-                if(last == -1)
+                if (last == -1)
                     last = now;
                 update((now - last) / 1000000000.0);
                 last = now;
@@ -119,7 +119,8 @@ public class Simulation {
         canvas.setOnMouseMoved(e -> {
             try {
                 this.mousePos = camera.getTransform().inverseTransform(new Point2D.Double(e.getX(), e.getY()), null);
-            } catch (Exception exeption) {
+            }
+            catch (Exception exeption) {
                 exeption.printStackTrace();
             }
 
@@ -147,7 +148,7 @@ public class Simulation {
 
         this.pane.getChildren().add(clockVBox);
         StackPane.setAlignment(clockVBox, Pos.BOTTOM_RIGHT);
-        this.pane.setMargin(clockVBox, new Insets(0,30,30,0));
+        this.pane.setMargin(clockVBox, new Insets(0, 30, 30, 0));
 
         //camera functions
         VBox zoomButtons = new VBox();
@@ -166,7 +167,8 @@ public class Simulation {
     private void CheckIfNPCclicked(MouseEvent e) {
         try {
             this.mousePos = camera.getTransform().inverseTransform(new Point2D.Double(e.getX(), e.getY()), null);
-        } catch (Exception exeption) {
+        }
+        catch (Exception exeption) {
             exeption.printStackTrace();
         }
         for (NPC npc : this.NPCs) {
@@ -174,30 +176,31 @@ public class Simulation {
         }
     }
 
-    public void init() {}
+    public void init() {
+    }
 
     /**
      * currently updates the clock
+     *
      * @param deltaTime
      */
     public void update(double deltaTime) {
-        this.speedValueField.setText("Snelheid: " + (Math.round(slider.getValue() * 100)/100.0) + "x");
+        this.speedValueField.setText("Snelheid: " + (Math.round(slider.getValue() * 100) / 100.0) + "x");
         this.clock.setSpeedMultiplier(slider.getValue());
         this.clock.update(deltaTime);
-        Double newDeltaTime = this.clock.getNewDeltaTime(deltaTime); //use this instead of deltaTime
+        double newDeltaTime = this.clock.getNewDeltaTime(deltaTime); //use this instead of deltaTime
 
         if (newDeltaTime > 0) {
             for (NPC npc : this.NPCs) {
-                npc.setSpeed(newDeltaTime * 100);
                 npc.setTarget(this.mousePos);
-                npc.update(this.NPCs);
+                npc.update(newDeltaTime);
             }
         }
     }
 
     public void draw(FXGraphics2D graphics) {
         graphics.setBackground(Setting.Map.SIM_BACKGROUND_COLOR);
-        graphics.clearRect(0,0,(int)this.canvas.getWidth(),(int)this.canvas.getHeight());
+        graphics.clearRect(0, 0, (int) this.canvas.getWidth(), (int) this.canvas.getHeight());
 
         AffineTransform originalTransform = graphics.getTransform();
         graphics.setTransform(camera.getTransform());
@@ -229,9 +232,9 @@ public class Simulation {
         };
     }
 
-    private void onZoomButtonPress(ActionEvent e){
+    private void onZoomButtonPress(ActionEvent e) {
         double zoom = this.camera.getZoom();
-        switch (((Button)e.getSource()).getText()){
+        switch (((Button) e.getSource()).getText()) {
             case "+": {
                 this.camera.setZoom(zoom * 1.2);
                 break;
