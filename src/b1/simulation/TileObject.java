@@ -20,4 +20,44 @@ public class TileObject
 
     public TileObject() {
     }
+
+    public int getHeight() {
+        return this.height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getWidth() {
+        return this.width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public Point2D getLocation() {
+        return this.location;
+    }
+
+    public void setLocation(Point2D location) {
+        this.location = location;
+    }
 }

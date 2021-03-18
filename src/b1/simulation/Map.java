@@ -108,4 +108,16 @@ public class Map
             }
         }
     }
+
+    public int getTileWidth() {
+        return tileWidth;
+    }
+
+    public int getTileHeight() {
+        return tileHeight;
+    }
+
+    public TileObject[] getObjects() {
+        return objects;
+    }
 }

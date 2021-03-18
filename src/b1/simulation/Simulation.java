@@ -43,6 +43,7 @@ public class Simulation
     private ArrayList<NPC> NPCs;
     private Button clockSpeedButton;
     private TextField speedValueField;
+    private Pathfinding pathfinding;
 
     //NPC test
     private Point2D mousePos;
@@ -62,6 +63,7 @@ public class Simulation
         //addTestNPCs();
         addNPCs();
         this.mousePos = new Point2D.Double(500, 500);
+        init();
     }
 
     private void addNPCs() {
@@ -177,6 +179,8 @@ public class Simulation
     }
 
     public void init() {
+        this.pathfinding = new Pathfinding(this.map, this.NPCs);
+        this.pathfinding.init();
     }
 
     /**
