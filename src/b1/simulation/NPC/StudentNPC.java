@@ -50,9 +50,7 @@ public class StudentNPC extends NPC
             for (int y = 0; y < 4; y++) {
                 rowStart += y * 12;
                 for (int x = 0; x < 3; x++) {
-                    this.sprites.add(spriteFile.getSprites().get(rowStart + yOfSet + xOfSet));
-                    this.sprites.add(spriteFile.getSprites().get(rowStart + yOfSet + xOfSet + 1));
-                    this.sprites.add(spriteFile.getSprites().get(rowStart + yOfSet + xOfSet + 2));
+                    this.sprites.add(spriteFile.getSprites().get(rowStart + yOfSet + xOfSet + x));
                 }
             }
         }
