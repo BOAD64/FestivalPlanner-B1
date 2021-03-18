@@ -78,10 +78,9 @@ public class Simulation
     }
 
     private void addTestNPCs() {
-        this.NPCs.add(new StudentNPC(new Point2D.Double(200, 200), 0, new Student("testBoy", (short) 34, "Bird", (short) 1, new Group("Birdy Boys"))));
-        this.NPCs.add(new StudentNPC(new Point2D.Double(200, 600), 0, new Student("testGirl", (short) 25, "Bird", (short) 2, new Group("Birdy Boys"))));
-        this.NPCs.add(new StudentNPC(new Point2D.Double(600, 200), 0, new Student("testBuddy", (short) 19, "Bird", (short) 3, new Group("Birdy Boys"))));
-        this.NPCs.add(new StudentNPC(new Point2D.Double(600, 600), 0, new Student("testYesnt", (short) 22, "Bird", (short) 4, new Group("Birdy Boys"))));
+        StudentNPC studentNPC = new StudentNPC(new Point2D.Double(200, 200), 0, new Student("testBoy", (short) 34, "Bird", (short) 1, new Group("Birdy Boys")));
+        studentNPC.setCollisionNPCS(this.NPCs);
+        this.NPCs.add(studentNPC);
     }
 
     public StackPane getPane() {
@@ -195,6 +194,7 @@ public class Simulation
                 npc.setTarget(this.mousePos);
                 npc.update(newDeltaTime);
             }
+            this.NPCs.sort((p1, p2) -> (int)(p1.getPosition().getY() - p2.getPosition().getY()));
         }
     }
 

@@ -1,38 +1,60 @@
 package b1.simulation.NPC;
 
-import b1.school.person.Person;
-import b1.school.person.PersonController;
+import b1.io.SpriteFile;
 import b1.school.person.Student;
 import b1.school.person.StudentController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import sun.nio.cs.ext.MacHebrew;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
+import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class StudentNPC extends NPC
 {
+    private boolean standStill;
 
     public StudentNPC(Point2D position, double angle, Student student) {
         super(position, angle, student);
-        this.hitBoxSize = 64;
-        this.frame = Math.random() * 10;
+        this.hitBoxSize = 32;
+        this.frame = Math.random() * 3;
         this.sprites = new ArrayList<>();
         this.speed = 100;
-        this.rotationSpeed = 1;
+        this.rotationSpeed = 0.1;
+        this.standStill = false;
 
 
         try {
-            BufferedImage image = ImageIO.read(getClass().getResourceAsStream("/testNPC.png"));
+            SpriteFile spriteFile = new SpriteFile("/students.png");
+            int xOfSet = 0;
+            int yOfSet = 0;
+            int characterset = (int)Math.round(Math.random() * 3);
+            switch (characterset) {
+                case 1 :
+                    xOfSet = 3;
+                    yOfSet = 4;
+                    break;
+                case 2 :
+                    xOfSet = 6;
+                    yOfSet = 4;
+                    break;
+                case 3 :
+                    xOfSet = 9;
+                    yOfSet = 4;
+                    break;
+            }
+            int rowStart = 0;
 
-            sprites.add(image);
+            for (int y = 0; y < 4; y++) {
+                rowStart += y * 12;
+                for (int x = 0; x < 3; x++) {
+                    this.sprites.add(spriteFile.getSprites().get(rowStart + (yOfSet * 12) + xOfSet));
+                    this.sprites.add(spriteFile.getSprites().get(rowStart + (yOfSet * 12) + xOfSet + 1));
+                    this.sprites.add(spriteFile.getSprites().get(rowStart + (yOfSet * 12) + xOfSet + 2));
+                }
+            }
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -46,7 +68,7 @@ public class StudentNPC extends NPC
 
     @Override
     public void openPerson(Point2D mousePos) {
-        if (this.position.distance(mousePos) < hitBoxSize * 0.5) {
+        if (this.position.distanceSq(mousePos) < this.hitBoxSize * hitBoxSize) {
             StudentController studentController = new StudentController((Student) this.person);
             studentController.show();
         }
@@ -65,8 +87,12 @@ public class StudentNPC extends NPC
 
     @Override
     public void update(double deltaTime) {
-        if (target.distanceSq(position) < 10)
+        if (this.target.distanceSq(this.position) < 10){
+            standStill = true;
             return;
+        }
+        standStill = false;
+        frame += deltaTime;
 
         double targetAngle = Math.atan2(this.target.getY() - this.position.getY(), this.target.getX() - this.position.getX());
         double rotation = targetAngle - this.angle;
@@ -77,35 +103,36 @@ public class StudentNPC extends NPC
             rotation -= 2 * Math.PI;
         }
 
-        if (rotation < -rotationSpeed) {
-            this.angle -= rotationSpeed;
+        if (rotation < -this.rotationSpeed) {
+            this.angle -= this.rotationSpeed * 100 * deltaTime;
         }
-        else if (rotation > rotationSpeed) {
-            this.angle += rotationSpeed;
+        else if (rotation > this.rotationSpeed) {
+            this.angle += this.rotationSpeed * 100 * deltaTime;
         }
         else {
             this.angle = targetAngle;
         }
-
-        boolean hasCollision = false;
-        hasCollision = checkCollision(deltaTime, super.collisionNPCs);
+        boolean hasCollision = checkCollision(deltaTime);
 
         if (!hasCollision) {
-            Point2D nextPos = new Point2D.Double(this.position.getX() + this.speed * Math.cos(this.angle) * deltaTime, this.position.getY() + this.speed * Math.sin(this.angle) * deltaTime);
+            Point2D nextPos = new Point2D.Double(this.position.getX() + this.speed * Math.cos(this.angle) * deltaTime,
+                    this.position.getY() + this.speed * Math.sin(this.angle) * deltaTime);
             this.position = nextPos;
         }
     }
 
-    private boolean checkCollision(double deltaTime, ObservableList<NPC> collisionNPCs) {
+    private boolean checkCollision(double deltaTime) {
         boolean hasCollision = false;
-        for (NPC npc : collisionNPCs) {
+        for (NPC npc : this.collisionNPCs) {
             if (npc != this) {
                 double thereSize = npc.getHitBoxSize();
                 if (npc.getPosition().distanceSq(this.position) < this.hitBoxSize * thereSize + 10) {
                     hasCollision = true;
-                    double angleToNPC = Math.atan2(npc.getPosition().getY() - this.position.getY(),
-                            npc.getPosition().getX() - this.position.getX());
-                    this.position = new Point2D.Double(this.position.getX() - (this.speed / 2) * Math.cos(angleToNPC) * deltaTime,
+                    double angleToNPC = Math.atan2(
+                            npc.getPosition().getY() -this.position.getY(),
+                            npc.getPosition().getX() -this.position.getX());
+                    this.position = new Point2D.Double(
+                            this.position.getX() - (this.speed / 2) * Math.cos(angleToNPC) * deltaTime,
                             this.position.getY() - (this.speed / 2) * Math.sin(angleToNPC) * deltaTime);
                 }
             }
@@ -115,17 +142,35 @@ public class StudentNPC extends NPC
 
     @Override
     public void draw(Graphics2D graphics) {
-        int centerX = sprites.get(0).getWidth() / (2 * 20); //(...) must be 2 in real picture
-        int centerY = sprites.get(0).getHeight() / (2 * 20); //(...) must be 2 in real picture
+        int centerX = this.sprites.get(0).getWidth() / (2);
+        int centerY = this.sprites.get(0).getHeight() / (2) + 25;
         AffineTransform tx = new AffineTransform();
-        tx.translate(position.getX() - centerX, position.getY() - centerY);
-        tx.rotate(angle + Math.PI / 2, centerX, centerY);
-        tx.scale(0.05, 0.05);
+        tx.translate(this.position.getX() - centerX, this.position.getY() - centerY);
 
-        graphics.drawImage(this.sprites.get(0), tx, null);
+        if (standStill) {
+            System.out.println("standstill");
+            graphics.drawImage(this.sprites.get(1), tx, null);
+
+        } else if (angle < Math.toRadians(45) && angle > Math.toRadians(-45)) {
+            System.out.println("right");
+            graphics.drawImage(this.sprites.get(0), tx, null);
+
+        } else if (angle > Math.toRadians(45) && angle < Math.toRadians(135)) {
+            System.out.println("down");
+            graphics.drawImage(this.sprites.get(1), tx, null);
+
+        } else if (angle < Math.toRadians(-45)&& angle > Math.toRadians(-135)) {
+            System.out.println("upp");
+            graphics.drawImage(this.sprites.get(2), tx, null);
+
+        } else {
+            System.out.println("left");
+            graphics.drawImage(this.sprites.get(3), tx, null);
+        }
+
 
         graphics.setColor(Color.white);
-        graphics.draw(new Ellipse2D.Double(position.getX() - 32, position.getY() - 32, this.hitBoxSize, this.hitBoxSize));
-        graphics.draw(new Line2D.Double(position, target));
+        graphics.draw(new Ellipse2D.Double(position.getX() - this.hitBoxSize/2, position.getY() - this.hitBoxSize/2, this.hitBoxSize, this.hitBoxSize));
+        graphics.draw(new Line2D.Double(this.position, this.target));
     }
 }
