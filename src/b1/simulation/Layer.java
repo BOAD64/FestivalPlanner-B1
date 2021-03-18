@@ -44,4 +44,16 @@ public class Layer {
     public String getName() {
         return this.name;
     }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public Tile[] getTiles() {
+        return tiles;
+    }
 }
