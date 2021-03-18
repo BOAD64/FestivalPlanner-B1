@@ -1,8 +1,10 @@
 package b1.simulation;
 
+import javax.json.JsonArray;
 import javax.json.JsonObject;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ public class Map
     private ArrayList<BufferedImage> tiles;
 
     private Layer[] map;
+    private TileObject[] objects;
 
     public Map(BufferedImage tileSet, JsonObject mapObject) {
         this.tiles = new ArrayList<>();
@@ -32,6 +35,7 @@ public class Map
 
         this.tiles = this.divideImage(tileSet);
         this.map = this.tileImageToTiles(mapObject);
+        this.objects = this.getTileObjectsFromJson(mapObject);
     }
 
     private ArrayList<BufferedImage> divideImage(BufferedImage tileSet) {
@@ -45,45 +49,63 @@ public class Map
     }
 
     private Layer[] tileImageToTiles(JsonObject tileObject) {
-        this.layersSize = tileObject.getJsonArray("layers").size();
-        Layer[] map = new Layer[layersSize];
+        JsonArray layersArray = tileObject.getJsonArray("layers");
+        this.layersSize = layersArray.size();
+        ArrayList<Layer> layers = new ArrayList<>(this.layersSize);
         for (int layer = 0; layer < layersSize; layer++) {
-            if (tileObject.getJsonArray("layers").getJsonObject(layer).getJsonArray("data") != null) {
-                int dataSize = tileObject.getJsonArray("layers").getJsonObject(layer).getJsonArray("data").size();
+            JsonObject layerObject = layersArray.getJsonObject(layer);
+            if (layerObject.getJsonArray("data") != null) {
+                JsonArray layerData = layerObject.getJsonArray("data");
                 ArrayList<Tile> tiles = new ArrayList<>();
-                for (int i = 0; i < dataSize; i++) {
-                    int tileIndex = tileObject.getJsonArray("layers").getJsonObject(layer).getJsonArray("data").getInt(i) - 1;
+                for (int i = 0; i < layerData.size(); i++) {
+                    int tileIndex = layerData.getInt(i) - 1;
                     if (tileIndex >= 0) {
-                        tiles.add(new Tile(i % this.width,i / this.height ,tileIndex));
+                        tiles.add(new Tile(i % this.width, i / this.height, tileIndex));
                     }
                 }
-                map[layer] = new Layer(tiles.toArray(new Tile[0]), this.width, this.height, this.tileWidth, this.tileHeight);
+                layers.add(new Layer(tiles.toArray(new Tile[0]),
+                        layerObject.getString("name"),
+                        this.width,
+                        this.height,
+                        this.tileWidth,
+                        this.tileHeight));
             }
         }
-        return map;
+        return layers.toArray(new Layer[0]);
+    }
+
+    private TileObject[] getTileObjectsFromJson(JsonObject tileObject) {
+        JsonArray layersArray = tileObject.getJsonArray("layers");
+        this.layersSize = layersArray.size();
+        ArrayList<TileObject> tileObjects = new ArrayList<>();
+        for (int layer = 0; layer < layersSize; layer++) {
+            JsonObject layerObject = layersArray.getJsonObject(layer);
+                if (layerObject.getString("type").equals("objectgroup")) {
+                JsonArray objects = layerObject.getJsonArray("objects");
+                for(int objectIndex = 0; objectIndex < objects.size(); objectIndex++)
+                {
+                    JsonObject object = objects.getJsonObject(objectIndex);
+                    tileObjects.add(new TileObject(object.getInt("height"),
+                                    object.getInt("id"),
+                                    object.getString("name"),
+                                    object.getInt("width"),
+                                    new Point2D.Double(
+                                            object.getInt("x"),
+                                            object.getInt("y")
+                                    )
+                            )
+                    );
+                }
+            }
+        }
+        return tileObjects.toArray(new TileObject[0]);
     }
 
     public void draw(Graphics2D graphics) {
-//        for (int layer = 0; layer < this.map.length; layer++) {
-//            int i = 0;
-//
-//            for (int y = 0; y < this.height; y++) {
-//                for (int x = 0; x < this.width; x++) {
-//
-//                    if (this.map[i][layer] <= 0) {
-//                        i++;
-//                        continue;
-//                    }
-//                    cacheGraphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-//                    cacheGraphics.drawImage(this.tiles.get(this.map[i][layer]), AffineTransform.getTranslateInstance(x * this.tileWidth, y * this.tileHeight), null);
-//                    i++;
-//                }
-//            }
-//        }
-
-        for(Layer layer : this.map)
-        {
-            layer.draw(graphics, this.tiles);
+        for (Layer layer : this.map) {
+            if (!layer.getName().equals("walkable")) {
+                layer.draw(graphics, this.tiles);
+            }
         }
     }
 }

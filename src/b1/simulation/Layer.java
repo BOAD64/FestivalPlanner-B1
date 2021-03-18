@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class Layer {
     private Tile[] tiles;
+    private String name;
     private int width;
     private int height;
     private int tileWidth;
@@ -14,8 +15,9 @@ public class Layer {
 
     private BufferedImage cacheImage;
 
-    public Layer(Tile[] tiles, int width, int height, int tileWidth, int tileHeight) {
+    public Layer(Tile[] tiles, String name, int width, int height, int tileWidth, int tileHeight) {
         this.tiles = tiles;
+        this.name = name;
         this.width = width;
         this.height = height;
         this.tileWidth = tileWidth;
@@ -30,13 +32,16 @@ public class Layer {
             Graphics2D cacheGraphics = this.cacheImage.createGraphics();
             for(Tile tile : this.tiles)
             {
-                cacheGraphics.drawImage(images.get(tile.getTileSetIndex()),
-                        AffineTransform.getTranslateInstance(
-                                tile.getX() * this.tileWidth,
-                                tile.getY() * this.tileHeight
-                            ), null);
+                if(images.size() < tile.getTileSetIndex()-1) {
+                    continue;
+                }
+                cacheGraphics.drawImage(images.get(tile.getTileSetIndex()), AffineTransform.getTranslateInstance(tile.getX() * this.tileWidth, tile.getY() * this.tileHeight), null);
             }
         }
         graphics.drawImage(this.cacheImage, new AffineTransform(),null);
+    }
+
+    public String getName() {
+        return this.name;
     }
 }
