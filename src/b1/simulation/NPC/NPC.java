@@ -2,6 +2,7 @@ package b1.simulation.NPC;
 
 import b1.school.person.Person;
 import b1.simulation.Target;
+import b1.simulation.WalkableLayer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -34,13 +35,15 @@ public abstract class NPC {
     ObservableList<NPC> collisionNPCs;
     private boolean standStill;
     private Target standardTarget;
+    private WalkableLayer walkableLayer;
 
-    public NPC(Point2D position, double angle, Person person) {
+    public NPC(Point2D position, double angle, Person person, WalkableLayer walkableLayer) {
         this.position = position;
         this.angle = angle;
         this.person = person;
 //        this.target = position;
         this.standStill = false;
+        this.walkableLayer = walkableLayer;
     }
 
 //    /**
@@ -128,6 +131,14 @@ public abstract class NPC {
         if (!hasCollision) {
             Point2D nextPos = new Point2D.Double(this.position.getX() + this.speed * Math.cos(this.angle) * deltaTime,
                     this.position.getY() + this.speed * Math.sin(this.angle) * deltaTime);
+            this.updatePosition(nextPos);
+        }
+    }
+
+    private void updatePosition(Point2D nextPos)
+    {
+        if(this.walkableLayer.isWalkable((int)(nextPos.getX() / 32.0), (int)(nextPos.getY()/32.0)))
+        {
             this.position = nextPos;
         }
     }
@@ -137,7 +148,7 @@ public abstract class NPC {
      *
      * @param graphics
      */
-    public void draw(Graphics2D graphics) {
+    public void draw(Graphics2D graphics, boolean debug) {
         int centerX = this.sprites.get(0).getWidth() / (2);
         int centerY = this.sprites.get(0).getHeight() / (2) + 25;
         AffineTransform tx = new AffineTransform();
@@ -160,7 +171,7 @@ public abstract class NPC {
         }
 
         //Draw hitBox and target
-        if(this.target != null) {
+        if(this.target != null && debug) {
             this.target.draw(graphics);
             graphics.setColor(Color.white);
             graphics.draw(new Ellipse2D.Double(this.position.getX() - this.hitBoxSize / 2, this.position.getY() - this.hitBoxSize / 2, this.hitBoxSize, this.hitBoxSize));
@@ -191,9 +202,11 @@ public abstract class NPC {
                     double angleToNPC = Math.atan2(
                             npc.getPosition().getY() - this.position.getY(),
                             npc.getPosition().getX() - this.position.getX());
-                    this.position = new Point2D.Double(
+                    Point2D nextPos = new Point2D.Double(
                             this.position.getX() - (this.speed / 2) * Math.cos(angleToNPC) * deltaTime,
                             this.position.getY() - (this.speed / 2) * Math.sin(angleToNPC) * deltaTime);
+
+                    this.updatePosition(nextPos);
                 }
             }
         }

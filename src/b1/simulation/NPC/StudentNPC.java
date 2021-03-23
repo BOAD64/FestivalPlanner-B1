@@ -3,14 +3,15 @@ package b1.simulation.NPC;
 import b1.io.SpriteFile;
 import b1.school.person.Student;
 import b1.school.person.StudentController;
+import b1.simulation.WalkableLayer;
 
 import java.awt.geom.*;
 import java.util.ArrayList;
 
 public class StudentNPC extends NPC {
 
-    public StudentNPC(Point2D position, double angle, Student student) {
-        super(position, angle, student);
+    public StudentNPC(Point2D position, double angle, Student student, WalkableLayer walkableLayer) {
+        super(position, angle, student, walkableLayer);
         this.hitBoxSize = 32;
         this.frame = Math.random() * 3;
         this.sprites = new ArrayList<>();

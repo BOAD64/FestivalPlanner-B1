@@ -103,12 +103,11 @@ public class Map
         return result;
     }
 
-    public void draw(Graphics2D graphics) {
+    public void draw(Graphics2D graphics, boolean debug) {
         for (Layer layer : this.map) {
-            if (!layer.getName().equals("walkable")) {
+            if (debug || !layer.getName().equals("walkable")) {
                 layer.draw(graphics, this.tiles);
             }
-            this.walkableLayer.draw(graphics, this.tiles);
         }
     }
 
