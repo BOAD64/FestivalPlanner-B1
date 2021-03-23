@@ -71,7 +71,7 @@ public class Target
         Point[] offsets = {new Point(1, 0), new Point(-1, 0), new Point(0, 1), new Point(0, -1)};
         Point next = new Point(0,0);
         for (Point offset : offsets) {
-            if (point.x + offset.x < 0 || point.y + offset.y < 0) {
+            if (point.x + offset.x < 0 || point.y + offset.y < 0 || point.x+offset.x >= this.distanceMap.length || point.y+offset.y >= this.distanceMap[0].length) {
                 continue;
             }
             if (this.distanceMap[point.x + offset.x][point.y + offset.y] < this.distanceMap[point.x][point.y]) {
@@ -86,6 +86,13 @@ public class Target
     }
 
     public int getDistance(Point point) {
+        if(point.x < 0 || point.y < 0)
+        {
+            return 0;
+        }
+        if(point.x >= this.distanceMap.length || point.y >= this.distanceMap[0].length) {
+            return 0;
+        }
         return this.distanceMap[point.x][point.y];
     }
 

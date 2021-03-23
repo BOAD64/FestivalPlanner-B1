@@ -45,6 +45,7 @@ public class Simulation
     private TextField speedValueField;
     private Pathfinding pathfinding;
     private Target debugTarget;
+    private ScheduleManager scheduleManager;
 
     //NPC test
     private Point2D mousePos;
@@ -55,27 +56,36 @@ public class Simulation
         MapFile.setPath(Setting.Map.MapJsonPath);
         this.map = new Map(TilesetFile.getTileset(), MapFile.getMapFile());
         this.clock = new Clock(2, LocalTime.of(8, 0), new Point2D.Double(0, 70));
-        this.slider = new Slider(-60, 60, 1);
+        this.slider = new Slider(-10, 10, 1);
         this.clockSpeedButton = new Button("tijd snelheid naar 1x");
         this.speedValueField = new TextField("Snelheid: 1x");
         this.NPCs = new ArrayList<>();
-
         //test NPCs
 //        addTestNPCs();
+        this.pathfinding = new Pathfinding(this.map);
         addNPCs();
+        this.scheduleManager = new ScheduleManager(this.school.getSchedule(), this.clock, this.NPCs, this.pathfinding.getTargets());
+        this.scheduleManager.init();
         this.mousePos = new Point2D.Double(500, 500);
-        init();
     }
 
     private void addNPCs() {
+        TileObject loadingZone = this.map.getTileObject().get("LoadingZone");
         for (Student student : this.school.getStudents()) {
-            StudentNPC studentNPC = new StudentNPC(new Point2D.Double(Math.random() * 500, Math.random() * 500), 0, student);
+            StudentNPC studentNPC = new StudentNPC(new Point2D.Double(loadingZone.getLocation().getX() + Math.random() * (loadingZone.getWidth() - 1),
+                    loadingZone.getLocation().getY() + Math.random() * (loadingZone.getHeight() - 1)), 0, student);
             studentNPC.setCollisionNPCS(this.NPCs);
+            studentNPC.setStandardTarget(this.pathfinding.getTargets().get("StudentRoom"));
+            studentNPC.sendToStandardTarget();
+
             this.NPCs.add(studentNPC);
         }
         for (Teacher teacher : this.school.getTeachers()) {
-            TeacherNPC teacherNPC = new TeacherNPC(new Point2D.Double(Math.random() * 500, Math.random() * 500), 0, teacher);
+            TeacherNPC teacherNPC = new TeacherNPC(new Point2D.Double(loadingZone.getLocation().getX() + Math.random() * (loadingZone.getWidth() - 1),
+                    loadingZone.getLocation().getY() + Math.random() * (loadingZone.getHeight() - 1)), 0, teacher);
             teacherNPC.setCollisionNPCS(this.NPCs);
+            teacherNPC.setStandardTarget(this.pathfinding.getTargets().get("TeacherRoom"));
+            teacherNPC.sendToStandardTarget();
             this.NPCs.add(teacherNPC);
         }
     }
@@ -178,17 +188,6 @@ public class Simulation
         }
     }
 
-    public void init() {
-        this.pathfinding = new Pathfinding(this.map, this.NPCs);
-        this.pathfinding.init();
-
-        for (NPC npc : this.NPCs) {
-            Target target = this.pathfinding.getTargets().get(5);
-            this.debugTarget = target;
-            npc.setTarget(target);
-        }
-    }
-
     /**
      * currently updates the clock
      *
@@ -199,6 +198,8 @@ public class Simulation
         this.clock.setSpeedMultiplier(slider.getValue());
         this.clock.update(deltaTime);
         double newDeltaTime = this.clock.getNewDeltaTime(deltaTime); //use this instead of deltaTime
+
+        this.scheduleManager.update(newDeltaTime);
 
         if (newDeltaTime > 0) {
             for (NPC npc : this.NPCs) {

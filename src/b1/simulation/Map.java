@@ -3,11 +3,10 @@ package b1.simulation;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Map
 {
@@ -22,7 +21,7 @@ public class Map
     private ArrayList<BufferedImage> tiles;
 
     private Layer[] map;
-    private TileObject[] objects;
+    private HashMap<String, TileObject> tileObject;
     private Layer walkableLayer;
 
     public Map(BufferedImage tileSet, JsonObject mapObject) {
@@ -36,7 +35,7 @@ public class Map
 
         this.tiles = this.divideImage(tileSet);
         this.map = this.tileImageToTiles(mapObject);
-        this.objects = this.getTileObjectsFromJson(mapObject);
+        this.tileObject = this.getTileObjectsFromJson(mapObject);
     }
 
     private ArrayList<BufferedImage> divideImage(BufferedImage tileSet) {
@@ -74,21 +73,29 @@ public class Map
         return layers.toArray(new Layer[0]);
     }
 
-    private TileObject[] getTileObjectsFromJson(JsonObject tileObject) {
+    private HashMap<String, TileObject> getTileObjectsFromJson(JsonObject tileObject) {
+        HashMap<String, TileObject> result = new HashMap<>();
         JsonArray layersArray = tileObject.getJsonArray("layers");
         this.layersSize = layersArray.size();
-        ArrayList<TileObject> tileObjects = new ArrayList<>();
+//        ArrayList<TileObject> tileObjects = new ArrayList<>();
         for (int layer = 0; layer < layersSize; layer++) {
             JsonObject layerObject = layersArray.getJsonObject(layer);
             if (layerObject.getString("type").equals("objectgroup")) {
                 JsonArray objects = layerObject.getJsonArray("objects");
                 for (int objectIndex = 0; objectIndex < objects.size(); objectIndex++) {
                     JsonObject object = objects.getJsonObject(objectIndex);
-                    tileObjects.add(new TileObject(object.getInt("height"), object.getInt("id"), object.getString("name"), object.getInt("width"), new Point2D.Double(object.getInt("x"), object.getInt("y"))));
+                    TileObject tileObject1 = new TileObject(object.getInt("height"),
+                            object.getInt("id"),
+                            object.getString("name"),
+                            object.getInt("width"),
+                            new Point2D.Double(object.getInt("x"),
+                                    object.getInt("y")));
+
+                    result.put(tileObject1.getName(), tileObject1);
                 }
             }
         }
-        return tileObjects.toArray(new TileObject[0]);
+        return result;
     }
 
     public void draw(Graphics2D graphics) {
@@ -107,8 +114,8 @@ public class Map
         return tileHeight;
     }
 
-    public TileObject[] getObjects() {
-        return objects;
+    public HashMap<String, TileObject> getTileObject() {
+        return this.tileObject;
     }
 
     public Layer getWalkableLayer() {

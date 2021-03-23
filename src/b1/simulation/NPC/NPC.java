@@ -33,6 +33,7 @@ public abstract class NPC {
     Person person;
     ObservableList<NPC> collisionNPCs;
     private boolean standStill;
+    private Target standardTarget;
 
     public NPC(Point2D position, double angle, Person person) {
         this.position = position;
@@ -56,6 +57,14 @@ public abstract class NPC {
         this.target = target;
     }
 
+    public Target getStandardTarget() {
+        return standardTarget;
+    }
+
+    public void setStandardTarget(Target standardTarget) {
+        this.standardTarget = standardTarget;
+    }
+
     /**
      * Fill list to check collision with other NPC's.
      *
@@ -65,12 +74,20 @@ public abstract class NPC {
         this.collisionNPCs = FXCollections.observableList(collisionNPCs);
     }
 
+    public Person getPerson() {
+        return this.person;
+    }
+
     /**
      * Updates position, direction and frame for NPC.
      *
      * @param deltaTime declares animation speed.
      */
     public void update(double deltaTime) {
+        if(this.target == null)
+        {
+            return;
+        }
         int distance = this.target.getDistance(new Point((int)this.position.getX() / 32, (int)this.position.getY() / 32));
         if (distance < 5) {
             this.standStill = true;
@@ -89,17 +106,17 @@ public abstract class NPC {
 
         Point2D targetPost = new Point2D.Double(this.position.getX() + direction.getX(), this.position.getY() + direction.getY());
         double targetAngle = Math.atan2(targetPost.getY() - this.position.getY(), targetPost.getX() - this.position.getX());
-        double rotation = targetAngle - this.angle;
-        while (rotation < -Math.PI) {
-            rotation += 2 * Math.PI;
+        double rotationSpeed = targetAngle - this.angle;
+        while (rotationSpeed < -Math.PI) {
+            rotationSpeed += 2 * Math.PI;
         }
-        while (rotation > Math.PI) {
-            rotation -= 2 * Math.PI;
+        while (rotationSpeed > Math.PI) {
+            rotationSpeed -= 2 * Math.PI;
         }
 
-        if (rotation < -this.rotationSpeed) {
+        if (rotationSpeed < -this.rotationSpeed) {
             this.angle -= this.rotationSpeed * 100 * deltaTime;
-        } else if (rotation > this.rotationSpeed) {
+        } else if (rotationSpeed > this.rotationSpeed) {
             this.angle += this.rotationSpeed * 100 * deltaTime;
         } else {
             this.angle = targetAngle;
@@ -142,9 +159,11 @@ public abstract class NPC {
         }
 
         //Draw hitBox and target
-        graphics.setColor(Color.white);
-        graphics.draw(new Ellipse2D.Double(this.position.getX() - this.hitBoxSize / 2, this.position.getY() - this.hitBoxSize / 2, this.hitBoxSize, this.hitBoxSize));
-        graphics.draw(new Line2D.Double(this.position, new Point2D.Double(this.target.getPosition().x*32, this.target.getPosition().y * 32 )));
+        if(this.target != null) {
+            graphics.setColor(Color.white);
+            graphics.draw(new Ellipse2D.Double(this.position.getX() - this.hitBoxSize / 2, this.position.getY() - this.hitBoxSize / 2, this.hitBoxSize, this.hitBoxSize));
+            graphics.draw(new Line2D.Double(this.position, new Point2D.Double(this.target.getPosition().x*32, this.target.getPosition().y * 32 )));
+        }
     }
 
     public double getHitBoxSize() {
@@ -180,4 +199,22 @@ public abstract class NPC {
     }
 
     abstract public void openPerson(Point2D mousePos);
+
+    public void resetNPC() {
+        this.position = new Point2D.Double(200, 200);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!obj.getClass().equals(this.getClass()))
+        {
+            return false;
+        }
+        return ((NPC)obj).getPerson().equals(this.getPerson());
+    }
+
+    public void sendToStandardTarget()
+    {
+        this.setTarget(this.getStandardTarget());
+    }
 }
