@@ -44,7 +44,6 @@ public class Simulation
     private Button clockSpeedButton;
     private TextField speedValueField;
     private Pathfinding pathfinding;
-    private Target debugTarget;
     private ScheduleManager scheduleManager;
     private boolean debug = false;
 
@@ -224,10 +223,6 @@ public class Simulation
             for (NPC npc : this.NPCs) {
                 npc.draw(graphics, this.debug);
             }
-        }
-
-        if(this.debugTarget != null) {
-            this.debugTarget.draw(graphics);
         }
 
         graphics.setTransform(originalTransform);

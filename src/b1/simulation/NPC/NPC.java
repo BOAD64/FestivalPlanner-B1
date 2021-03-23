@@ -91,6 +91,7 @@ public abstract class NPC {
         {
             return;
         }
+//        deltaTime = Math.abs(deltaTime);
         int distance = this.target.getDistance(new Point((int)this.position.getX() / 32, (int)this.position.getY() / 32));
         if (distance < 5) {
             this.standStill = true;

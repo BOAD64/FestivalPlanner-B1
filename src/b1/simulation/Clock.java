@@ -61,7 +61,7 @@ public class Clock {
      * @param originalDeltaTime
      */
     public void update(double originalDeltaTime){
-        this.currentTime = this.currentTime.plusNanos((long)((originalDeltaTime * Math.pow(10, 9)) * 60 * speedMultiplier));
+        this.currentTime = this.currentTime.plusNanos((long)((originalDeltaTime * Math.pow(10, 9)) * 10 * speedMultiplier));
     }
 
     /**
