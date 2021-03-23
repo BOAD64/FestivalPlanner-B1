@@ -246,3 +246,17 @@ public class MainController implements Controller
 
 Deze manier van werken is naar mijn mening veel netter en overzichtelijker. Bovendien is deze methode ook veel schaalbaarder.
 
+
+## Week 5
+In week 5 heb ik dinsdag de laatste hand gelegd aan de roostermodule door alle bugs eruit te halen en de laatste dingen aan elkaar te koppelen. 
+Donderdag zijn we begonnen aan het simulatie gedeelte van de opdracht. Eerst hebben we met z'n allen een begin ontwerp gemaakt van de de simulatiemodule. Deze zag er zo uit:
+
+![alt text][logo]
+
+[logo]: Klassendiagram%20simulator.png "Klassen diagram"
+
+Ik heb deze week samen gewerkt aan de map, layer, io en simulation klassen. Dit bevatte niet echt veel uitdagingen, aangezien Johan dit al redelijk voorgekauwd had. 
+
+Het enige probleem die we tegen kwamen, was het feit dat `Setting.class.getResource(path).getPath()` spaties verving door de %20 equivalent. De File klas daarentegen kon daar niet goed mee omgaan en dus kon het bestand niet worden gevonden. Het duurde even voordat we daar achter kwamen. De oplossing was simpel door een replace toe te passen op de string.
+Later zijn we direct gebruik gaan maken van de url klas en niet via een path string op advies van Johan. Daarnaast had Johan ons geadviseerd om layers te cachen in een bufferde image voor optimalisatie.
+
