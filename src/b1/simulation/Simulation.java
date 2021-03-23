@@ -56,7 +56,7 @@ public class Simulation
         MapFile.setPath(Setting.Map.MapJsonPath);
         this.map = new Map(TilesetFile.getTileset(), MapFile.getMapFile());
         this.clock = new Clock(2, LocalTime.of(8, 0), new Point2D.Double(0, 70));
-        this.slider = new Slider(-10, 10, 1);
+        this.slider = new Slider(-20, 20, 1);
         this.clockSpeedButton = new Button("tijd snelheid naar 1x");
         this.speedValueField = new TextField("Snelheid: 1x");
         this.NPCs = new ArrayList<>();
