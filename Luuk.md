@@ -95,3 +95,150 @@ Daarnaast heb ik in deze week gewerkt aan het tonen van de schedule.
 
 
 ## Week 4
+Week 4 was voor mij een week van refactoren samen met Jeroen. Afgelopen donderdag hadden we alle branches samengevoegd. Hierbij kwamen we er achter dat we 3 verschillende code stylen hadden (3 duo's). Hierdoor ging het samenvoegen van de code niet soepel. Om dit toch soepel te laten verlopen, moest er redelijk wat gerefactored worden. Bovendien kwamen we tijdens het testen heel veel kleine fouten tegen. Deze hebben we opgelost. Iets wat we veel zagen was dat events in de view werden afgehandeld, terwijl het de bedoeling was dat dit in de conroller gebeurde, dit hebben we veranderd. Iets waar ik aan gewerkt heb is de verandering van het 'add' menu. Het menu waarin je kon kiezen om een element toe te voegen. Hierbij werd gebruik gemaakt van een listview. Om de selectie af te handelen werd gebruik gemaakt van een lange switch. 
+
+```java
+private void onAddListClicked(MouseEvent event) {
+    MainView.Controllers controller = this.view.getAddList().getSelectionModel().getSelectedItem();
+
+    switch (controller) {
+        case GROUP:
+            Group group = new Group("unnamed");
+            this.school.addGroup(group);
+            GroupController groupController = new GroupController(group);
+            groupController.show();
+            break;
+        case CLASSROOM:
+            Classroom classroom = new Classroom(0, 0, "unnamed", 0);
+            this.school.addRoom(classroom);
+            ClassroomController classroomController = new ClassroomController(classroom);
+            classroomController.show();
+            break;
+        case STUDENT:
+            Student student = new Student();
+            this.school.addStudent(student);
+            StudentController studentController = new StudentController(student);
+            studentController.show();
+            break;
+        case TEACHER:
+            Teacher teacher = new Teacher();
+            this.school.addTeacher(teacher);
+            TeacherController teacherController = new TeacherController(teacher);
+            teacherController.show();
+            break;
+        case APPOINTMENT: {
+            Lesson lesson = new Lesson(null, null, null, null, null, null, null);
+            this.school.getSchedule().getAppointments().add(lesson);
+            LessonController lessonController = new LessonController(this.school, lesson);
+            lessonController.onClose(event1 -> {this.scheduleController.refresh();});
+            lessonController.show();
+            break;
+        }
+    }
+}
+```
+
+Ik heb een apparte AddMenuItem class aangemaakt die dan toegevoegd werd aan het addmenu. Bij het klikken op een item hoefde ik alleen nog maar de click functie uit te voeren.
+
+De AddMenuItem klas:
+```java
+package b1;
+
+import b1.school.person.Student;
+import b1.school.person.StudentController;
+
+import javax.naming.ldap.Control;
+import java.lang.reflect.Constructor;
+
+public class AddMenuItem
+{
+    private Class<? extends Controller> controller;
+    private String title;
+
+    public AddMenuItem(Class<? extends Controller> controller, String title) {
+        this.controller = controller;
+        this.title = title;
+    }
+
+    public Class<? extends Controller> getController() {
+        return controller;
+    }
+
+    public void setController(Class<? extends Controller> controller) {
+        this.controller = controller;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void onclick() {
+        try {
+            Controller controller = this.controller.getConstructor().newInstance();
+            controller.show();
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return this.title;
+    }
+}
+```
+
+Waarbij de maincontroller er zo uitzag.
+```java
+//Imports
+
+public class MainController implements Controller
+{
+
+    private MainView view;
+    private School school;
+
+    private ScheduleController scheduleController;
+
+    public MainController() {
+    }
+
+    @Override
+    public void show() {
+        this.view = new MainView();
+        Stage stage = this.view.getStage();
+        this.school = SchoolFile.getSchool();
+
+        this.scheduleController = new ScheduleController();
+        this.view.setScheduleControllerNode(this.scheduleController.getNode());
+        this.fillAddMenuList(this.view.getAddList());
+
+        this.view.getAddList().setOnMouseClicked(this::onAddListClicked);
+        stage.show();
+    }
+
+    private void fillAddMenuList(ListView<AddMenuItem> addMenu) {
+        addMenu.getItems().add(new AddMenuItem(GroupController.class, "Groep"));
+        addMenu.getItems().add(new AddMenuItem(ClassroomController.class, "Klaslokaal"));
+        addMenu.getItems().add(new AddMenuItem(StudentController.class, "Student"));
+        addMenu.getItems().add(new AddMenuItem(TeacherController.class, "Docent"));
+        addMenu.getItems().add(new AddMenuItem(LessonController.class, "Les"));
+
+    }
+
+    private void onAddListClicked(MouseEvent event) {
+        AddMenuItem menuItem = this.view.getAddList().getSelectionModel().getSelectedItem();
+        menuItem.onclick();
+
+        this.view.onAddListClicked(event);
+    }
+}
+```
+
+Deze manier van werken is naar mijn mening veel netter en overzichtelijker. Bovendien is deze methode ook veel schaalbaarder.
+
