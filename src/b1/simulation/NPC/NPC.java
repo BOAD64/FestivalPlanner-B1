@@ -94,7 +94,7 @@ public abstract class NPC {
             return;
         }
         this.standStill = false;
-        this.frame += deltaTime;
+        this.frame += deltaTime * 10;
         if (this.frame >= 3) {
             this.frame = 0;
         }
@@ -104,19 +104,20 @@ public abstract class NPC {
 
         Point direction = this.target.getDirection(new Point(tileX, tileY));
 
-        Point2D targetPost = new Point2D.Double(this.position.getX() + direction.getX(), this.position.getY() + direction.getY());
-        double targetAngle = Math.atan2(targetPost.getY() - this.position.getY(), targetPost.getX() - this.position.getX());
-        double rotationSpeed = targetAngle - this.angle;
-        while (rotationSpeed < -Math.PI) {
-            rotationSpeed += 2 * Math.PI;
+        Point2D targetPos = new Point2D.Double(this.position.getX() + direction.getX(), this.position.getY() + direction.getY());
+        //turnspeed
+        double targetAngle = Math.atan2(targetPos.getY() - this.position.getY(), targetPos.getX() - this.position.getX());
+        double rotation = targetAngle - this.angle;
+        while (rotation < -Math.PI) {
+            rotation += 2 * Math.PI;
         }
-        while (rotationSpeed > Math.PI) {
-            rotationSpeed -= 2 * Math.PI;
+        while (rotation > Math.PI) {
+            rotation -= 2 * Math.PI;
         }
 
-        if (rotationSpeed < -this.rotationSpeed) {
+        if (rotation < -(this.rotationSpeed * 100 * deltaTime)) {
             this.angle -= this.rotationSpeed * 100 * deltaTime;
-        } else if (rotationSpeed > this.rotationSpeed) {
+        } else if (rotation > this.rotationSpeed * 100 * deltaTime) {
             this.angle += this.rotationSpeed * 100 * deltaTime;
         } else {
             this.angle = targetAngle;
