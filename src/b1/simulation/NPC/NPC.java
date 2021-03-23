@@ -160,6 +160,7 @@ public abstract class NPC {
 
         //Draw hitBox and target
         if(this.target != null) {
+            this.target.draw(graphics);
             graphics.setColor(Color.white);
             graphics.draw(new Ellipse2D.Double(this.position.getX() - this.hitBoxSize / 2, this.position.getY() - this.hitBoxSize / 2, this.hitBoxSize, this.hitBoxSize));
             graphics.draw(new Line2D.Double(this.position, new Point2D.Double(this.target.getPosition().x*32, this.target.getPosition().y * 32 )));

@@ -22,7 +22,7 @@ public class Map
 
     private Layer[] map;
     private HashMap<String, TileObject> tileObject;
-    private Layer walkableLayer;
+    private WalkableLayer walkableLayer;
 
     public Map(BufferedImage tileSet, JsonObject mapObject) {
         this.tiles = new ArrayList<>();
@@ -63,11 +63,16 @@ public class Map
                         tiles.add(new Tile(i % this.width, i / this.height, tileIndex));
                     }
                 }
-                Layer layer = new Layer(tiles.toArray(new Tile[0]), layerObject.getString("name"), this.width, this.height, this.tileWidth, this.tileHeight);
-                layers.add(layer);
-                if (layer.getName().equals("walkable")) {
-                    this.walkableLayer = layer;
+                Layer layer;
+                if (layerObject.getString("name").equals("walkable")) {
+                    layer = new WalkableLayer(tiles.toArray(new Tile[0]), layerObject.getString("name"), this.width, this.height, this.tileWidth, this.tileHeight);
+                    this.walkableLayer = (WalkableLayer) layer;
                 }
+                else
+                {
+                    layer = new Layer(tiles.toArray(new Tile[0]), layerObject.getString("name"), this.width, this.height, this.tileWidth, this.tileHeight);
+                }
+                layers.add(layer);
             }
         }
         return layers.toArray(new Layer[0]);
@@ -103,6 +108,7 @@ public class Map
             if (!layer.getName().equals("walkable")) {
                 layer.draw(graphics, this.tiles);
             }
+            this.walkableLayer.draw(graphics, this.tiles);
         }
     }
 
@@ -118,7 +124,7 @@ public class Map
         return this.tileObject;
     }
 
-    public Layer getWalkableLayer() {
+    public WalkableLayer getWalkableLayer() {
         return this.walkableLayer;
     }
 }

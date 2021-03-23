@@ -14,7 +14,7 @@ public class Target
         this.position = position;
     }
 
-    public void build(Layer layer) {
+    public void build(WalkableLayer layer) {
         this.distanceMap = new int[layer.getWidth()][layer.getHeight()];
         for (int i = 0; i < this.distanceMap.length; i++) {
             this.distanceMap[i] = new int[layer.getHeight()];
@@ -44,24 +44,28 @@ public class Target
                     continue;
                 }
 
-                Tile foundTile = null;
-                for (Tile tile : layer.getTiles()) {
-                    if (tile.getX() == point.x && tile.getY() == point.y) {
-                        if (tile.getTileSetIndex() == 242) {
-                            foundTile = tile;
-                        }
-                        break;
-                    }
-                }
+//                Tile foundTile = null;
+//                for (Tile tile : layer.getTiles()) {
+//                    if (tile.getX() == point.x && tile.getY() == point.y) {
+//                        if (tile.getTileSetIndex() == 242) {
+//                            foundTile = tile;
+//                        }
+//                        break;
+//                    }
+//                }
 
-                visitedPoints.add(point);
-
-                if(foundTile != null)
+                if(!layer.isWalkable(point.x, point.y))
                 {
                     continue;
                 }
 
+//                if(foundTile != null)
+//                {
+//                    continue;
+//                }
+
                 this.distanceMap[point.x][point.y] = this.distanceMap[current.x][current.y] + 1;
+                visitedPoints.add(point);
                 queue.add(point);
             }
         }

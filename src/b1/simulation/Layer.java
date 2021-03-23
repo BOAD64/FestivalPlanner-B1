@@ -56,4 +56,44 @@ public class Layer {
     public Tile[] getTiles() {
         return tiles;
     }
+
+    public void setTiles(Tile[] tiles) {
+        this.tiles = tiles;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getTileWidth() {
+        return tileWidth;
+    }
+
+    public void setTileWidth(int tileWidth) {
+        this.tileWidth = tileWidth;
+    }
+
+    public int getTileHeight() {
+        return tileHeight;
+    }
+
+    public void setTileHeight(int tileHeight) {
+        this.tileHeight = tileHeight;
+    }
+
+    public BufferedImage getCacheImage() {
+        return cacheImage;
+    }
+
+    public void setCacheImage(BufferedImage cacheImage) {
+        this.cacheImage = cacheImage;
+    }
 }

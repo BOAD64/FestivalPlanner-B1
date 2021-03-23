@@ -63,6 +63,7 @@ public class Simulation
         //test NPCs
 //        addTestNPCs();
         this.pathfinding = new Pathfinding(this.map);
+//        this.pathfinding.in
         addNPCs();
         this.scheduleManager = new ScheduleManager(this.school.getSchedule(), this.clock, this.NPCs, this.pathfinding.getTargets());
         this.scheduleManager.init();
@@ -72,8 +73,8 @@ public class Simulation
     private void addNPCs() {
         TileObject loadingZone = this.map.getTileObject().get("LoadingZone");
         for (Student student : this.school.getStudents()) {
-            StudentNPC studentNPC = new StudentNPC(new Point2D.Double(loadingZone.getLocation().getX() + Math.random() * (loadingZone.getWidth() - 1),
-                    loadingZone.getLocation().getY() + Math.random() * (loadingZone.getHeight() - 1)), 0, student);
+            StudentNPC studentNPC = new StudentNPC(new Point2D.Double(loadingZone.getLocation().getX() + 16 + Math.random() * (loadingZone.getWidth() - 32),
+                    loadingZone.getLocation().getY() + 16 + Math.random() * (loadingZone.getHeight() - 16)), 0, student);
             studentNPC.setCollisionNPCS(this.NPCs);
             studentNPC.setStandardTarget(this.pathfinding.getTargets().get("StudentRoom"));
             studentNPC.sendToStandardTarget();
@@ -81,8 +82,8 @@ public class Simulation
             this.NPCs.add(studentNPC);
         }
         for (Teacher teacher : this.school.getTeachers()) {
-            TeacherNPC teacherNPC = new TeacherNPC(new Point2D.Double(loadingZone.getLocation().getX() + Math.random() * (loadingZone.getWidth() - 1),
-                    loadingZone.getLocation().getY() + Math.random() * (loadingZone.getHeight() - 1)), 0, teacher);
+            TeacherNPC teacherNPC = new TeacherNPC(new Point2D.Double(loadingZone.getLocation().getX() + 16 + Math.random() * (loadingZone.getWidth() - 32),
+                    loadingZone.getLocation().getY() + 16 + Math.random() * (loadingZone.getHeight() - 16)), 0, teacher);
             teacherNPC.setCollisionNPCS(this.NPCs);
             teacherNPC.setStandardTarget(this.pathfinding.getTargets().get("TeacherRoom"));
             teacherNPC.sendToStandardTarget();
