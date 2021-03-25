@@ -18,7 +18,6 @@ public class Clock {
     private LocalTime currentTime;
     private double speedMultiplier;
     private double previousSpeedMultiplier;
-    private SimpleDateFormat format;
     private Point2D location;
     private Font clockFont;
     private boolean paused;
@@ -28,7 +27,6 @@ public class Clock {
     public Clock(double speedMultiplier, LocalTime startTime, Point2D location){
         this.currentTime = startTime;
         this.speedMultiplier = speedMultiplier;
-        this.format = new SimpleDateFormat("hh:mm");
         this.location = location;
         this.clockFont = new Font("Rockwell", Font.PLAIN, 70);
         this.paused = false;
@@ -107,10 +105,10 @@ public class Clock {
         graphics.setColor(this.fontColor);
         graphics.setFont(this.clockFont);
         String time = this.currentTime.format(DateTimeFormatter.ofPattern("HH:mm"));
-        graphics.drawString(time, (float)location.getX(), (float)location.getY());
+        graphics.drawString(time, (float)this.location.getX(), (float)this.location.getY());
         Shape textOutline = this.clockFont.createGlyphVector(graphics.getFontRenderContext(), time).getOutline();
         graphics.setColor(Color.black);
-        graphics.draw(AffineTransform.getTranslateInstance(location.getX(),location.getY()).createTransformedShape(textOutline));
+        graphics.draw(AffineTransform.getTranslateInstance(this.location.getX(),this.location.getY()).createTransformedShape(textOutline));
     }
 
 }
