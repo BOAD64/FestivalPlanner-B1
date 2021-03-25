@@ -33,8 +33,8 @@ public class SimpleScheduleTest extends Application implements Test
             testSchool.addTeacher(new Teacher("Johan", (short)35, "Man", "Programmeren"));
             testSchool.addTeacher(new Teacher("Edwin", (short)45, "Man", "Senior"));
 
-            testSchool.addRoom(new Classroom(10,10, "LA134", 30));
-            testSchool.addRoom(new Classroom(10,10, "LA136", 30));
+            testSchool.addRoom(new Classroom(10,10, "LA101", 30));
+            testSchool.addRoom(new Classroom(10,10, "LA102", 30));
             Group studentGroup = new Group("23TIVT1B1");
             studentGroup.addStudent(testSchool.getStudents().get(0));
             studentGroup.addStudent(testSchool.getStudents().get(1));

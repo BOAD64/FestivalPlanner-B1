@@ -43,6 +43,9 @@ public class Simulation
     private ArrayList<NPC> NPCs;
     private Button clockSpeedButton;
     private TextField speedValueField;
+    private Pathfinding pathfinding;
+    private ScheduleManager scheduleManager;
+    private boolean debug = false;
 
     //NPC test
     private Point2D mousePos;
@@ -53,35 +56,44 @@ public class Simulation
         MapFile.setPath(Setting.Map.MapJsonPath);
         this.map = new Map(TilesetFile.getTileset(), MapFile.getMapFile());
         this.clock = new Clock(2, LocalTime.of(8, 0), new Point2D.Double(0, 70));
-        this.slider = new Slider(-60, 60, 1);
+        this.slider = new Slider(-20, 20, 1);
         this.clockSpeedButton = new Button("tijd snelheid naar 1x");
         this.speedValueField = new TextField("Snelheid: 1x");
         this.NPCs = new ArrayList<>();
-
         //test NPCs
-        //addTestNPCs();
+//        addTestNPCs();
+        this.pathfinding = new Pathfinding(this.map);
         addNPCs();
+        this.scheduleManager = new ScheduleManager(this.school.getSchedule(), this.clock, this.NPCs, this.pathfinding.getTargets());
+        this.scheduleManager.init();
         this.mousePos = new Point2D.Double(500, 500);
     }
 
     private void addNPCs() {
+        TileObject loadingZone = this.map.getTileObject().get("LoadingZone");
         for (Student student : this.school.getStudents()) {
-            StudentNPC studentNPC = new StudentNPC(new Point2D.Double(Math.random() * 500, Math.random() * 500), 0, student);
+            StudentNPC studentNPC = new StudentNPC(new Point2D.Double(loadingZone.getLocation().getX() + 16 + Math.random() * (loadingZone.getWidth() - 32),
+                    loadingZone.getLocation().getY() + 16 + Math.random() * (loadingZone.getHeight() - 16)), 0, student, this.map.getWalkableLayer());
             studentNPC.setCollisionNPCS(this.NPCs);
+            studentNPC.setStandardTarget(this.pathfinding.getTargets().get("StudentRoom"));
+            studentNPC.sendToStandardTarget();
+
             this.NPCs.add(studentNPC);
         }
-//        for (Teacher teacher : this.school.getTeachers()) {
-//            TeacherNPC teacherNPC = new TeacherNPC(new Point2D.Double(Math.random() * 500, Math.random() * 500), 0, teacher);
-//            teacherNPC.setCollisionNPCS(this.NPCs);
-//            this.NPCs.add(teacherNPC);
-//        }
+        for (Teacher teacher : this.school.getTeachers()) {
+            TeacherNPC teacherNPC = new TeacherNPC(new Point2D.Double(loadingZone.getLocation().getX() + 16 + Math.random() * (loadingZone.getWidth() - 32),
+                    loadingZone.getLocation().getY() + 16 + Math.random() * (loadingZone.getHeight() - 16)), 0, teacher, this.map.getWalkableLayer());
+            teacherNPC.setCollisionNPCS(this.NPCs);
+            teacherNPC.setStandardTarget(this.pathfinding.getTargets().get("TeacherRoom"));
+            teacherNPC.sendToStandardTarget();
+            this.NPCs.add(teacherNPC);
+        }
     }
 
     private void addTestNPCs() {
-        this.NPCs.add(new StudentNPC(new Point2D.Double(200, 200), 0, new Student("testBoy", (short) 34, "Bird", (short) 1, new Group("Birdy Boys"))));
-        this.NPCs.add(new StudentNPC(new Point2D.Double(200, 600), 0, new Student("testGirl", (short) 25, "Bird", (short) 2, new Group("Birdy Boys"))));
-        this.NPCs.add(new StudentNPC(new Point2D.Double(600, 200), 0, new Student("testBuddy", (short) 19, "Bird", (short) 3, new Group("Birdy Boys"))));
-        this.NPCs.add(new StudentNPC(new Point2D.Double(600, 600), 0, new Student("testYesnt", (short) 22, "Bird", (short) 4, new Group("Birdy Boys"))));
+        StudentNPC studentNPC = new StudentNPC(new Point2D.Double(200, 200), 0, new Student("testBoy", (short) 34, "Bird", (short) 1, new Group("Birdy Boys")), this.map.getWalkableLayer());
+        studentNPC.setCollisionNPCS(this.NPCs);
+        this.NPCs.add(studentNPC);
     }
 
     public StackPane getPane() {
@@ -126,6 +138,7 @@ public class Simulation
 
         });
         canvas.setOnMouseClicked(e -> CheckIfNPCclicked(e));
+        this.pane.setOnKeyPressed(event -> {if(event.getCode().getName().equals("F3")){this.debug=!this.debug;}});
 
         this.pane.getChildren().add(this.canvas);
 
@@ -176,9 +189,6 @@ public class Simulation
         }
     }
 
-    public void init() {
-    }
-
     /**
      * currently updates the clock
      *
@@ -190,11 +200,13 @@ public class Simulation
         this.clock.update(deltaTime);
         double newDeltaTime = this.clock.getNewDeltaTime(deltaTime); //use this instead of deltaTime
 
+        this.scheduleManager.update(newDeltaTime);
+
         if (newDeltaTime > 0) {
             for (NPC npc : this.NPCs) {
-                npc.setTarget(this.mousePos);
                 npc.update(newDeltaTime);
             }
+            this.NPCs.sort((p1, p2) -> (int)(p1.getPosition().getY() - p2.getPosition().getY()));
         }
     }
 
@@ -207,9 +219,9 @@ public class Simulation
 
         //with camera
         {
-            this.map.draw(graphics);
+            this.map.draw(graphics, this.debug);
             for (NPC npc : this.NPCs) {
-                npc.draw(graphics);
+                npc.draw(graphics, this.debug);
             }
         }
 
