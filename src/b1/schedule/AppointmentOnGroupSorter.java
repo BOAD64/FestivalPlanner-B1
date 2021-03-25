@@ -1,20 +1,20 @@
 package b1.schedule;
 
 import b1.io.SchoolFile;
+import b1.school.group.Group;
 import b1.school.person.Teacher;
-import b1.school.room.Room;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class AppointmentOnTeacherSorter implements AppointmentSorter
+public class AppointmentOnGroupSorter implements AppointmentSorter
 {
     @Override
     public HashMap<Object, ArrayList<AppointmentAbstract>> sort(Schedule schedule) {
         HashMap<Object, ArrayList<AppointmentAbstract>> result = new HashMap<>();
 
-        for (Teacher teacher : SchoolFile.getSchool().getTeachers()) {
-            result.put(teacher, new ArrayList<>());
+        for (Group group : SchoolFile.getSchool().getGroups()) {
+            result.put(group, new ArrayList<>());
         }
 
         for (AppointmentAbstract appointment : schedule.getAppointments()) {
@@ -27,7 +27,7 @@ public class AppointmentOnTeacherSorter implements AppointmentSorter
 
             ArrayList<AppointmentAbstract> appointments;
             if(appointment.getClass().equals(Lesson.class)) {
-                appointments = result.get(((Lesson) appointment).getTeacher());
+                appointments = result.get(((Lesson) appointment).getGroup());
             }
             else{
                 appointments = result.get("Rest");
