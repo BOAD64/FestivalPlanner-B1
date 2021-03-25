@@ -6,12 +6,14 @@ import javafx.beans.value.ChangeListener;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +25,7 @@ public class ScheduleView implements View {
     private final Stage stage;
     private ResizableCanvas canvas;
     private FXGraphics2D fxGraphics2D;
-
+    private double scroll = 0.0;
 
     private final int START_TIME = 3600 * 7;
     private final int END_TIME = 3600 * 23;
@@ -58,6 +60,9 @@ public class ScheduleView implements View {
         this.fxGraphics2D.setBackground(Color.white);
         this.fxGraphics2D.clearRect(0, 0, (int) Math.round(this.canvas.getWidth()), (int) Math.round(this.canvas.getHeight()));
 
+        AffineTransform originalTransform = this.fxGraphics2D.getTransform();
+        this.fxGraphics2D.translate(this.scroll, 0);
+
         int columnWidth = (int) Math.round(this.getColumnWidth());
 
         this.drawBackground(this.appointments.size(), columnWidth);
@@ -77,6 +82,7 @@ public class ScheduleView implements View {
         for (int j = 0; j < this.appointmentShapes.size(); j++) {
             this.drawAppointment(this.appointmentShapes.get(j));
         }
+        this.fxGraphics2D.setTransform(originalTransform);
     }
 
     @Override
@@ -100,7 +106,7 @@ public class ScheduleView implements View {
 
         this.canvas.setHeight(this.stage.getHeight());
         this.canvas.setWidth(this.stage.getWidth());
-
+        this.canvas.setOnScroll(this::onScroll);
 
         this.stage.setScene(scene);
         this.stage.getIcons().add(ImageFile.getLogo());
@@ -114,7 +120,7 @@ public class ScheduleView implements View {
         int hourCount = (this.END_TIME - this.START_TIME) / 3600;
         int hourHeight = (int) Math.round(this.canvas.getHeight() / ((this.END_TIME - this.START_TIME) / 3600.0));
         for (int i = 0; i < hourCount; i++) {
-            this.fxGraphics2D.drawLine(0, hourHeight * i, (int) Math.round(this.canvas.getWidth()), hourHeight * i);
+            this.fxGraphics2D.drawLine(0, hourHeight * i, (int) Math.round(this.getScheduleWidth()), hourHeight * i);
         }
 
         this.fxGraphics2D.setColor(Color.GRAY);
@@ -149,13 +155,19 @@ public class ScheduleView implements View {
     }
 
     private double getColumnWidth() {
-        double columnWidth = this.canvas.getWidth();
+//        double columnWidth = this.canvas.getWidth();
+//
+//        if (this.appointments.size() > 0) {
+//            columnWidth = this.canvas.getWidth() / this.appointments.size();
+//        }
+//
+//        return columnWidth;
+        return 460.0;
+    }
 
-        if (this.appointments.size() > 0) {
-            columnWidth = this.canvas.getWidth() / this.appointments.size();
-        }
-
-        return columnWidth;
+    private double getScheduleWidth()
+    {
+        return this.getColumnWidth()*this.appointments.size();
     }
 
     private int getAppointmentY(AppointmentAbstract appointment) {
@@ -173,5 +185,11 @@ public class ScheduleView implements View {
             this.canvas.setWidth(this.stage.getWidth());
             this.canvas.setHeight(this.stage.getHeight());
         };
+    }
+
+    private void onScroll(ScrollEvent event) {
+        this.scroll+=event.getDeltaY();
+        this.scroll = Math.max(Math.min(this.scroll, 0), -this.getColumnWidth()*(this.appointments.size()-(this.canvas.getWidth() / this.getColumnWidth())));
+        this.draw();
     }
 }
