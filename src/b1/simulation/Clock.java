@@ -17,9 +17,12 @@ public class Clock {
 
     private LocalTime currentTime;
     private double speedMultiplier;
+    private double previousSpeedMultiplier;
     private SimpleDateFormat format;
     private Point2D location;
     private Font clockFont;
+    private boolean paused;
+    private Color fontColor;
 
 
     public Clock(double speedMultiplier, LocalTime startTime, Point2D location){
@@ -28,6 +31,9 @@ public class Clock {
         this.format = new SimpleDateFormat("hh:mm");
         this.location = location;
         this.clockFont = new Font("Rockwell", Font.PLAIN, 70);
+        this.paused = false;
+        this.fontColor = Color.white;
+        this.previousSpeedMultiplier = speedMultiplier;
     }
 
     /**
@@ -64,6 +70,24 @@ public class Clock {
         this.currentTime = this.currentTime.plusNanos((long)((originalDeltaTime * Math.pow(10, 9)) * 10 * speedMultiplier));
     }
 
+    public void pause(){
+        if (!paused){
+            paused = true;
+            this.fontColor = Color.red;
+            this.previousSpeedMultiplier = speedMultiplier;
+            this.speedMultiplier = 0;
+
+        }else {
+            paused = false;
+            this.fontColor = Color.white;
+            speedMultiplier = previousSpeedMultiplier;
+        }
+    }
+
+    public boolean isPaused(){
+        return paused;
+    }
+
     /**
      * draws the clock with the current time
      * @param graphics
@@ -71,7 +95,7 @@ public class Clock {
      */
     public void draw(FXGraphics2D graphics, Point2D location){
         this.location = location;
-        graphics.setColor(Color.white);
+        graphics.setColor(fontColor);
         graphics.setFont(clockFont);
         String time = currentTime.format(DateTimeFormatter.ofPattern("HH:mm"));
         graphics.drawString(time, (float)location.getX(), (float)location.getY());
