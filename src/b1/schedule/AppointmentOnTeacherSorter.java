@@ -1,19 +1,20 @@
 package b1.schedule;
 
 import b1.io.SchoolFile;
+import b1.school.person.Teacher;
 import b1.school.room.Room;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class AppointmentOnRoomSorter implements AppointmentSorter
+public class AppointmentOnTeacherSorter implements AppointmentSorter
 {
     @Override
     public HashMap<Object, ArrayList<AppointmentAbstract>> sort(Schedule schedule) {
         HashMap<Object, ArrayList<AppointmentAbstract>> result = new HashMap<>();
 
-        for (Room room : SchoolFile.getSchool().getRooms()) {
-            result.put(room, new ArrayList<>());
+        for (Teacher teacher : SchoolFile.getSchool().getTeachers()) {
+            result.put(teacher, new ArrayList<>());
         }
 
         for (AppointmentAbstract appointment : schedule.getAppointments()) {
@@ -24,7 +25,18 @@ public class AppointmentOnRoomSorter implements AppointmentSorter
                 continue;
             }
 
-            ArrayList<AppointmentAbstract> appointments = result.get(appointment.getLocation());
+            ArrayList<AppointmentAbstract> appointments;
+            if(appointment.getClass().equals(Lesson.class)) {
+                appointments = result.get(((Lesson) appointment).getTeacher());
+            }
+            else{
+                appointments = result.get("Rest");
+                if(appointments == null)
+                {
+                    result.put("Rest", new ArrayList<>());
+                    appointments = result.get("Rest");
+                }
+            }
             appointments.add(appointment);
         }
 
@@ -33,6 +45,6 @@ public class AppointmentOnRoomSorter implements AppointmentSorter
 
     @Override
     public String toString() {
-        return "Room";
+        return "Teacher";
     }
 }
