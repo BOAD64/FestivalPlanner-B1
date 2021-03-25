@@ -52,9 +52,9 @@ public class StudentGeneratorView implements View {
         mainHBox.setSpacing(5);
         mainHBox.setAlignment(Pos.TOP_CENTER);
 
-        this.createButtons();
-
         this.mainBox.getChildren().addAll(mainHBox);
+
+        this.createButtons();
     }
 
     private void createButtons(){

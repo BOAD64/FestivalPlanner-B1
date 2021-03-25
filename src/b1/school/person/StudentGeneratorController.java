@@ -21,8 +21,8 @@ public class StudentGeneratorController implements Controller {
     public void show(Stage ownerStage) {
         if(!this.view.getStage().isShowing()) {
             Stage stage = this.view.getStage();
-            this.view.getCancelButton().setOnAction(e -> this.generate());
-            this.view.getSaveButton().setOnAction(e -> this.view.getStage().close());
+            this.view.getCancelButton().setOnAction(e -> this.view.getStage().close());
+            this.view.getSaveButton().setOnAction((e -> this.generate()));
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(ownerStage);
             stage.show();
@@ -33,6 +33,7 @@ public class StudentGeneratorController implements Controller {
         try {
             short amount = Short.parseShort(this.view.getTextField().getText());
             StudentGenerator generator = new StudentGenerator(amount);
+            this.view.getStage().close();
         } catch (Exception e){
             ErrorMessage.show();
         }
