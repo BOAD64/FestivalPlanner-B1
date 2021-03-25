@@ -9,13 +9,9 @@ import b1.school.person.Teacher;
 import b1.simulation.NPC.NPC;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
+import java.util.*;
 
-public class ScheduleManager
-{
+public class ScheduleManager {
     private ArrayList<AppointmentAbstract> appointmentsSortedByBeginTime;
     private ArrayList<AppointmentAbstract> appointmentsSortedByEndTime;
     private int nextStartingAppointmentIndex;
@@ -34,14 +30,12 @@ public class ScheduleManager
         this.appointmentsSortedByEndTime = new ArrayList<>(schedule.getAppointments());
         this.targets = targets;
 
-        for(NPC npc : npcs)
-        {
+        for(NPC npc : npcs) {
             this.npcs.put(npc.getPerson(), npc);
         }
     }
 
-    public void init()
-    {
+    public void init() {
         this.appointmentsSortedByBeginTime.sort(Comparator.comparing(AppointmentAbstract::getStartTime));
         this.appointmentsSortedByEndTime.sort(Comparator.comparing(AppointmentAbstract::getEndTime));
         this.nextStartingAppointmentIndex = 0;
@@ -50,27 +44,20 @@ public class ScheduleManager
         this.lastMinute = this.clock.getCurrentTime().getMinute();
     }
 
-    public void update(double deltaTime)
-    {
+    public void update(double deltaTime) {
         LocalTime currentTime = this.clock.getCurrentTime();
 
-        if(currentTime.getHour()==this.lastHour && currentTime.getMinute()==this.lastMinute)
-        {
+        if(currentTime.getHour() == this.lastHour && currentTime.getMinute() == this.lastMinute) {
             return;
         }
 
-        if(isLocalDateTimeEqual(currentTime, this.appointmentsSortedByBeginTime.get(this.nextStartingAppointmentIndex).getStartTime()))
-        {
+        if(isLocalDateTimeEqual(currentTime, this.appointmentsSortedByBeginTime.get(this.nextStartingAppointmentIndex).getStartTime())) {
             ArrayList<AppointmentAbstract> appointmentsStartingNow = new ArrayList<>();
-            for(int index = this.nextStartingAppointmentIndex; index<this.appointmentsSortedByBeginTime.size(); index++)
-            {
+            for(int index = this.nextStartingAppointmentIndex; index < this.appointmentsSortedByBeginTime.size(); index++) {
                 AppointmentAbstract appointment = this.appointmentsSortedByBeginTime.get(index);
-                if(this.isLocalDateTimeEqual(appointment.getStartTime(), currentTime))
-                {
+                if(this.isLocalDateTimeEqual(appointment.getStartTime(), currentTime)) {
                     appointmentsStartingNow.add(appointment);
-                }
-                else
-                {
+                } else {
                     this.nextStartingAppointmentIndex = index;
                     break;
                 }
@@ -78,18 +65,13 @@ public class ScheduleManager
             this.summonNPCS(appointmentsStartingNow);
         }
 
-        if(isLocalDateTimeEqual(currentTime, this.appointmentsSortedByEndTime.get(this.nextEndingAppointmentIndex).getEndTime()))
-        {
+        if(isLocalDateTimeEqual(currentTime, this.appointmentsSortedByEndTime.get(this.nextEndingAppointmentIndex).getEndTime())) {
             ArrayList<AppointmentAbstract> appointmentsEndingNow = new ArrayList<>();
-            for(int index = this.nextEndingAppointmentIndex; index<this.appointmentsSortedByEndTime.size(); index++)
-            {
+            for(int index = this.nextEndingAppointmentIndex; index < this.appointmentsSortedByEndTime.size(); index++) {
                 AppointmentAbstract appointment = this.appointmentsSortedByEndTime.get(index);
-                if(this.isLocalDateTimeEqual(appointment.getEndTime(), currentTime))
-                {
+                if(this.isLocalDateTimeEqual(appointment.getEndTime(), currentTime)) {
                     appointmentsEndingNow.add(appointment);
-                }
-                else
-                {
+                } else {
                     this.nextEndingAppointmentIndex = index;
                     break;
                 }
@@ -97,21 +79,21 @@ public class ScheduleManager
             this.dismiss(appointmentsEndingNow);
         }
 
+        if(this.isLocalDateTimeEqual(LocalTime.of(17, 0), currentTime)) {
+            this.goHome(this.npcs.keySet());
+        }
+
         this.lastHour = currentTime.getHour();
         this.lastMinute = currentTime.getMinute();
     }
 
-    private void summonNPCS(ArrayList<AppointmentAbstract> appointments)
-    {
-        for(AppointmentAbstract appointment : appointments)
-        {
-            for(Person person : appointment.getPersons())
-            {
+    private void summonNPCS(ArrayList<AppointmentAbstract> appointments) {
+        for(AppointmentAbstract appointment : appointments) {
+            for(Person person : appointment.getPersons()) {
                 NPC result = this.npcs.get(person);
-                if(result != null)
-                {
+                if(result != null) {
                     Target target = this.targets.get(appointment.getLocation().getName());
-                    if(target != null){
+                    if(target != null) {
                         result.setTarget(target);
                     }
                 }
@@ -119,23 +101,28 @@ public class ScheduleManager
         }
     }
 
-    private void dismiss(ArrayList<AppointmentAbstract> appointments)
-    {
-        for(AppointmentAbstract appointment : appointments)
-        {
-            for(Person person : appointment.getPersons())
-            {
+    private void dismiss(ArrayList<AppointmentAbstract> appointments) {
+        for(AppointmentAbstract appointment : appointments) {
+            for(Person person : appointment.getPersons()) {
                 NPC result = this.npcs.get(person);
-                if(result != null)
-                {
+                if(result != null) {
                     result.sendToStandardTarget();
                 }
             }
         }
     }
 
-    private boolean isLocalDateTimeEqual(LocalTime localTime1, LocalTime localTime2)
-    {
-        return localTime1.getHour()==localTime2.getHour() && localTime1.getMinute()==localTime2.getMinute();
+    private boolean isLocalDateTimeEqual(LocalTime localTime1, LocalTime localTime2) {
+        return localTime1.getHour() == localTime2.getHour() && localTime1.getMinute() == localTime2.getMinute();
+    }
+
+    private void goHome(Collection<Person> persons) {
+        for(Person person : persons) {
+            NPC result = this.npcs.get(person);
+            if(result != null) {
+                Target target = this.targets.get("LoadingZone");
+                result.setTarget(target);
+            }
+        }
     }
 }
