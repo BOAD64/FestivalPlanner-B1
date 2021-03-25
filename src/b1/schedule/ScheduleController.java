@@ -19,7 +19,7 @@ public class ScheduleController implements Controller {
     public ScheduleController() {
         this.school = SchoolFile.getSchool();
         this.schedule = this.school.getSchedule();
-        this.sorter = new AppointmentOnRoomSorter();
+        this.sorter = new AppointmentOnTeacherSorter();
         this.view = new ScheduleView();
     }
 
