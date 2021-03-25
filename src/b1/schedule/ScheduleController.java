@@ -3,11 +3,14 @@ package b1.schedule;
 import b1.Controller;
 import b1.io.SchoolFile;
 import b1.school.School;
+import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class ScheduleController implements Controller {
@@ -19,7 +22,7 @@ public class ScheduleController implements Controller {
     public ScheduleController() {
         this.school = SchoolFile.getSchool();
         this.schedule = this.school.getSchedule();
-        this.sorter = new AppointmentOnPersonSorter();
+        this.sorter = new AppointmentOnRoomSorter();
         this.view = new ScheduleView();
     }
 
@@ -55,13 +58,21 @@ public class ScheduleController implements Controller {
         if(this.view.getCanvas() == null) {
             this.view.createStage();
         }
+        this.view.getSorterComboBox().setItems(FXCollections.observableList(this.appointmentSorters()));
+        this.view.getSorterComboBox().getSelectionModel().select(this.sorter);
+        this.view.getSorterComboBox().setOnAction(this::onSorterSelect);
         this.view.getCanvas().setOnMouseClicked(this.onCanvasClick());
+        this.view.getCanvas().setWidth(Double.MAX_VALUE);
+        this.view.getCanvas().setHeight(Double.MAX_VALUE);
         this.view.draw();
-        return this.view.getCanvas();
+//        return this.view.getCanvas();
+        return this.view.getBorderPane();
     }
 
     public void refresh() {
         this.view.setAppointments(this.sorter.sort(this.schedule));
+        this.view.getCanvas().setWidth(Double.MAX_VALUE);
+        this.view.getCanvas().setHeight(Double.MAX_VALUE);
         this.view.draw();
     }
 
@@ -102,5 +113,26 @@ public class ScheduleController implements Controller {
 
         controller.show();
         this.view.draw();
+    }
+
+    private ArrayList<AppointmentSorter> appointmentSorters()
+    {
+        ArrayList<AppointmentSorter> result = new ArrayList<>();
+
+        result.add(new AppointmentOnGroupSorter());
+        result.add(new AppointmentOnPersonSorter());
+        result.add(new AppointmentOnTeacherSorter());
+        result.add(new AppointmentOnRoomSorter());
+
+        return result;
+    }
+
+    private void onSorterSelect(ActionEvent event)
+    {
+        AppointmentSorter appointmentSorter = this.view.getSorterComboBox().getValue();
+        if(appointmentSorter!= null && !this.sorter.getClass().equals(appointmentSorter.getClass())) {
+            this.setSorter(appointmentSorter);
+            this.refresh();
+        }
     }
 }

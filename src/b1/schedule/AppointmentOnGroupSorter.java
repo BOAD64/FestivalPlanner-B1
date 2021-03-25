@@ -42,4 +42,9 @@ public class AppointmentOnGroupSorter implements AppointmentSorter
 
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Group";
+    }
 }

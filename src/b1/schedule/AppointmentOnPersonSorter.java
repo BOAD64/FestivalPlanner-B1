@@ -34,4 +34,9 @@ public class AppointmentOnPersonSorter implements AppointmentSorter
 
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Person";
+    }
 }

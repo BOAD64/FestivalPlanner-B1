@@ -3,11 +3,15 @@ package b1.schedule;
 import b1.View;
 import b1.io.ImageFile;
 import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.ComboBox;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
@@ -23,6 +27,8 @@ public class ScheduleView implements View {
     private final ArrayList<AppointmentShape> appointmentShapes;
 
     private final Stage stage;
+    private BorderPane borderPane;
+    private ComboBox<AppointmentSorter> sorterComboBox;
     private ResizableCanvas canvas;
     private FXGraphics2D fxGraphics2D;
     private double scroll = 0.0;
@@ -50,6 +56,14 @@ public class ScheduleView implements View {
 
     public ArrayList<AppointmentShape> getAppointmentShapes() {
         return this.appointmentShapes;
+    }
+
+    public BorderPane getBorderPane() {
+        return this.borderPane;
+    }
+
+    public ComboBox<AppointmentSorter> getSorterComboBox() {
+        return this.sorterComboBox;
     }
 
     /**
@@ -99,15 +113,23 @@ public class ScheduleView implements View {
     }
 
     public void createStage() {
-        BorderPane borderPane = new BorderPane();
-        this.canvas = new ResizableCanvas(g -> draw(), borderPane);
+        this.borderPane = new BorderPane();
+        HBox topBox = new HBox();
+        this.canvas = new ResizableCanvas(g -> draw(), this.borderPane);
         this.fxGraphics2D = new FXGraphics2D(this.canvas.getGraphicsContext2D());
         Scene scene = new Scene(new Group(this.canvas));
+        javafx.scene.control.Label sorterComboBoxLabel = new javafx.scene.control.Label("Column type: ");
+        this.sorterComboBox = new ComboBox<>();
 
         this.canvas.setHeight(this.stage.getHeight());
         this.canvas.setWidth(this.stage.getWidth());
         this.canvas.setOnScroll(this::onScroll);
+        sorterComboBoxLabel.setTextFill(javafx.scene.paint.Color.WHITE);
+        sorterComboBoxLabel.setPadding(new Insets(0,10,0,10));
 
+        topBox.getChildren().addAll(sorterComboBoxLabel, this.sorterComboBox);
+        this.borderPane.setTop(topBox);
+        this.borderPane.setCenter(this.canvas);
         this.stage.setScene(scene);
         this.stage.getIcons().add(ImageFile.getLogo());
     }
@@ -155,14 +177,13 @@ public class ScheduleView implements View {
     }
 
     private double getColumnWidth() {
-//        double columnWidth = this.canvas.getWidth();
-//
-//        if (this.appointments.size() > 0) {
-//            columnWidth = this.canvas.getWidth() / this.appointments.size();
-//        }
-//
-//        return columnWidth;
-        return 460.0;
+        double columnWidth = this.canvas.getWidth();
+
+        if (this.appointments.size() > 0) {
+            columnWidth = this.canvas.getWidth() / this.appointments.size();
+        }
+
+        return Math.max(460.0, columnWidth);
     }
 
     private double getScheduleWidth()

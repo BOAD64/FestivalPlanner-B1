@@ -95,14 +95,16 @@ public class MainView implements View {
             this.stackPane.getChildren().clear();
         }
 
+//        this.stackPane.setPrefWidth(this.HBox.getWidth());
+//        this.stackPane.setPrefHeight(this.HBox.getHeight());
         this.stackPane.getChildren().addAll(scheduleControllerNode, this.plusImageView, this.addList);
         StackPane.setAlignment(this.plusImageView, Pos.BOTTOM_RIGHT);
         StackPane.setAlignment(this.addList, Pos.BOTTOM_RIGHT);
         this.addList.setTranslateY(-125);
         this.plusImageView.setTranslateX(-20);
         this.plusImageView.setTranslateY(-10);
-        ((Canvas) scheduleControllerNode).setWidth(Double.MAX_VALUE);
-        ((Canvas) scheduleControllerNode).setHeight(Double.MAX_VALUE);
+//        ((BorderPane) scheduleControllerNode).setPrefWidth(this.stackPane.getWidth());
+//        ((BorderPane) scheduleControllerNode).setPrefHeight(this.stackPane.getHeight());
 
         this.HBox.getChildren().add(this.stackPane);
     }

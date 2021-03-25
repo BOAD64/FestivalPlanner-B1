@@ -30,4 +30,9 @@ public class AppointmentOnRoomSorter implements AppointmentSorter
 
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Room";
+    }
 }
