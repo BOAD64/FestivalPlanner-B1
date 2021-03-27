@@ -46,4 +46,10 @@ class TargetTest
     {
         Assertions.assertEquals( new Point(0,0), this.target.getDirection(new Point(7,3)));
     }
+
+    @Test
+    void testGetDirectionWithPointOutsideMap()
+    {
+        Assertions.assertEquals(new Point(0,0), this.target.getDirection(new Point(20,25)));
+    }
 }
