@@ -5,6 +5,7 @@
   * [Week 4](#week-4)
   * [Week 5](#week-5)
   * [Week 6](#week-6)
+  * [Week 7](#week-7)
 # Reflectie
 ## Week 3
 Deze week heb ik in de eerste plaats de appointmentview afgemaakt. Met deze appointmentview kun je lessen en andere afspraken in het systeem aanpassen of creëren. In het systeem hebben we onderscheid gemaakt tussen twee type appointments: lessen en normale afspraken. Om dit te realiseren hadden we tijdens het het ontwerpen twee klassen bedacht: appointment en lessons die overerfde van appointment. Bij het realiseren van deze klassen kwamen we er achter dat dit niet praktisch was. Qua data klopte die gedachten ook, maar qua view niet. In de lessonview kon je personen koppelen aan een les door een groep toe te voegen aan die les, waar de personen dan weer in zitten. Dit was bij de generalappointmentview niet het geval, hier moest je personen handmatig een voor een toevoegen. Achteraf gezien hadden we de oude overervings structuur wel kunnen behouden, maar de views niet moeten laten overerven. 
@@ -267,3 +268,79 @@ Later zijn we direct gebruik gaan maken van de url klas en niet via een path str
 In het begin van week 6 heb ik gewerkt aan de camera klas en heb we de map layer structuur omgegooid. De camera klas hadden we snel voorelkaar aangezien we die konden hergebruiken van eerder gemaakten opdrachten van 2D Computer Graphics. Op het gebied van de map hebben gebruik gemaakt van de layer klas en hebben we een tile klas toegevoegd. Waar eerst de map klas voor alle layers bijhield welke tile op welke positie zat, hoefde hij nu alleen de layers in te laden en bij te houden. De layer klas is verantwoordelijk voor het tekenen van zijn eigen layer, waarbij er nu op layer niveau wordt gecached. Daarnaast zijn we gebruik gaan maken van tile objecten in plaats van een dubbele x y array. Op deze manier hoeft de layer klas zich alleen bezich te houden met de gevulde tiles en niet met de tiles die leeg zijn.
 
 Aan het einde van de week ben ik samen met andere begonnen aan de pathfinding. Het programmeren van de pathfinding klas ging vrij soepel in het begin. Johan had de structuur al vrij goed voorgekouwd, waardoor we het alleen nog hoefde uit te werken. Wel zorgde een opstapeling van aardig wat kleine foutjes ervoor dat het even duurde voordat het uiteindelijk werkend was. Zo waren we vergeten rekening te houden met het feit dat we bij het aanmaken van tile objecten de index hadden omgerekend naar zero bases. Wat vrij lang problemen gaf. Daarnaast hadden we ergens een vector waar de de y en x hadden omgedraaid, wat ook weer problemen gaf. Uiteinddelijk is de pathfinding klas goed gelukt.
+
+## Week 7
+Deze week heb ik gewerkt aan de code die ervoor zorgt dat personen hun schedule volgen. Dit heb we geïmplementeerd door iedere in game minuut te checken of iemand een afspraak heeft. Als iemand een afspraak heeft of iemands afsrpaak afloopt veranderen we de target, waarna de pathfinding het overneemt. Om efficiëntie te garanderen, hebben we 2 nieuwe arraylisten aangemaakt op basis van de bestaande afspraken. De eerste hebben we gesorteerd op begintijd de tweede op eindtijd. Daarnaast onthielden we bij welke index we waren gebleven, zodat er alleen door de afspraken vanaf de onthoude index tot een afspraak in de toekomst hoefde te loepen.
+
+Bij het testen van de schedule manager, kwamen we ook achter een aantal pathfinding bugs. Waarbij twee significate bugs zaten: spelers konden in de muur lopen en als de target op een niet loopbare tile waren, dan werd er geen route gegeneerd. De eerste bug hebben we opgelost door walkable layer aan te maken. Op die manier konden we heel makkelijk checken of een tile walkable was of niet. Bij het updaten van de positie van een player checken we nu eerst of de positie walkable is, zoniet dan updaten we niet de positie. De walkable layer maakte gebruik van een dubbele boolean array, hierdoor hoefde je niet door alle tiles van die layer te lopen om jouw tile te vinden en te checken. Dit zorgde er ook voor dat het opbouwen van paths ook een stuk sneller ging.
+
+In de oude situatie deden we namelijk dit: 
+```java
+Tile foundTile = null;
+for (Tile tile : layer.getTiles()) {
+    if (tile.getX() == point.x && tile.getY() == point.y) {
+        if (tile.getTileSetIndex() == 242) {
+            foundTile = tile;
+        }
+        break;
+    }
+}
+
+visitedPoints.add(point);
+
+if(foundTile != null)
+{
+    \\tile is not walkable
+}
+```
+
+Nu kunnen we makkelijk dit doen:
+```java
+if(!walkableLayer.isWalkable(point.x, point.y))
+{
+    \\tile is not walkable.
+}
+```
+
+De tweede bug hebben we opgelost door een algoritme toe te voegen die de dichtsbijzijnde walkable tile opzoekt als de target positie op een niet walkable tile ligt. Het algoritme is als volgt (lijkt heel erg op algoritme om pathfinding map te genereren):
+
+```java
+    private Point findNearestFreePosition(WalkableLayer walkableLayer)
+    {
+        if(walkableLayer.isWalkable(this.position.x, this.position.y))
+        {
+            return this.position;
+        }
+
+        Queue<Point> queue = new LinkedList<>();
+        ArrayList<Point> visitedPoints = new ArrayList<>();
+
+        queue.add(this.position);
+        visitedPoints.add(this.position);
+
+        Point[] offsets = {new Point(1, 0), new Point(-1, 0), new Point(0, 1), new Point(0, -1)};
+
+        while (!queue.isEmpty()) {
+            Point current = queue.remove();
+
+            for (Point offset : offsets) {
+                Point point = new Point(current.x + offset.x, current.y + offset.y);
+                if (point.x < 0 || point.x > walkableLayer.getWidth() - 1 || point.y < 0 || point.y > walkableLayer.getHeight() - 1) {
+                    continue;
+                }
+                if (visitedPoints.contains(point)) {
+                    continue;
+                }
+
+                if(walkableLayer.isWalkable(point.x, point.y))
+                {
+                    return point;
+                }
+
+                visitedPoints.add(point);
+                queue.add(point);
+            }
+        }
+        return this.position;
+    }
+```
