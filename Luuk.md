@@ -344,3 +344,13 @@ De tweede bug hebben we opgelost door een algoritme toe te voegen die de dichtsb
         return this.position;
     }
 ```
+
+
+# Stelling: In het bedrijfsleven wordt steeds meer in software gesimuleerd
+Met de stelling dat het bedrijfsleven steeds meer in software simuleerd ben ik het zeker eens. De komst van computersimulaties maakt een aantal dingen stuk makkelijker. Computersimulaties worden in het bedrijfsleven bijvoorbeeld gebruikt om personeel te trainen, om ontwerpen te testen, planningen te testen of om een productieproces te testen.
+
+Bij het trainen van personeel zou je kunnen denken aan het trainen van busschaufeurs in een simulator in plaats van met een fysieke bus de weg op te gaan. Dit heeft een aantal voordelen. In de eerste plaats is het rijden in een simulatie simpelweg mileuvriendelijker, omdat je geen uitstoot hebt. Een groot voordeel van het trainen van je personeel met een simulatie, is dat je makkelijk allerlei voorbedachte situaties makkelijk kunt simuleren. Voorheen moest je situaties of in het echt simuleren, wat vaak ingewikkelder of duurder was; of je moest gewoon simpelweg hopen dat het voorkwam tijdens een proef in het echt. In ons voorbeeld van het buschauffeur zou je makkelijk allerei gevaarlijke verkeerssituaties kunnen simuleren om te kijken hoe de buschauffeur er mee omgaat. Een ander groot voordeel is dat simulaties afgezien van de eenmalige inverstering een stuk goedkoper zijn.
+
+Computersimulaties worden in het bedrijfsleven ook vaak gebruikt om ontwerpen te testen. Een voorbeeld hiervan is het testen van nieuwe vliegtuigmodel. Om het ontwerp in het echt te testen is namelijk veel en veel te duur. Daarom is het testen van een nieuw ontwerp in een computer simulatie een zeer goede keuze. Je kunt makkelijk testen of een het ontwerp aan alle eisen voldoet. Door de simulatie erg vaak te runnen, kun je de geluk factor er ook makkelijk uit filteren. Na bijvoorbeeld duizend testen, heb je waarschijnlijk alle bijzondere situties er uit gehaald. Bovendien is het doen van metingen veel makkelijker, omdat aan de achterkant alles door de computer berekend is en wordt.
+
+Een ander manier waar computer simulaties in het bedrijfsleven toepasbaar zijn, is het testen van planningen. Neem als voorbeeld de planning die gemaakt wordt bij hogescholen zoals Avans of personeelsplanningen die gemaakt worden bij ziekenhuizen. Niemand kan vaak zo'n enorm grote planning overzien en daarom kunnen er makkelijk fouten sluipen in zo'n planning. Zo heb ik van docenten bij Avans verhalen gehoord over roosters waarbij ze binnen 5 minuten van het ene gebouw naar het andere gebouw moesten lopen. Iets wat in de praktijk natuurlijk onmogelijk is. Dit soort senario's kun je met computer simulaties eruit filteren.
