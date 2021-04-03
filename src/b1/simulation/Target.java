@@ -1,8 +1,7 @@
 package b1.simulation;
 
-import com.sun.istack.internal.NotNull;
-
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.*;
 
 public class Target {
@@ -10,6 +9,7 @@ public class Target {
     private int width;
     private int height;
     private int[][] distanceMap;
+    private BufferedImage cacheImage;
 
     public Target(Point position, int width, int height) {
         this.position = position;
@@ -97,16 +97,24 @@ public class Target {
         return distanceMap;
     }
 
-    public void draw(Graphics graphics) {
-        for(int i = 0; i < this.distanceMap.length; i++) {
-            for(int j = 0; j < this.distanceMap[i].length; j++) {
-                graphics.setFont(graphics.getFont().deriveFont(10.0f));
-                graphics.setColor(Color.GREEN);
-                if(this.distanceMap[i][j] != 99999) {
-                    graphics.drawString(Integer.toString(this.distanceMap[i][j]), i * 32 + 16, j * 32 + 16);
+    public void draw(Graphics2D graphics) {
+        if(this.cacheImage == null)
+        {
+            this.cacheImage = new BufferedImage(100*32, 100*32, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D graphicsCache = this.cacheImage.createGraphics();
+
+            for (int i = 0; i < this.distanceMap.length; i++) {
+                for (int j = 0; j < this.distanceMap[i].length; j++) {
+                    graphicsCache.setFont(graphics.getFont().deriveFont(10.0f));
+                    graphicsCache.setColor(Color.GREEN);
+                    if(this.distanceMap[i][j] != 99999)
+                    {
+                        graphicsCache.drawString(Integer.toString(this.distanceMap[i][j]), i * 32 + 16, j * 32 + 16);
+                    }
                 }
             }
         }
+        graphics.drawImage(this.cacheImage, 0, 0, null);
     }
 
     public Point getPosition() {
