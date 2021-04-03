@@ -11,7 +11,7 @@ Studentnummer: 2167072
 - [Week 6](#week-6)
 - [Week 7](#week-7)
 - [Conclusie](#conclusie)
-- [JSON applicaties](#JSON applicaties)
+- [JSON applicaties](#JSON-applicaties)
 
 
 ## Inleiding
