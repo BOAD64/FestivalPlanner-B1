@@ -196,13 +196,13 @@ public class Simulation
 
         //camera functions
         VBox zoomButtons = new VBox();
-        zoomButtons.setMaxSize(25, 50);
+        zoomButtons.setMaxSize(30, 60);
         Button plus = new Button("+");
         Button min = new Button("-");
         plus.setOnAction(this::onZoomButtonPress);
         min.setOnAction(this::onZoomButtonPress);
-        plus.setPrefSize(25, 25);
-        min.setPrefSize(25, 25);
+        plus.setPrefSize(30, 30);
+        min.setPrefSize(30, 30);
         zoomButtons.getChildren().addAll(plus, min);
         this.pane.getChildren().add(zoomButtons);
         StackPane.setAlignment(zoomButtons, Pos.TOP_RIGHT);
@@ -250,7 +250,7 @@ public class Simulation
 
         AffineTransform originalTransform = graphics.getTransform();
         graphics.setTransform(camera.getTransform());
-        graphics.translate(600 / camera.getZoom(), 400 / camera.getZoom());
+        //graphics.translate(600 / camera.getZoom(), 400 / camera.getZoom());
 
         //with camera
         {
