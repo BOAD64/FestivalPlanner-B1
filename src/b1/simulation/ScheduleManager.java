@@ -1,25 +1,24 @@
 package b1.simulation;
 
 import b1.schedule.AppointmentAbstract;
-import b1.schedule.GeneralAppointment;
 import b1.schedule.Schedule;
 import b1.school.person.Person;
-import b1.school.person.Student;
-import b1.school.person.Teacher;
 import b1.simulation.NPC.CallbackNPC;
 import b1.simulation.NPC.NPC;
 
 import java.time.LocalTime;
 import java.util.*;
 
-public class ScheduleManager implements CallbackNPC {
+public class ScheduleManager implements CallbackNPC
+{
     private ArrayList<AppointmentAbstract> appointmentsSortedByBeginTime;
     private ArrayList<AppointmentAbstract> appointmentsSortedByEndTime;
-    private int nextStartingAppointmentIndex;
-    private int nextEndingAppointmentIndex;
+    private int lastStartedAppointmentIndex;
+    private int lastEndedAppointmentIndex;
     private Clock clock;
     private HashMap<Person, NPC> npcs;
     private HashMap<String, Target> targets;
+    private int lastTimeDirection;
 
     private int lastHour;
     private int lastMinute;
@@ -30,8 +29,9 @@ public class ScheduleManager implements CallbackNPC {
         this.appointmentsSortedByBeginTime = new ArrayList<>(schedule.getAppointments());
         this.appointmentsSortedByEndTime = new ArrayList<>(schedule.getAppointments());
         this.targets = targets;
+        this.lastTimeDirection = 0;
 
-        for(NPC npc : npcs) {
+        for (NPC npc : npcs) {
             this.npcs.put(npc.getPerson(), npc);
             npc.setCallbackNPC(this);
         }
@@ -40,8 +40,8 @@ public class ScheduleManager implements CallbackNPC {
     public void init() {
         this.appointmentsSortedByBeginTime.sort(Comparator.comparing(AppointmentAbstract::getStartTime));
         this.appointmentsSortedByEndTime.sort(Comparator.comparing(AppointmentAbstract::getEndTime));
-        this.nextStartingAppointmentIndex = 0;
-        this.nextEndingAppointmentIndex = 0;
+        this.lastStartedAppointmentIndex = -1;
+        this.lastEndedAppointmentIndex = -1;
         this.lastHour = this.clock.getCurrentTime().getHour();
         this.lastMinute = this.clock.getCurrentTime().getMinute();
     }
@@ -49,60 +49,91 @@ public class ScheduleManager implements CallbackNPC {
     public void update(double deltaTime) {
         LocalTime currentTime = this.clock.getCurrentTime();
 
-        if(currentTime.getHour() == this.lastHour && currentTime.getMinute() == this.lastMinute) {
+        if (currentTime.getHour() == this.lastHour && currentTime.getMinute() == this.lastMinute) {
             return;
         }
 
-        if(isLocalDateTimeEqual(currentTime, this.appointmentsSortedByBeginTime.get(this.nextStartingAppointmentIndex).getStartTime())) {
-            ArrayList<AppointmentAbstract> appointmentsStartingNow = new ArrayList<>();
-            for(int index = this.nextStartingAppointmentIndex; index < this.appointmentsSortedByBeginTime.size(); index++) {
-                AppointmentAbstract appointment = this.appointmentsSortedByBeginTime.get(index);
-                if(this.isLocalDateTimeEqual(appointment.getStartTime(), currentTime)) {
-                    appointmentsStartingNow.add(appointment);
-                } else {
-                    this.nextStartingAppointmentIndex = index;
-                    break;
-                }
-            }
-            this.summonNPCS(appointmentsStartingNow);
+        int timeDirection = (int) Math.round(deltaTime / Math.abs(deltaTime));
+
+        if (timeDirection != this.lastTimeDirection && timeDirection == -1) {
+            this.lastStartedAppointmentIndex += 1;
+            this.lastEndedAppointmentIndex += 1;
         }
 
-        if(isLocalDateTimeEqual(currentTime, this.appointmentsSortedByEndTime.get(this.nextEndingAppointmentIndex).getEndTime())) {
-            ArrayList<AppointmentAbstract> appointmentsEndingNow = new ArrayList<>();
-            for(int index = this.nextEndingAppointmentIndex; index < this.appointmentsSortedByEndTime.size(); index++) {
-                AppointmentAbstract appointment = this.appointmentsSortedByEndTime.get(index);
-                if(this.isLocalDateTimeEqual(appointment.getEndTime(), currentTime)) {
-                    appointmentsEndingNow.add(appointment);
-                } else {
-                    this.nextEndingAppointmentIndex = index;
+        int nextIndex = (this.lastStartedAppointmentIndex + timeDirection) % this.appointmentsSortedByBeginTime.size();
+
+        if (nextIndex > -1 && nextIndex < this.appointmentsSortedByBeginTime.size()
+                && isLocalDateTimeEqual(currentTime, this.appointmentsSortedByBeginTime.get(nextIndex).getStartTime())) {
+
+            ArrayList<AppointmentAbstract> appointmentsStartingNow = new ArrayList<>();
+            for (int index = nextIndex; -1 < index && index < this.appointmentsSortedByBeginTime.size(); index += timeDirection) {
+                AppointmentAbstract appointment = this.appointmentsSortedByBeginTime.get(index);
+                if (this.isLocalDateTimeEqual(appointment.getStartTime(), currentTime)) {
+                    appointmentsStartingNow.add(appointment);
+                }
+                else {
                     break;
                 }
+                this.lastStartedAppointmentIndex = index;
+            }
+
+            if (timeDirection == 1) {
+                this.summonNPCS(appointmentsStartingNow);
+            }
+            else {
+                this.dismiss(appointmentsStartingNow);
+            }
+        }
+
+        nextIndex = (this.lastEndedAppointmentIndex + timeDirection) % this.appointmentsSortedByEndTime.size();
+        if (nextIndex > -1 && nextIndex < this.appointmentsSortedByEndTime.size()
+                && isLocalDateTimeEqual(currentTime, this.appointmentsSortedByEndTime.get(nextIndex).getEndTime())) {
+
+            ArrayList<AppointmentAbstract> appointmentsEndingNow = new ArrayList<>();
+            for (int index = nextIndex; -1 < index && index < this.appointmentsSortedByEndTime.size(); index += timeDirection) {
+                AppointmentAbstract appointment = this.appointmentsSortedByEndTime.get(index);
+                if (this.isLocalDateTimeEqual(appointment.getEndTime(), currentTime)) {
+                    appointmentsEndingNow.add(appointment);
+                }
+                else {
+                    break;
+                }
+                this.lastEndedAppointmentIndex = index;
             }
             this.dismiss(appointmentsEndingNow);
+
+            if (timeDirection == 1) {
+                this.dismiss(appointmentsEndingNow);
+            }
+            else {
+                this.summonNPCS(appointmentsEndingNow);
+            }
         }
 
-        if(this.isLocalDateTimeEqual(LocalTime.of(17, 0), currentTime)) {
+        if (this.isLocalDateTimeEqual(this.appointmentsSortedByEndTime.get(this.appointmentsSortedByEndTime.size() - 1).getEndTime(), currentTime)) {
             this.goHome(this.npcs.keySet());
         }
 
         this.lastHour = currentTime.getHour();
         this.lastMinute = currentTime.getMinute();
+        this.lastTimeDirection = timeDirection;
     }
 
     @Override
     public void hasArrived(NPC npc, Target target) {
-        if(target.equals(this.targets.get("LoadingZone"))) {
+        if (target.equals(this.targets.get("LoadingZone"))) {
             npc.setIsHome(true);
         }
     }
 
     private void summonNPCS(ArrayList<AppointmentAbstract> appointments) {
-        for(AppointmentAbstract appointment : appointments) {
-            for(Person person : appointment.getPersons()) {
+        for (AppointmentAbstract appointment : appointments) {
+            for (Person person : appointment.getPersons()) {
                 NPC result = this.npcs.get(person);
-                if(result != null) {
+                if (result != null) {
                     Target target = this.targets.get(appointment.getLocation().getName());
-                    if(target != null) {
+                    if (target != null) {
+                        result.setIsHome(false);
                         result.setTarget(target);
                     }
                 }
@@ -111,10 +142,11 @@ public class ScheduleManager implements CallbackNPC {
     }
 
     private void dismiss(ArrayList<AppointmentAbstract> appointments) {
-        for(AppointmentAbstract appointment : appointments) {
-            for(Person person : appointment.getPersons()) {
+        for (AppointmentAbstract appointment : appointments) {
+            for (Person person : appointment.getPersons()) {
                 NPC result = this.npcs.get(person);
-                if(result != null) {
+                if (result != null) {
+                    result.setIsHome(false);
                     result.sendToStandardTarget();
                 }
             }
@@ -126,9 +158,9 @@ public class ScheduleManager implements CallbackNPC {
     }
 
     private void goHome(Collection<Person> persons) {
-        for(Person person : persons) {
+        for (Person person : persons) {
             NPC result = this.npcs.get(person);
-            if(result != null) {
+            if (result != null) {
                 Target target = this.targets.get("LoadingZone");
                 result.setTarget(target);
             }
