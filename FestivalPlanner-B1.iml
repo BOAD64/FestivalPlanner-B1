@@ -11,9 +11,9 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="fxgraphics2d-1.10" level="project" />
-    <orderEntry type="library" name="lib" level="application" />
     <orderEntry type="library" name="javax.json" level="project" />
     <orderEntry type="library" name="org.junit.jupiter:junit-jupiter-api:5.0.0" level="project" />
     <orderEntry type="library" name="lib1" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
   </component>
 </module>
