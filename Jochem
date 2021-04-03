@@ -1,0 +1,393 @@
+# Jochem
+(leerlingnummer: 2175873)
+
+---
+#Inhoud:
+* [Week 3](#Week 3)
+* [week 4](#Week 4)
+* [week 5](#Week 5)
+* [week 6](#Week 6)
+* [week 7](#Week 7)
+* [Reflectie op een stelling](#Reflectie op een stelling)
+* [JSON](#JSON)
+
+# Reflectie
+## Week 3
+Deze week heb ik samen met Jeroen gewerkt aan de StudentGenerator
+klasse om een aantal studenten te genereren gelijk aan het
+aantal dat meegegeven is aan de constructor van de generator.
+De volgende code wordt gebruikt om de studenten te genereren.
+
+```java
+public class StudentGenerator {
+    public StudentGenerator(short amount) {
+        this.names = NameFile.readFile();
+
+        for(int i = this.names.size(); i < amount; i++) {
+            this.addName();
+        }
+
+        while(amount < this.names.size()) {
+            this.removeName();
+        }
+
+        this.addStudents();
+    }
+}
+```
+
+We wisten eerst niet hoe we een groot aantal random studenten
+zouden moeten genereren, want daar waren niet veel goede opties
+voor. Uiteindelijk hebben we besloten om via een nieuwe klasse
+nameFile een lijst van 500 namen in te laden en er vervolgens
+een random naam uit te halen of er een random naam aan toevoegen
+totdat de generator een lijst heeft met de gewenste lengte.
+Daarvoor hebben we de methodes addName en removeName gemaakt.  
+Deze week hebben we ook het klassendiagram geupdate deze ziet er
+nu zo uit:
+
+![alt text][diagram]
+
+[diagram]: KlasseDiagramV1.png "Klassendiagram"
+
+## Week 4
+In week 4 heb ik meegewerkt aan het maken van de Tiled-map voor
+de school die we in onze simulatie gaan gebruiken.  
+We zijn daar voor begonnen met het samenstellen van de tileset
+voor de map uit verschillende tilesets zodat we uiteindelijk
+maar een tileset hoeven in te laden met daarin alleen
+afbeeldingen die we ook echt gaan gebruiken.  
+De tileset ziet er zo uit:  
+
+![alt text][Tileset]
+
+[Tileset]: finalSchoolTileSet.png "Tileset"
+
+We hebben besloten om de map een grootte te geven van 100 bij
+100, zodat de NPC's genoeg ruimte hebben om rond te kunnen lopen.
+Daarnaast vonden wij dat er in ieder geval zes lokalen moesten
+zijn zodat een gebruiker van het programma echt de ruimte heeft
+om grote groepen te kunnen simuleren en met verschillende
+lokalen te kunneb experimenteren om te kijken wat het beste
+werkt.  
+Dit is hoe de map er uiteindelijk uit is komen te zien:
+
+![alt text][Map]
+
+[Map]: Map.png "Map"
+
+## Week 5
+Week 5 stond in het teken van het inlezen van de map die we in
+week 4 hebben gemaakt. Hiervoor hebben we de klassen Map,
+Layer en Target gebruikt. Map laad de verschillende lagen in
+en zet deze in een instantsie van de layer klasse. Het inladen
+gaat met de volgende code:
+
+```java
+public class Map{
+    private Layer[] tileImageToTiles(JsonObject tileObject) {
+        this.layersSize = tileObject.getJsonArray("layers").size();
+        Layer[] map = new Layer[this.layersSize];
+        for (int layer = 0; layer < this.layersSize; layer++) {
+            if (tileObject.getJsonArray("layers").getJsonObject(layer).getJsonArray("data") != null) {
+                int dataSize = tileObject.getJsonArray("layers").getJsonObject(layer).getJsonArray("data").size();
+                ArrayList<Tile> tiles = new ArrayList<>();
+                for (int i = 0; i < dataSize; i++) {
+                    int tileIndex = tileObject.getJsonArray("layers").getJsonObject(layer)
+                        .getJsonArray("data").getInt(i) - 1;
+                    if (tileIndex >= 0) {
+                        tiles.add(new Tile(i % this.width,i / this.height ,tileIndex));
+                    }
+                }
+                map[layer] = new Layer(tiles.toArray(new Tile[0]), this.width, this.height,
+                    this.tileWidth, this.tileHeight);
+            }
+        }
+        return map;
+    }
+}
+```
+
+De map wordt getekent door simpelweg de verschillende lagen
+over elkaar te teken met onderstaande code:
+
+```java
+public class Map{ 
+    public void draw(Graphics2D graphics) {
+        if (this.cacheImage == null) {
+            this.cacheImage = new BufferedImage(this.width*this.tileWidth,
+                this.height*this.tileHeight, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D cacheGraphics = this.cacheImage.createGraphics();
+            for (int layer = 0; layer < this.layersSize; layer++) {
+                int i = 0;
+
+                for (int y = 0; y < this.height; y++) {
+                    for (int x = 0; x < this.width; x++) {
+
+                        if (this.map[i][layer] <= 0) {
+                            i++;
+                            continue;
+                        }
+                        cacheGraphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+                        cacheGraphics.drawImage(this.tiles.get(this.map[i][layer]),
+                            AffineTransform.getTranslateInstance(x * this.tileWidth, y * this.tileHeight), null);
+                        i++;
+                    }
+                }
+            }
+        }
+        graphics.drawImage(this.cacheImage, new AffineTransform(), null);
+    }
+}
+```
+Eerst hadden we het probleem dat alleen de onderste laag van
+de map getekent werd en we hadden toen geen idee hoe dit kwam.
+Uiteindelijk hebben we Luuk er bij gehaald en uiteindelijk
+vonden we de oplossing door een i++ toe te voegen voor het
+continue commando.  
+Daarnaast hebben we in week 5 bedacht welke klassen we nodig
+zouden hebben voor de simulatie en die in een klassendiagram
+gezet:
+
+![alt text][diagram2]
+
+[diagram2]: simulatieKlassendiagram.png "Klassendiagram"
+
+## Week 6
+In week 6 heb ik samen met Luuk aan pathfinding en aan de
+camera klasse gewerkt. De camera klasse is bedoeld om ervoor
+te zorgen dat op de map in- en uitgezoomd kan worden en dat
+door slepen met de muis de map versleept kan worden. Geluk
+is binnen het vak 2D-ComputerGraphics al vaker een
+soortgelijke klasse gebruikt, dus daar hebben we ons door
+laten inspireren bij het schrijven van onze camera klasse.  
+Daarnaast hebben we twee knoppen toegevoegd voor het in- en
+uitzoemen. De knoppen gaven wel een probleem want na de
+implementatie reageerde het canvas niet meer op mouse-events.
+Gelukkig was dit op te lossen door de v-box waarin de knoppen
+zaten een prefered size te geven zodat deze niet over het
+gehele canvas heen stond.
+
+```java
+public class Simulation{
+    public void createStage(){
+        
+        //camera functions
+        VBox zoomButtons = new VBox();
+        zoomButtons.setMaxSize(25, 50);
+        Button plus = new Button("+");
+        Button min = new Button("-");
+        plus.setOnAction(this::onZoomButtonPress);
+        min.setOnAction(this::onZoomButtonPress);
+        plus.setPrefSize(25, 25);
+        min.setPrefSize(25, 25);
+        zoomButtons.getChildren().addAll(plus, min);
+        this.pane.getChildren().add(zoomButtons);
+        StackPane.setAlignment(zoomButtons, Pos.TOP_RIGHT);
+    }
+}
+```
+
+Voor de pathfinding heb ik de target klasse aangemaakt,
+instanties van deze klasse representeren de plaatsen waar
+NPC's naartoe kunnen lopen. Dus de lokalen, de ruimtes voor
+de leerlingen en de leraren en de ingang van de school.
+
+## Week 7
+Week 7 stond voor mij in het teken van het uitbereiden van de
+student generator zodat deze ook echt gebruikt kan worden,
+omdat deze nog niet aangeroepen kon worden. Daarvoor moesten
+een controller en een view gemaakt worden om het aan het
+menu van de + knop te kunnen toevoegen. Hieronder is de code
+te zien voor de controller die ik voor de generator heb
+geschreven:
+
+```java
+public class StudentGeneratorController implements Controller {
+    private StudentGeneratorView view;
+
+    public StudentGeneratorController() {
+        this.view = new StudentGeneratorView();
+    }
+
+    @Override
+    public void show() {
+        this.show(null);
+    }
+
+    @Override
+    public void show(Stage ownerStage) {
+        if(!this.view.getStage().isShowing()) {
+            Stage stage = this.view.getStage();
+            this.view.getCancelButton().setOnAction(e -> this.view.getStage().close());
+            this.view.getSaveButton().setOnAction((e -> this.generate()));
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(ownerStage);
+            stage.show();
+        }
+    }
+
+    private void generate() {
+        try {
+            short amount = Short.parseShort(this.view.getTextField().getText());
+            StudentGenerator generator = new StudentGenerator(amount);
+            this.view.getStage().close();
+        } catch (Exception e){
+            ErrorMessage.show();
+        }
+    }
+}
+```
+
+en de code voor bijbehorende view:
+
+```java
+public class StudentGeneratorView implements View {
+    private Stage stage;
+    private VBox mainBox = new VBox();
+    private Button saveButton;
+    private Button cancelButton;
+    private TextField textField;
+
+    @Override
+    public Stage getStage() {
+        if(this.stage == null)
+        {
+            this.createStage();
+        }
+        return this.stage;
+    }
+
+    private void createStage() {
+        this.stage = new Stage();
+
+        this.initMainBox();
+
+        Scene scene = new Scene(this.mainBox);
+        this.stage.setHeight(375);
+        this.stage.setWidth(400);
+        this.stage.setResizable(false);
+        this.stage.setScene(scene);
+        this.stage.setTitle("Genereer Studenten");
+    }
+
+    private void initMainBox() {
+        Label label = new Label("Hoeveelheid: ");
+        this.textField = new TextField();
+
+        label.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
+        this.textField.setPrefHeight(Setting.ADD_MENU_LABEL_AND_TEXT_HEIGHT);
+
+        HBox mainHBox = new HBox(label, this.textField);
+        mainHBox.getChildren().addAll();
+        mainHBox.setSpacing(5);
+        mainHBox.setAlignment(Pos.TOP_CENTER);
+
+        this.mainBox.getChildren().addAll(mainHBox);
+
+        this.createButtons();
+    }
+
+    private void createButtons(){
+        this.saveButton = new Button("Opslaan");
+        this.cancelButton = new Button("Annuleren");
+
+        this.saveButton.setPrefHeight(Setting.ADD_MENU_BUTTON_HEIGHT);
+        this.cancelButton.setPrefHeight(Setting.ADD_MENU_BUTTON_HEIGHT);
+
+        HBox buttonHBox = new HBox();
+        buttonHBox.getChildren().addAll(this.cancelButton, this.saveButton);
+        buttonHBox.setSpacing(25);
+        buttonHBox.setAlignment(Pos.CENTER);
+        this.mainBox.getChildren().add(buttonHBox);
+        this.mainBox.setSpacing(25);
+        this.mainBox.setAlignment(Pos.TOP_CENTER);
+    }
+
+    TextField getTextField() {
+        return textField;
+    }
+
+    Button getSaveButton() {
+        return this.saveButton;
+    }
+
+    Button getCancelButton() {
+        return this.cancelButton;
+    }
+}
+```
+
+Daarnaast heb ik de generator geupdate zodat deze ook groepen
+aanmaakt voor de gegenereerde studenten. Met de volgende code
+wordt per 50 studenten een groep aangemaakt en aan de school
+toegevoegd:
+
+```java
+public class StudentGenerator{
+    public StudentGenerator(short amount) {
+        for (int i = 0; i < amount; i +=  50){
+            Group group = new Group("Groep " + i / 50);
+            groups.add(group);
+            SchoolFile.getSchool().getGroups().add(group);
+        }
+    }
+}
+```
+
+## Reflectie op een stelling
+Ik heb gekozen om te reflecteren op de stelling: “In het
+bedrijfsleven wordt steeds meer in software gesimuleerd”.  
+In het bedrijfsleven zijn grote projecten (bijvoorbeeld:
+de bouw van een groot gebouwencomplex) altijd erg riskant
+omdat vaak zelfs een expert niet met zekerheid kan zeggen
+hoelang zoiets duurt of hoeveel geld het gaat kosten.  
+Een simulatie kan beter inzicht geven in deze en vele andere
+aspecten. Daarnaast kan een simulatie verschillende
+scenario's voorspellen waar anders nooit iemand aan gedacht
+zou hebben. Deze scenario's kunnen echter wel zorgen voor
+reeële problemen bij project. Dankzij simulatie kan toch
+met deze scenario's rekening gehouden worden. Simulatie kan
+risico's verduidelijken en helpen bij het inschatten van de
+kosten in geld en tijd.  
+Als ik het zo bekijk is het logisch dat zeker voor grote 
+projecten in het bedrijfsleven steeds vaker simulaties
+gebruikt worden. De kosten die het maken / laten maken van
+zo'n simulatie met zich mee brengt vaak minder zijn dan de
+kosten die bespaart kunnen worden door de risico's echt te
+kennen en daarop kunnen anticiperen.  
+De simulatie software is tegenwoordig ook heel goed. Er
+bestaat al software die met gemak tienduizenden NPC kan
+simuleren en waarin veranderingen in de simulatie ook
+gelijk een verandering opleveren in het gedrag van de
+NPC's.
+
+Voor meer informatie over de software die dit soort
+simulaties mogelijk maakt zie:
+[https://www.uu.nl/nieuws/ucrowds-brengt-wetenschappelijke-state-of-the-art-crowd-simulatiesoftware-op-de-markt](https://www.uu.nl/nieuws/ucrowds-brengt-wetenschappelijke-state-of-the-art-crowd-simulatiesoftware-op-de-markt)
+
+## JSON
+
+![alt text][logo]
+
+[logo]: json-logo.png "logo"
+
+JSON (JavaScript Object Notation) is een manier om
+data-objecten leesbaar op te slaan samen met alle
+bijbehorende attributen en waardes.
+
+Om data te versturen over een netwerk connectie wordt vaak
+JSON gebruikt. Vooral voor het verzenden van data tussen
+een server en een applicatie op het internet wordt JSON
+als format toegepast. JSON is daarnaast nuttig als een
+configuratietaal. Dit wil zeggen dat er bestanden in JSON
+worden geschreven die door de computer kunnen worden
+aangewend om ervoor te zorgen dat er een goede
+samenwerking is tussen verschillende componenten software.
+
+De belangrijkste reden waarom (denk ik) JSON wordt gebruikt
+is omdat JSON bestanden compact blijven en dus met weinig
+moeite over een netwerk connectie verzonden kunnen worden.
+Daarnaast kan men gewoon een JSON-bestand openen en de 
+inhoud ervan begrijpen. Dit helpt enorm voor de
+overzichtelijkheid van een JSON-bestand.
