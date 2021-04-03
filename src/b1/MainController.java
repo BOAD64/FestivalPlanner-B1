@@ -18,7 +18,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-public class MainController implements Controller {
+public class MainController implements Controller
+{
 
     private MainView view;
     private School school;
@@ -60,12 +61,12 @@ public class MainController implements Controller {
     }
 
     private void fillAddMenuList(ListView<AddMenuItem> addMenu, Stage stage) {
-        addMenu.getItems().add(new AddMenuItem(GroupController.class, "Groep", stage));
-        addMenu.getItems().add(new AddMenuItem(ClassroomController.class, "Klaslokaal", stage));
-        addMenu.getItems().add(new AddMenuItem(StudentController.class, "Student", stage));
-        addMenu.getItems().add(new AddMenuItem(TeacherController.class, "Docent", stage));
-        addMenu.getItems().add(new AddMenuItem(LessonController.class, "Les", stage));
-        addMenu.getItems().add(new AddMenuItem(StudentGeneratorController.class, "Genereer Studenten", stage));
+        addMenu.getItems().add(new AddMenuItem(GroupController.class, "Groep", stage).onClose(this::onAddMenuItemClose));
+        addMenu.getItems().add(new AddMenuItem(ClassroomController.class, "Klaslokaal", stage).onClose(this::onAddMenuItemClose));
+        addMenu.getItems().add(new AddMenuItem(StudentController.class, "Student", stage).onClose(this::onAddMenuItemClose));
+        addMenu.getItems().add(new AddMenuItem(TeacherController.class, "Docent", stage).onClose(this::onAddMenuItemClose));
+        addMenu.getItems().add(new AddMenuItem(LessonController.class, "Les", stage).onClose(this::onAddMenuItemClose));
+        addMenu.getItems().add(new AddMenuItem(StudentGeneratorController.class, "Genereer Studenten", stage).onClose(this::onAddMenuItemClose));
     }
 
     private void onAddListClicked(MouseEvent event) {
@@ -96,5 +97,9 @@ public class MainController implements Controller {
 
     public void onClose(EventHandler<WindowEvent> eventEventHandler) {
         this.view.getStage().setOnHidden(eventEventHandler);
+    }
+
+    private void onAddMenuItemClose(WindowEvent event) {
+        this.scheduleController.refresh();
     }
 }
