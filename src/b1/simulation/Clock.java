@@ -69,7 +69,7 @@ public class Clock {
      * @param originalDeltaTime deltaTime provided by animation timer, not passed through getNewDeltaTime().
      */
     public void update(double originalDeltaTime){
-        this.currentTime = this.currentTime.plusNanos((long)((originalDeltaTime * Math.pow(10, 9)) * 30 * this.speedMultiplier));
+        this.currentTime = this.currentTime.plusNanos((long)((originalDeltaTime * Math.pow(10, 9)) * 10 * this.speedMultiplier));
     }
 
     /**
