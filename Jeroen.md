@@ -104,6 +104,48 @@ Verder heb ik deze week ook meegeholpen aan de feature om de NPC's om 17.00 uur 
 
 We hebben dit kunnen doen door voor elke NPC een soort van "onzichtbare" afspraak in te roosteren bij de ingang. Op deze manier gaan alle NPC's naar de ingang om 17.00 uur. Een feature wat ik nog graag toe zou willen voegen is dat de NPC's ook niet meer visible zijn als ze de uitgang hebben bereikt.
  
+ ## Week 8
+ Deze week heb ik redelijk veel gedaan. Als eerst heb ik mijzelf bezig gehouden met de feature om NPC's naar huis te laten gaan. De NPC's liepen om 17.00 uur al naar de deur toe maar ze bleven zichtbaar. Ik heb nu samen met Luuk een nieuw stukje code gemaakt om dat te regelen. 
+ 
+ Er waren een paar opties om dit te regelen. We zouden de lijst met targets static kunnen maken zodat elk NPC zijn huidige target kan vergelijken met de "home" target, op deze manier weet een NPC of hij wel of niet zichtbaar moet zijn als de target is bereikt. 
+ Een andere optie is om een interface te gebruiken. Deze interface bevat een methode hasArrived. Wij hebben uiteindelijk gekozen voor de optie met de interface. Wij vinden deze optie netter en beter uitbreidbaar.
+ 
+ ~~~java
+ public interface CallbackNPC {
+ 
+     void hasArrived(NPC npc, Target target);
+ }
+ ~~~
+ 
+ De ScheduleManager klasse implementeerd de interface. Als de hasArrived methode wordt aangeroepen dan wordt er gekeken of zijn target gelijk is aan de home positie. Als dat zo is wordt de boolean isHome in de NPC op true gezet.
+ 
+ ~~~java
+ @Override
+     public void hasArrived(NPC npc, Target target) {
+         if (target.equals(this.targets.get("LoadingZone"))) {
+             npc.setIsHome(true);
+         }
+     }
+ ~~~
+ 
+ Op deze manier wordt er elke keer als de NPC op zijn nieuwe locatie is aangekomen gecontroleerd of hij op de home positie is. Wanneer de isHome variabele in de NPC true is wordt er gelijk uit de draw methode gereturned, de NPC wordt dus niet meer op het scherm getekend.
+ 
+ Verder heb ik ook gewerkt aan het achteruit spoelen van de klok. Wanneer de klok achteruit werd gespoeld ging het fout met het opzoeken van de juiste target. Nu wordt er gebruik gemaakt van een timeDirection variabele, deze is 1 of -1, tijd vooruit of achteruit. Deze veriabele wordt dan weer gebruikt om ed juiste index te krijgen uit de lijst met appointments.
+ 
+ ~~~java
+ public class ScheduleManager implements CallbackNPC {
+ 
+ int timeDirection = (int) Math.round(deltaTime / Math.abs(deltaTime));
+ 
+         if (timeDirection != this.lastTimeDirection && timeDirection == -1) {
+             this.lastStartedAppointmentIndex += 1;
+             this.lastEndedAppointmentIndex += 1;
+         }
+ 
+         int nextIndex = (this.lastStartedAppointmentIndex + timeDirection) % this.appointmentsSortedByBeginTime.size();
+ }
+ ~~~
+ 
 ## Stelling en mijn reflectie daarop
 De stelling : "In het bedrijfsleven wordt steeds meer in software gesimuleerd"
 
