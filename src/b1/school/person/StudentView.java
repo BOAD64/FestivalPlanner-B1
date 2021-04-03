@@ -24,8 +24,7 @@ public class StudentView extends PersonView {
 
     @Override
     public Stage getStage() {
-        if(super.stage == null)
-        {
+        if(super.stage == null) {
             this.createStage();
         }
         return super.stage;

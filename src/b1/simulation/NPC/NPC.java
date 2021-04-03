@@ -36,6 +36,7 @@ public abstract class NPC {
     private boolean standStill;
     private Target standardTarget;
     private WalkableLayer walkableLayer;
+    private Font font;
 
     public NPC(Point2D position, double angle, Person person, WalkableLayer walkableLayer) {
         this.position = position;
@@ -44,6 +45,7 @@ public abstract class NPC {
 //        this.target = position;
         this.standStill = false;
         this.walkableLayer = walkableLayer;
+        this.font = new Font("Rockwell", Font.PLAIN, 10);
     }
 
 //    /**
@@ -171,6 +173,19 @@ public abstract class NPC {
             graphics.drawImage(this.sprites.get(3 + (int) this.frame), tx, null);
         }
 
+        //namePlate
+        graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f));
+        graphics.setColor(Color.white);
+        graphics.setFont(this.font);
+        String name = this.person.getName();
+        Shape text = font.createGlyphVector(graphics.getFontRenderContext(), name).getOutline();
+        double offset = 23 - (text.getBounds2D().getWidth()/2);
+        tx.translate(offset, 0);
+        graphics.fill(tx.createTransformedShape(text));
+        tx.translate(-offset, 0);
+        graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
+
+
         //Draw hitBox and target
         if(this.target != null && debug) {
             this.target.draw(graphics);
@@ -208,17 +223,56 @@ public abstract class NPC {
                             this.position.getY() - (this.speed / 2) * Math.sin(angleToNPC) * deltaTime);
 
                     this.updatePosition(nextPos);
+
+                    npc.pushPositionBack(Math.atan2(
+                            this.position.getY() - npc.getPosition().getY(),
+                            this.position.getX() - npc.getPosition().getX()) + (Math.random())
+                    , deltaTime);
                 }
             }
         }
         return hasCollision;
     }
 
-    abstract public void openPerson(Point2D mousePos);
+    /*
+     * Same at the checkCollision but without the pushback code to make sure there wil be no stackOverflows
+     */
+    private boolean checkCollisionWithoutPushBack(double deltaTime) {
+        boolean hasCollision = false;
+        for (NPC npc : this.collisionNPCs) {
+            if (npc != this) {
+                double thereSize = npc.getHitBoxSize();
+                if (npc.getPosition().distanceSq(this.position) < this.hitBoxSize * thereSize + 10) {
+                    hasCollision = true;
+                    double angleToNPC = Math.atan2(
+                            npc.getPosition().getY() - this.position.getY(),
+                            npc.getPosition().getX() - this.position.getX());
+                    Point2D nextPos = new Point2D.Double(
+                            this.position.getX() - (this.speed / 2) * Math.cos(angleToNPC) * deltaTime,
+                            this.position.getY() - (this.speed / 2) * Math.sin(angleToNPC) * deltaTime);
 
-    public void resetNPC() {
-        this.position = new Point2D.Double(200, 200);
+                    this.updatePosition(nextPos);
+                }
+            }
+        }
+        return hasCollision;
     }
+
+    /**
+     * Used only by the collision check.
+     * Pushes the NPC back in the direction given.
+     * @param direction
+     * @param deltaTime
+     */
+    public void pushPositionBack(double direction, double deltaTime) {
+        Point2D nextPos = new Point2D.Double(
+                this.position.getX() - (this.speed / 2) * Math.cos(direction) * deltaTime,
+                this.position.getY() - (this.speed / 2) * Math.sin(direction) * deltaTime);
+        this.updatePosition(nextPos);
+        checkCollisionWithoutPushBack(deltaTime);
+    }
+
+    abstract public void openPerson(Point2D mousePos);
 
     @Override
     public boolean equals(Object obj) {

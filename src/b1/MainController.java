@@ -65,7 +65,7 @@ public class MainController implements Controller {
         addMenu.getItems().add(new AddMenuItem(StudentController.class, "Student", stage));
         addMenu.getItems().add(new AddMenuItem(TeacherController.class, "Docent", stage));
         addMenu.getItems().add(new AddMenuItem(LessonController.class, "Les", stage));
-
+        addMenu.getItems().add(new AddMenuItem(StudentGeneratorController.class, "Genereer Studenten", stage));
     }
 
     private void onAddListClicked(MouseEvent event) {

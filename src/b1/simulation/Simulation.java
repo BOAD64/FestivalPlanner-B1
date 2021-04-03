@@ -19,6 +19,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.Button;
@@ -42,6 +43,7 @@ public class Simulation
     private Slider slider;
     private ArrayList<NPC> NPCs;
     private Button clockSpeedButton;
+    private Button pauseButton;
     private TextField speedValueField;
     private Pathfinding pathfinding;
     private ScheduleManager scheduleManager;
@@ -59,6 +61,7 @@ public class Simulation
         this.slider = new Slider(-20, 20, 1);
         this.clockSpeedButton = new Button("tijd snelheid naar 1x");
         this.speedValueField = new TextField("Snelheid: 1x");
+        this.pauseButton = new Button("Pauze");
         this.NPCs = new ArrayList<>();
         //test NPCs
 //        addTestNPCs();
@@ -138,7 +141,30 @@ public class Simulation
 
         });
         canvas.setOnMouseClicked(e -> CheckIfNPCclicked(e));
-        this.pane.setOnKeyPressed(event -> {if(event.getCode().getName().equals("F3")){this.debug=!this.debug;}});
+
+        //add keyboard functionality:
+        //F3 shows debug
+        //K pauses
+        //J slows time
+        //L speeds up time
+        this.pane.setOnKeyPressed(event -> {
+            if(event.getCode().getName().equals("F3")){
+                this.debug=!this.debug;
+            }
+            if (event.getCode().equals(KeyCode.K)){
+                this.clock.pause();
+            }
+            if (event.getCode().equals(KeyCode.J)){
+                if (slider.getValue() > 0){
+                    slider.setValue(slider.getValue() - 0.5);
+                }
+            }
+            if (event.getCode().equals(KeyCode.L)){
+                if (slider.getValue() <= 19.5){
+                    slider.setValue(slider.getValue() + 0.5);
+                }
+            }
+        });
 
         this.pane.getChildren().add(this.canvas);
 
@@ -146,7 +172,10 @@ public class Simulation
         VBox clockVBox = new VBox();
         HBox clockHBox = new HBox();
         this.clockSpeedButton.setOnAction(e -> this.slider.setValue(1));
+        this.pauseButton.setOnMouseClicked(event -> this.clock.pause());
+
         this.speedValueField.setEditable(false);
+        clockHBox.getChildren().add(pauseButton);
         clockHBox.getChildren().add(clockSpeedButton);
         clockHBox.getChildren().add(speedValueField);
         clockHBox.setAlignment(Pos.CENTER);
@@ -196,7 +225,10 @@ public class Simulation
      */
     public void update(double deltaTime) {
         this.speedValueField.setText("Snelheid: " + (Math.round(slider.getValue() * 100) / 100.0) + "x");
-        this.clock.setSpeedMultiplier(slider.getValue());
+        if (!this.clock.isPaused()){
+            this.clock.setSpeedMultiplier(slider.getValue());
+        }
+
         this.clock.update(deltaTime);
         double newDeltaTime = this.clock.getNewDeltaTime(deltaTime); //use this instead of deltaTime
 

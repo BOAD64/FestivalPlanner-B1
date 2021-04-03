@@ -2,12 +2,14 @@ package b1.school.person;
 
 import b1.io.NameFile;
 import b1.io.SchoolFile;
+import b1.school.group.Group;
 
 import java.util.ArrayList;
 
 public class StudentGenerator {
 
     private ArrayList<String> names;
+    private ArrayList<Group> groups = new ArrayList<>();
     private String[] genders = new String[]{"Man", "Vrouw"};
     private String[] firstName = new String[]{"Tinke", "Neele", "Dora", "Frenk", "Kiran", "Jeff", "Johan", "Edwin",
     "Liedeke", "Valérie"};
@@ -22,6 +24,11 @@ public class StudentGenerator {
      */
     public StudentGenerator(short amount) {
         this.names = NameFile.readFile();
+        for (int i = 0; i < amount; i +=  50){
+            Group group = new Group("Groep " + i / 50);
+            groups.add(group);
+            SchoolFile.getSchool().getGroups().add(group);
+        }
 
         for(int i = this.names.size(); i < amount; i++) {
             this.addName();
@@ -58,6 +65,9 @@ public class StudentGenerator {
 
             Student student = new Student(name, age, gender, id, null);
             SchoolFile.getSchool().addStudent(student);
+            Group selectedGroup = this.groups.get((int)(Math.random() * this.groups.size()));
+            SchoolFile.getSchool().getGroups().get(SchoolFile.getSchool().getGroups().indexOf(selectedGroup)).
+                    addStudent(student);
         }
     }
 
