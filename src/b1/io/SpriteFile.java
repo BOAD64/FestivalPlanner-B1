@@ -8,12 +8,7 @@ public class SpriteFile {
     private static ArrayList<BufferedImage> sprites;
     private static String path;
 
-    public SpriteFile(String filePath) {
-        path = filePath;
-        sprites = getSprites();
-    }
-
-    public ArrayList<BufferedImage> getSprites() {
+    public static ArrayList<BufferedImage> getSprites() {
         if (sprites == null) {
             if (path == null || path.isEmpty()) {
                 return null;
@@ -23,10 +18,10 @@ public class SpriteFile {
         return sprites;
     }
 
-    private ArrayList<BufferedImage> fillSprites() {
+    private static ArrayList<BufferedImage> fillSprites() {
         ArrayList<BufferedImage> newSprites = new ArrayList<>();
         try {
-            BufferedImage image = ImageIO.read(getClass().getResourceAsStream(path));
+            BufferedImage image = ImageIO.read(SpriteFile.class.getResourceAsStream(path));
             for (int y = 0; y < 8; y++) {
                 for (int x = 0; x < 12; x++) {
                     newSprites.add(image.getSubimage(x * (image.getWidth() / 12),
@@ -37,5 +32,13 @@ public class SpriteFile {
             e.printStackTrace();
         }
         return newSprites;
+    }
+
+    public static String getPath() {
+        return path;
+    }
+
+    public static void setPath(String path) {
+        SpriteFile.path = path;
     }
 }

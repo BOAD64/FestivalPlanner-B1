@@ -25,7 +25,7 @@ public class StudentNPC extends NPC {
      */
     private void getSprites() {
         try {
-            SpriteFile spriteFile = new SpriteFile("/students.png");
+            SpriteFile.setPath("/students.png");
             int xOffSet = 0;
             int yOffSet = 0;
             int characterSet = 0;
@@ -51,7 +51,7 @@ public class StudentNPC extends NPC {
             for (int y = 0; y < 4; y++) {
                 rowStart = y * 12;
                 for (int x = 0; x < 3; x++) {
-                    this.sprites.add(spriteFile.getSprites().get(rowStart + yOffSet + xOffSet + x));
+                    this.sprites.add(SpriteFile.getSprites().get(rowStart + yOffSet + xOffSet + x));
                 }
             }
         } catch (Exception e) {
