@@ -42,6 +42,10 @@ public class Clock {
         return this.currentTime;
     }
 
+    public void setCurrentTime(LocalTime currentTime) {
+        this.currentTime = currentTime;
+    }
+
     /**
      * gets the new Delta time
      * used to apply speed multiplier to delta time in simulation class
@@ -65,7 +69,7 @@ public class Clock {
      * @param originalDeltaTime deltaTime provided by animation timer, not passed through getNewDeltaTime().
      */
     public void update(double originalDeltaTime){
-        this.currentTime = this.currentTime.plusNanos((long)((originalDeltaTime * Math.pow(10, 9)) * 30 * this.speedMultiplier));
+        this.currentTime = this.currentTime.plusNanos((long)((originalDeltaTime * Math.pow(10, 9)) * 10 * this.speedMultiplier));
     }
 
     /**
