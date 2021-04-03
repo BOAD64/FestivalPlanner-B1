@@ -3,16 +3,17 @@ package b1.school.person;
 import b1.Controller;
 import b1.ErrorMessage;
 import b1.io.SchoolFile;
+import javafx.event.EventHandler;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class TeacherController extends PersonController implements Controller {
 
     private TeacherView view;
     private Teacher teacher;
 
-    public TeacherController()
-    {
+    public TeacherController() {
         this(new Teacher());
     }
 
@@ -31,7 +32,7 @@ public class TeacherController extends PersonController implements Controller {
 
     @Override
     public void show(Stage ownerStage) {
-        if(!this.view.getStage().isShowing()){
+        if (!this.view.getStage().isShowing()) {
             this.view.getSaveButton().setOnAction(e -> this.saveTeacher());
             this.view.getUndoButton().setOnAction(e -> this.undoChanges());
             this.view.getCancelButton().setOnAction(e -> this.view.getStage().close());
@@ -42,11 +43,11 @@ public class TeacherController extends PersonController implements Controller {
     }
 
     /*
-    * Saves the Teacher if the input fields have valid values, otherwise it shows an error massage.
-    */
+     * Saves the Teacher if the input fields have valid values, otherwise it shows an error massage.
+     */
     private void saveTeacher() {
         try {
-            if(this.view.getSubjectField().getText().isEmpty() || !super.personIsValid(this.view)) {
+            if (this.view.getSubjectField().getText().isEmpty() || !super.personIsValid(this.view)) {
                 ErrorMessage.show();
 
             } else {
@@ -59,16 +60,16 @@ public class TeacherController extends PersonController implements Controller {
 
                 this.view.getStage().close();
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             ErrorMessage.show();
         }
     }
 
     /*
-    * Sets the input fields back to the information that was shown upon opening the window.
-    */
+     * Sets the input fields back to the information that was shown upon opening the window.
+     */
     private void undoChanges() {
-        if(this.teacher.getAge() == -1) {
+        if (this.teacher.getAge() == -1) {
             this.view.getSubjectField().setText("");
             this.view.getNameField().setText("");
             this.view.getAgeField().setText("");
@@ -79,5 +80,10 @@ public class TeacherController extends PersonController implements Controller {
             this.view.getAgeField().setText(this.teacher.getAge() + "");
             this.view.getGenderField().setText(this.teacher.getGender());
         }
+    }
+
+    @Override
+    public void onClose(EventHandler<WindowEvent> eventEventHandler) {
+        this.view.getStage().setOnHidden(eventEventHandler);
     }
 }

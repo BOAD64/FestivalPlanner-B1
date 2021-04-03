@@ -1,22 +1,19 @@
 package b1.school.room;
 
-
 public class Classroom extends Room {
-    private String roomCode;
     private int capacity;
 
     public Classroom(double width, double length, String roomCode, int capacity) {
-        super(width, length);
-        this.roomCode = roomCode;
+        super(roomCode, width, length);
         this.capacity = capacity;
     }
 
     public String getRoomCode() {
-        return this.roomCode;
+        return super.getName();
     }
 
     public void setRoomCode(String roomCode) {
-        this.roomCode = roomCode;
+        super.setName(roomCode);
     }
 
     public int getCapacity() {
@@ -33,11 +30,11 @@ public class Classroom extends Room {
             return false;
         }
         Classroom toCheck = (Classroom) obj;
-        return toCheck.getRoomCode().equals(this.roomCode);
+        return toCheck.getRoomCode().equals(this.getName());
     }
 
     @Override
     public String toString() {
-        return this.roomCode;
+        return this.getName();
     }
 }

@@ -2,9 +2,7 @@ package b1.school.person;
 
 import java.io.Serializable;
 
-public abstract class Person  implements Serializable
-{
-
+public abstract class Person implements Serializable, Comparable<Person> {
     String name;
     short age;
     String gender;
@@ -12,7 +10,7 @@ public abstract class Person  implements Serializable
     Person(String name, short age, String gender) {
         this.name = name;
 
-        if(age > 0) {
+        if (age > 0) {
             this.age = age;
         } else {
             this.age = -1;
@@ -43,7 +41,7 @@ public abstract class Person  implements Serializable
     }
 
     public void setAge(short age) {
-        if(age > 0) {
+        if (age > 0) {
             this.age = age;
         } else {
             this.age = -1;
@@ -61,5 +59,21 @@ public abstract class Person  implements Serializable
     @Override
     public String toString() {
         return this.name + ", " + this.age + ", " + this.gender;
+    }
+
+    @Override
+    public int compareTo(Person o) {
+        int nameCompareResult = this.getName().compareTo(o.getName());
+        if (nameCompareResult != 0) {
+            return nameCompareResult;
+        }
+
+        int ageCompareResult = Integer.compare(this.age, o.age);
+
+        if (ageCompareResult != 0) {
+            return ageCompareResult;
+        }
+
+        return this.gender.compareTo(o.getGender());
     }
 }

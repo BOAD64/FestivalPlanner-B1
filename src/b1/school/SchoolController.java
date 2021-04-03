@@ -1,7 +1,10 @@
 package b1.school;
 
 import b1.Controller;
+import b1.ErrorMessage;
 import b1.io.SchoolFile;
+import b1.schedule.AppointmentAbstract;
+import b1.schedule.Lesson;
 import b1.school.person.StudentController;
 import b1.school.person.TeacherController;
 import b1.school.room.Classroom;
@@ -10,10 +13,10 @@ import b1.school.group.Group;
 import b1.school.group.GroupController;
 import b1.school.person.Student;
 import b1.school.person.Teacher;
+import javafx.event.EventHandler;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.util.ArrayList;
+import javafx.stage.WindowEvent;
 
 public class SchoolController implements Controller {
 
@@ -102,19 +105,15 @@ public class SchoolController implements Controller {
         this.onRefreshStudentButtonClicked();
         this.onRefreshTeacherButtonClicked();
 
-        ArrayList<Group> groups = new ArrayList<>();
-        ArrayList<Student> students = new ArrayList<>();
-        ArrayList<Teacher> teachers = new ArrayList<>();
+        this.school.getGroups().clear();
+        this.school.getPersons().clear();
 
-        groups.addAll(this.schoolView.getGroupListView().getItems());
-        students.addAll(this.schoolView.getStudentListView().getItems());
-        teachers.addAll(this.schoolView.getTeacherListView().getItems());
+        this.school.getGroups().addAll(this.schoolView.getGroupListView().getItems());
+        this.school.getPersons().addAll(this.schoolView.getStudentListView().getItems());
+        this.school.getPersons().addAll(this.schoolView.getTeacherListView().getItems());
 
         this.school.getRooms().removeIf(room -> room instanceof Classroom);
         this.school.getRooms().addAll(this.schoolView.getClassroomListView().getItems());
-        this.school.setGroups(groups);
-        this.school.setStudents(students);
-        this.school.setTeachers(teachers);
         this.school.setSchoolName(this.schoolView.getSchoolNameField().getText());
     }
 
@@ -140,18 +139,86 @@ public class SchoolController implements Controller {
     }
 
     private void onDeleteClassroomButtonClicked() {
-        this.schoolView.getClassroomListView().getItems().remove(this.schoolView.getClassroomListView().getSelectionModel().getSelectedItem());
+        Classroom selectedClassroom = this.schoolView.getClassroomListView().getSelectionModel().getSelectedItem();
+        boolean isSaveToDelete = true;
+        //Lesson/appointment
+        for (AppointmentAbstract appointment : SchoolFile.getSchool().getSchedule().getAppointments()) {
+            if (appointment.getLocation().equals(selectedClassroom)) {
+                isSaveToDelete = false;
+                break;
+            }
+        }
+        if (isSaveToDelete) {
+            this.schoolView.getClassroomListView().getItems().remove(selectedClassroom);
+        } else {
+            ErrorMessage.show("Het klaslokaal kan niet worden verwijderd aangezien het nog gebruikt wordt.");
+        }
     }
 
     private void onDeleteGroupButtonClicked() {
-        this.schoolView.getGroupListView().getItems().remove(this.schoolView.getGroupListView().getSelectionModel().getSelectedItem());
+        Group selectedGroup = this.schoolView.getGroupListView().getSelectionModel().getSelectedItem();
+        boolean isSaveToDelete = true;
+        for (Student student : SchoolFile.getSchool().getStudents()) {
+            if (student.getGroup().equals(selectedGroup)) {
+                isSaveToDelete = false;
+                break;
+            }
+        }
+
+        if (isSaveToDelete) {
+            for (Lesson lesson : SchoolFile.getSchool().getSchedule().getLessons()) {
+                if (lesson.getGroup().equals(selectedGroup)) {
+                    isSaveToDelete = false;
+                    break;
+                }
+            }
+        }
+
+        if (isSaveToDelete) {
+            this.schoolView.getGroupListView().getItems().remove(selectedGroup);
+        } else {
+            ErrorMessage.show("De groep kan niet worden verwijderd aangezien het nog gebruikt wordt.");
+        }
     }
 
     private void onDeleteStudentButtonClicked() {
-        this.schoolView.getStudentListView().getItems().remove(this.schoolView.getStudentListView().getSelectionModel().getSelectedItem());
+        Student selectedStudent = this.schoolView.getStudentListView().getSelectionModel().getSelectedItem();
+        boolean isSaveToDelete = true;
+
+        for (Group group : SchoolFile.getSchool().getGroups()) {
+            if (group.getStudentsList().contains(selectedStudent)) {
+                isSaveToDelete = false;
+                break;
+            }
+        }
+
+        if (isSaveToDelete) {
+            this.schoolView.getStudentListView().getItems().remove(selectedStudent);
+        } else {
+            ErrorMessage.show("De student kan niet worden verwijderd aangezien het nog gebruikt wordt.");
+        }
     }
 
     private void onDeleteTeacherButtonClicked() {
-        this.schoolView.getTeacherListView().getItems().remove(this.schoolView.getTeacherListView().getSelectionModel().getSelectedItem());
+        Teacher selectedTeacher = this.schoolView.getTeacherListView().getSelectionModel().getSelectedItem();
+        boolean isSaveToDelete = true;
+
+        for (Lesson lesson : SchoolFile.getSchool().getSchedule().getLessons()) {
+            if (lesson.getTeacher().equals(selectedTeacher)) {
+                isSaveToDelete = false;
+                break;
+            }
+        }
+
+        if (isSaveToDelete) {
+            this.schoolView.getTeacherListView().getItems().remove(selectedTeacher);
+        } else {
+            ErrorMessage.show("De docent kan niet worden verwijderd aangezien het nog gebruikt wordt.");
+        }
+    }
+
+    @Override
+    public void onClose(EventHandler<WindowEvent> eventEventHandler) {
+        this.schoolView.getStage().setOnHidden(eventEventHandler);
     }
 }

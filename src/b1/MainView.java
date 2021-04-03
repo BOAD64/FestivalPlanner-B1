@@ -5,7 +5,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
@@ -34,6 +33,7 @@ public class MainView implements View {
     private Button goToScheduleButton;
     private Button goToSimulationButton;
     private Button schoolEditButton;
+    private Button reloadSimulationButton;
 
 
     public MainView() {
@@ -55,6 +55,10 @@ public class MainView implements View {
         return this.schoolEditButton;
     }
 
+    public Button getReloadSimulationButton() {
+        return reloadSimulationButton;
+    }
+
     void setSimulationNode(Node simulationNode) {
         if (this.HBox.getChildren().contains(simulationNode)) {
             return;
@@ -69,6 +73,14 @@ public class MainView implements View {
             this.HBox.getChildren().remove(this.stackPane);
         }
 
+        ((StackPane) simulationNode).setMaxWidth(Double.MAX_VALUE);
+        ((StackPane) simulationNode).setMaxHeight(Double.MAX_VALUE);
+        this.HBox.heightProperty().addListener((observable, oldValue, newValue) -> {
+            ((StackPane) simulationNode).setPrefHeight(newValue.doubleValue());
+        });
+        this.HBox.widthProperty().addListener((observable, oldValue, newValue) -> {
+            ((StackPane) simulationNode).setPrefWidth(newValue.doubleValue());
+        });
         this.HBox.getChildren().add(simulationNode);
     }
 
@@ -87,14 +99,16 @@ public class MainView implements View {
             this.stackPane.getChildren().clear();
         }
 
+//        this.stackPane.setPrefWidth(this.HBox.getWidth());
+//        this.stackPane.setPrefHeight(this.HBox.getHeight());
         this.stackPane.getChildren().addAll(scheduleControllerNode, this.plusImageView, this.addList);
         StackPane.setAlignment(this.plusImageView, Pos.BOTTOM_RIGHT);
         StackPane.setAlignment(this.addList, Pos.BOTTOM_RIGHT);
         this.addList.setTranslateY(-125);
         this.plusImageView.setTranslateX(-20);
         this.plusImageView.setTranslateY(-10);
-        ((Canvas) scheduleControllerNode).setWidth(Double.MAX_VALUE);
-        ((Canvas) scheduleControllerNode).setHeight(Double.MAX_VALUE);
+//        ((BorderPane) scheduleControllerNode).setPrefWidth(this.stackPane.getWidth());
+//        ((BorderPane) scheduleControllerNode).setPrefHeight(this.stackPane.getHeight());
 
         this.HBox.getChildren().add(this.stackPane);
     }
@@ -109,8 +123,8 @@ public class MainView implements View {
         FileInputStream plusInputStream = null;
         FileInputStream arrowInputStream = null;
         try {
-            plusInputStream = new FileInputStream("resources\\plus.png");
-            arrowInputStream = new FileInputStream("resources\\arrow.png");
+            plusInputStream = new FileInputStream("resources/plus.png");
+            arrowInputStream = new FileInputStream("resources/arrow.png");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -186,15 +200,17 @@ public class MainView implements View {
     private void initButtons() {
         this.goToScheduleButton = new Button("Rooster");
         this.goToSimulationButton = new Button("Simulatie");
+        this.reloadSimulationButton = new Button("Herlaad simulatie");
         this.schoolEditButton = new Button("Verander School");
 
         short buttonWidth = 130;
         short buttonHeight = 50;
         this.goToScheduleButton.setPrefSize(buttonWidth, buttonHeight);
         this.goToSimulationButton.setPrefSize(buttonWidth, buttonHeight);
+        this.reloadSimulationButton.setPrefSize(buttonWidth, buttonHeight);
         this.schoolEditButton.setPrefSize(buttonWidth, buttonHeight);
 
-        this.optionMenuVBox.getChildren().addAll(this.goToScheduleButton, this.goToSimulationButton, this.schoolEditButton);
+        this.optionMenuVBox.getChildren().addAll(this.goToScheduleButton, this.goToSimulationButton, this.reloadSimulationButton, this.schoolEditButton);
         this.optionMenuVBox.setPadding(new Insets(15, 5, 10, 10));
         this.optionMenuVBox.setSpacing(15);
     }

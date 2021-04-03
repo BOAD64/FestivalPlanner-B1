@@ -3,8 +3,10 @@ package b1.school.person;
 import b1.Controller;
 import b1.ErrorMessage;
 import b1.io.SchoolFile;
+import javafx.event.EventHandler;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class StudentController extends PersonController implements Controller {
 
@@ -30,7 +32,7 @@ public class StudentController extends PersonController implements Controller {
     }
 
     public void show(Stage ownerStage) {
-        if(!this.view.getStage().isShowing()) {
+        if (!this.view.getStage().isShowing()) {
             Stage stage = this.view.getStage();
             this.view.getSaveButton().setOnAction(e -> this.saveStudent());
             this.view.getUndoButton().setOnAction(e -> this.undoChanges());
@@ -42,11 +44,11 @@ public class StudentController extends PersonController implements Controller {
     }
 
     /*
-    * Saves the Student if the input fields have valid values, otherwise it shows an error massage.
-    */
+     * Saves the Student if the input fields have valid values, otherwise it shows an error massage.
+     */
     private void saveStudent() {
         try {
-            if(this.view.getGroupComboBox().getSelectionModel().isEmpty()|| this.view.getIdField().getText().isEmpty() ||
+            if (this.view.getGroupComboBox().getSelectionModel().isEmpty() || this.view.getIdField().getText().isEmpty() ||
                     Integer.parseInt(this.view.getIdField().getText()) < 0 || !super.personIsValid(this.view)) {
                 ErrorMessage.show();
 
@@ -63,16 +65,16 @@ public class StudentController extends PersonController implements Controller {
 
                 this.view.getStage().close();
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             ErrorMessage.show();
         }
     }
 
     /*
-    * Sets the input fields back to the information that was shown upon opening the window.
-    */
+     * Sets the input fields back to the information that was shown upon opening the window.
+     */
     private void undoChanges() {
-        if(this.student.getAge() == -1) {
+        if (this.student.getAge() == -1) {
             this.view.getIdField().setText("");
             this.view.getGroupComboBox().getSelectionModel().clearSelection();
             this.view.getNameField().setText("");
@@ -85,5 +87,10 @@ public class StudentController extends PersonController implements Controller {
             this.view.getAgeField().setText(this.student.getAge() + "");
             this.view.getGenderField().setText(this.student.getGender());
         }
+    }
+
+    @Override
+    public void onClose(EventHandler<WindowEvent> eventEventHandler) {
+        this.view.getStage().setOnHidden(eventEventHandler);
     }
 }

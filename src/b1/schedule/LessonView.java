@@ -15,36 +15,40 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class LessonView extends AppointmentViewAbstract{
+public class LessonView extends AppointmentViewAbstract {
 
     private Stage stage;
     private ComboBox<Group> groupComboBox;
     private ComboBox<Teacher> teacherComboBox;
     private Button saveButton;
     private Button cancelButton;
+    private Button deleteButton;
 
     public LessonView() {
         super();
     }
 
     public Stage getStage() {
-        if(this.stage == null) {
+        if (this.stage == null) {
             this.stage = new Stage();
             this.createStage();
         }
         return this.stage;
     }
 
-    private void createStage(){
+    private void createStage() {
         VBox vBox = new VBox();
         this.saveButton = new Button("Opslaan");
         this.cancelButton = new Button("Annuleren");
+        this.deleteButton = new Button("Verwijderen");
         this.saveButton.setPrefHeight(Setting.ADD_MENU_BUTTON_HEIGHT);
         this.cancelButton.setPrefHeight(Setting.ADD_MENU_BUTTON_HEIGHT);
+        this.deleteButton.setPrefHeight(Setting.ADD_MENU_BUTTON_HEIGHT);
         this.teacherComboBox = new ComboBox<>();
         this.groupComboBox = new ComboBox<>();
 
         HBox buttonsBox = new HBox();
+        buttonsBox.getChildren().add(this.deleteButton);
         buttonsBox.getChildren().add(this.cancelButton);
         buttonsBox.getChildren().add(this.saveButton);
 
@@ -83,5 +87,9 @@ public class LessonView extends AppointmentViewAbstract{
 
     public ComboBox<Teacher> getTeacherComboBox() {
         return this.teacherComboBox;
+    }
+
+    public Button getDeleteButton() {
+        return this.deleteButton;
     }
 }

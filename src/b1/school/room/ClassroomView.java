@@ -32,9 +32,8 @@ public class ClassroomView implements View {
     }
 
     @Override
-    public Stage getStage(){
-        if(this.stage == null)
-        {
+    public Stage getStage() {
+        if (this.stage == null) {
             this.createStage();
         }
         return this.stage;

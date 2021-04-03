@@ -11,9 +11,9 @@ public abstract class PersonController {
     boolean personIsValid(PersonView view) {
         try {
             return !(view.getNameField().getText().isEmpty() || view.getAgeField().getText().isEmpty() ||
-                    view.getGenderField().getText().isEmpty()  || Integer.parseInt(view.getAgeField().getText()) < 1);
+                    view.getGenderField().getText().isEmpty() || Integer.parseInt(view.getAgeField().getText()) < 1);
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             return false;
         }
     }

@@ -8,9 +8,9 @@ import b1.school.person.*;
 import b1.schedule.ScheduleController;
 import b1.school.School;
 import b1.school.room.ClassroomController;
+import b1.simulation.Simulation;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
@@ -24,10 +24,9 @@ public class MainController implements Controller {
     private boolean showingSchedule = true;
 
     private ScheduleController scheduleController;
-    private Node simulationNode;
+    private Simulation simulation;
 
     public MainController() {
-        this.simulationNode = new Button("test");
     }
 
     @Override
@@ -40,14 +39,18 @@ public class MainController implements Controller {
         this.view = new MainView();
         Stage stage = this.view.getStage();
         this.school = SchoolFile.getSchool();
+        this.simulation = new Simulation();
+        this.simulation.createStage();
 
         this.view.getGoToScheduleButton().setOnAction(e -> this.onGoToScheduleClick());
         this.view.getGoToSimulationButton().setOnAction(e -> this.onGoToSimulationClick());
+        this.view.getReloadSimulationButton().setOnAction(this::onReloadSimulationButtonClick);
         this.view.getSchoolEditButton().setOnAction(e -> this.onSchoolEditButtonClick());
 
         if (this.showingSchedule) {
             this.scheduleController = new ScheduleController();
             this.view.setScheduleControllerNode(this.scheduleController.getNode());
+            this.view.setSimulationNode(this.simulation.getPane());
             this.fillAddMenuList(this.view.getAddList(), stage);
             this.view.getAddList().setOnMouseClicked(this::onAddListClicked);
         }
@@ -57,12 +60,12 @@ public class MainController implements Controller {
     }
 
     private void fillAddMenuList(ListView<AddMenuItem> addMenu, Stage stage) {
-        addMenu.getItems().add(new AddMenuItem(GroupController.class, "Groep", stage));
-        addMenu.getItems().add(new AddMenuItem(ClassroomController.class, "Klaslokaal", stage));
-        addMenu.getItems().add(new AddMenuItem(StudentController.class, "Student", stage));
-        addMenu.getItems().add(new AddMenuItem(TeacherController.class, "Docent", stage));
-        addMenu.getItems().add(new AddMenuItem(LessonController.class, "Les", stage));
-
+        addMenu.getItems().add(new AddMenuItem(GroupController.class, "Groep", stage).onClose(this::onAddMenuItemClose));
+        addMenu.getItems().add(new AddMenuItem(ClassroomController.class, "Klaslokaal", stage).onClose(this::onAddMenuItemClose));
+        addMenu.getItems().add(new AddMenuItem(StudentController.class, "Student", stage).onClose(this::onAddMenuItemClose));
+        addMenu.getItems().add(new AddMenuItem(TeacherController.class, "Docent", stage).onClose(this::onAddMenuItemClose));
+        addMenu.getItems().add(new AddMenuItem(LessonController.class, "Les", stage).onClose(this::onAddMenuItemClose));
+        addMenu.getItems().add(new AddMenuItem(StudentGeneratorController.class, "Genereer Studenten", stage).onClose(this::onAddMenuItemClose));
     }
 
     private void onAddListClicked(MouseEvent event) {
@@ -81,7 +84,16 @@ public class MainController implements Controller {
 
     private void onGoToSimulationClick() {
         this.showingSchedule = false;
-        this.view.setSimulationNode(this.simulationNode);
+        //this.stage.close();
+        this.view.setSimulationNode(this.simulation.getPane());
+        //this.show();
+    }
+
+    private void onReloadSimulationButtonClick(ActionEvent event) {
+        if (this.simulation == null) {
+            return;
+        }
+        this.simulation.reloadSimulation();
     }
 
     private void onSchoolEditButtonClick() {
@@ -91,5 +103,9 @@ public class MainController implements Controller {
 
     public void onClose(EventHandler<WindowEvent> eventEventHandler) {
         this.view.getStage().setOnHidden(eventEventHandler);
+    }
+
+    private void onAddMenuItemClose(WindowEvent event) {
+        this.scheduleController.refresh();
     }
 }
