@@ -10,9 +10,7 @@ import java.awt.geom.*;
 import java.util.ArrayList;
 
 public class TeacherNPC extends NPC {
-    private Camera camera;
-
-    public TeacherNPC(Point2D position, double angle, Teacher teacher, WalkableLayer walkableLayer, Camera camera) {
+    public TeacherNPC(Point2D position, double angle, Teacher teacher, WalkableLayer walkableLayer) {
         super(position, angle, teacher, walkableLayer);
         this.hitBoxSize = 32;
         this.frame = Math.random() * 3;
@@ -20,7 +18,6 @@ public class TeacherNPC extends NPC {
         this.speed = 75;
         this.rotationSpeed = 0.1;
         this.getSprites();
-        this.camera = camera;
     }
 
     /*
@@ -50,7 +47,7 @@ public class TeacherNPC extends NPC {
      * @param mousePos current mouse position.
      */
     @Override
-    public void openPerson(Point2D mousePos) {
+    public void openPerson(Point2D mousePos, Camera camera) {
         Point2D correction = new Point2D.Double(mousePos.getX() - 600 / camera.getZoom(),
                 mousePos.getY() - 400 / camera.getZoom());
         if (this.position.distanceSq(correction) < this.hitBoxSize * this.hitBoxSize) {
