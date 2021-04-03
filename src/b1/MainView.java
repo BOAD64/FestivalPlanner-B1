@@ -5,7 +5,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
@@ -34,6 +33,7 @@ public class MainView implements View {
     private Button goToScheduleButton;
     private Button goToSimulationButton;
     private Button schoolEditButton;
+    private Button reloadSimulationButton;
 
 
     public MainView() {
@@ -53,6 +53,10 @@ public class MainView implements View {
 
     public Button getSchoolEditButton() {
         return this.schoolEditButton;
+    }
+
+    public Button getReloadSimulationButton() {
+        return reloadSimulationButton;
     }
 
     void setSimulationNode(Node simulationNode) {
@@ -196,15 +200,17 @@ public class MainView implements View {
     private void initButtons() {
         this.goToScheduleButton = new Button("Rooster");
         this.goToSimulationButton = new Button("Simulatie");
+        this.reloadSimulationButton = new Button("Herlaad simulatie");
         this.schoolEditButton = new Button("Verander School");
 
         short buttonWidth = 130;
         short buttonHeight = 50;
         this.goToScheduleButton.setPrefSize(buttonWidth, buttonHeight);
         this.goToSimulationButton.setPrefSize(buttonWidth, buttonHeight);
+        this.reloadSimulationButton.setPrefSize(buttonWidth, buttonHeight);
         this.schoolEditButton.setPrefSize(buttonWidth, buttonHeight);
 
-        this.optionMenuVBox.getChildren().addAll(this.goToScheduleButton, this.goToSimulationButton, this.schoolEditButton);
+        this.optionMenuVBox.getChildren().addAll(this.goToScheduleButton, this.goToSimulationButton, this.reloadSimulationButton, this.schoolEditButton);
         this.optionMenuVBox.setPadding(new Insets(15, 5, 10, 10));
         this.optionMenuVBox.setSpacing(15);
     }

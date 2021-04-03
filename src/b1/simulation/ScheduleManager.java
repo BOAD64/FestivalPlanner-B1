@@ -47,6 +47,12 @@ public class ScheduleManager implements CallbackNPC
     }
 
     public void update(double deltaTime) {
+
+        if(this.appointmentsSortedByBeginTime.size() == 0)
+        {
+            return;
+        }
+
         LocalTime currentTime = this.clock.getCurrentTime();
 
         if (currentTime.getHour() == this.lastHour && currentTime.getMinute() == this.lastMinute) {

@@ -9,6 +9,7 @@ import b1.schedule.ScheduleController;
 import b1.school.School;
 import b1.school.room.ClassroomController;
 import b1.simulation.Simulation;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -46,6 +47,7 @@ public class MainController implements Controller
 
         this.view.getGoToScheduleButton().setOnAction(e -> this.onGoToScheduleClick());
         this.view.getGoToSimulationButton().setOnAction(e -> this.onGoToSimulationClick());
+        this.view.getReloadSimulationButton().setOnAction(this::onReloadSimulationButtonClick);
         this.view.getSchoolEditButton().setOnAction(e -> this.onSchoolEditButtonClick());
 
         if (this.showingSchedule) {
@@ -88,6 +90,15 @@ public class MainController implements Controller
         //this.stage.close();
         this.view.setSimulationNode(this.simulation.getPane());
         //this.show();
+    }
+
+    private void onReloadSimulationButtonClick(ActionEvent event)
+    {
+        if(this.simulation == null)
+        {
+            return;
+        }
+        this.simulation.reloadSimulation();
     }
 
     private void onSchoolEditButtonClick() {

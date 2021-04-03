@@ -42,6 +42,10 @@ public class Clock {
         return this.currentTime;
     }
 
+    public void setCurrentTime(LocalTime currentTime) {
+        this.currentTime = currentTime;
+    }
+
     /**
      * gets the new Delta time
      * used to apply speed multiplier to delta time in simulation class

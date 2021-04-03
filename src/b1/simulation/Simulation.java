@@ -27,7 +27,6 @@ import javafx.scene.layout.*;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 import java.time.LocalTime;
 import java.awt.geom.AffineTransform;
@@ -146,7 +145,8 @@ public class Simulation
 
         });
         canvas.setOnMouseClicked(e -> {
-            if (e.getButton() == MouseButton.SECONDARY)CheckIfNPCclicked(e);
+            if (e.getButton() == MouseButton.SECONDARY)
+                CheckIfNPClicked(e);
         });
 
         //add keyboard functionality:
@@ -213,7 +213,16 @@ public class Simulation
         StackPane.setAlignment(zoomButtons, Pos.TOP_RIGHT);
     }
 
-    private void CheckIfNPCclicked(MouseEvent e) {
+    public void reloadSimulation()
+    {
+        this.NPCs.clear();
+        this.addNPCs();
+        this.clock.setCurrentTime(LocalTime.of(8, 0));
+        this.scheduleManager = new ScheduleManager(this.school.getSchedule(), this.clock, this.NPCs, this.pathfinding.getTargets());
+        this.scheduleManager.init();
+    }
+
+    private void CheckIfNPClicked(MouseEvent e) {
         try {
             this.mousePos = camera.getTransform().inverseTransform(new Point2D.Double(e.getX(), e.getY()), null);
         }
