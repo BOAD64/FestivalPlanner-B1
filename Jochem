@@ -384,6 +384,7 @@ configuratietaal. Dit wil zeggen dat er bestanden in JSON
 worden geschreven die door de computer kunnen worden
 aangewend om ervoor te zorgen dat er een goede
 samenwerking is tussen verschillende componenten software.
+Onder andere minecraft gebruikt JSON hiervoor.
 
 De belangrijkste reden waarom (denk ik) JSON wordt gebruikt
 is omdat JSON bestanden compact blijven en dus met weinig
