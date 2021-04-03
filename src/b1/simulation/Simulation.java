@@ -248,6 +248,7 @@ public class Simulation
 
         AffineTransform originalTransform = graphics.getTransform();
         graphics.setTransform(camera.getTransform());
+        graphics.translate(600 / camera.getZoom(), 400 / camera.getZoom());
 
         //with camera
         {
