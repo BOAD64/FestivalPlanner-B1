@@ -5,20 +5,23 @@ import com.sun.istack.internal.NotNull;
 import java.awt.*;
 import java.util.*;
 
-public class Target
-{
+public class Target {
     private Point position;
+    private int width;
+    private int height;
     private int[][] distanceMap;
 
-    public Target(Point position) {
+    public Target(Point position, int width, int height) {
         this.position = position;
+        this.width = width;
+        this.height = height;
     }
 
     public void build(WalkableLayer layer) {
         this.distanceMap = new int[layer.getWidth()][layer.getHeight()];
-        for (int i = 0; i < this.distanceMap.length; i++) {
+        for(int i = 0; i < this.distanceMap.length; i++) {
             this.distanceMap[i] = new int[layer.getHeight()];
-            for (int j = 0; j < this.distanceMap[i].length; j++) {
+            for(int j = 0; j < this.distanceMap[i].length; j++) {
                 this.distanceMap[i][j] = 99999;
             }
         }
@@ -34,20 +37,19 @@ public class Target
 
         Point[] offsets = {new Point(1, 0), new Point(-1, 0), new Point(0, 1), new Point(0, -1)};
 
-        while (!queue.isEmpty()) {
+        while(!queue.isEmpty()) {
             Point current = queue.remove();
 
-            for (Point offset : offsets) {
+            for(Point offset : offsets) {
                 Point point = new Point(current.x + offset.x, current.y + offset.y);
-                if (point.x < 0 || point.x > layer.getWidth() - 1 || point.y < 0 || point.y > layer.getHeight() - 1) {
+                if(point.x < 0 || point.x > layer.getWidth() - 1 || point.y < 0 || point.y > layer.getHeight() - 1) {
                     continue;
                 }
-                if (visitedPoints.contains(point)) {
+                if(visitedPoints.contains(point)) {
                     continue;
                 }
 
-                if(!layer.isWalkable(point.x, point.y))
-                {
+                if(!layer.isWalkable(point.x, point.y)) {
                     continue;
                 }
 
@@ -60,12 +62,12 @@ public class Target
 
     public Point getDirection(Point point) {
         Point[] offsets = {new Point(1, 0), new Point(-1, 0), new Point(0, 1), new Point(0, -1)};
-        Point next = new Point(0,0);
-        for (Point offset : offsets) {
-            if (point.x + offset.x < 0 || point.y + offset.y < 0 || point.x+offset.x >= this.distanceMap.length || point.y+offset.y >= this.distanceMap[0].length) {
+        Point next = new Point(0, 0);
+        for(Point offset : offsets) {
+            if(point.x + offset.x < 0 || point.y + offset.y < 0 || point.x + offset.x >= this.distanceMap.length || point.y + offset.y >= this.distanceMap[0].length) {
                 continue;
             }
-            if (this.distanceMap[point.x + offset.x][point.y + offset.y] < this.distanceMap[point.x][point.y]) {
+            if(this.distanceMap[point.x + offset.x][point.y + offset.y] < this.distanceMap[point.x][point.y]) {
                 next = offset;
 
                 if(Math.random() > 0.7) {
@@ -77,8 +79,7 @@ public class Target
     }
 
     public int getDistance(Point point) {
-        if(point.x < 0 || point.y < 0)
-        {
+        if(point.x < 0 || point.y < 0) {
             return 0;
         }
         if(point.x >= this.distanceMap.length || point.y >= this.distanceMap[0].length) {
@@ -87,17 +88,21 @@ public class Target
         return this.distanceMap[point.x][point.y];
     }
 
+    public boolean hasArrived(Point point) {
+        return this.position.x <= point.x && this.position.x + this.width >= point.x &&
+                this.position.y <= point.y && this.position.y + this.height >= point.y;
+    }
+
     public int[][] getDistanceMap() {
         return distanceMap;
     }
 
     public void draw(Graphics graphics) {
-        for (int i = 0; i < this.distanceMap.length; i++) {
-            for (int j = 0; j < this.distanceMap[i].length; j++) {
+        for(int i = 0; i < this.distanceMap.length; i++) {
+            for(int j = 0; j < this.distanceMap[i].length; j++) {
                 graphics.setFont(graphics.getFont().deriveFont(10.0f));
                 graphics.setColor(Color.GREEN);
-                if(this.distanceMap[i][j] != 99999)
-                {
+                if(this.distanceMap[i][j] != 99999) {
                     graphics.drawString(Integer.toString(this.distanceMap[i][j]), i * 32 + 16, j * 32 + 16);
                 }
             }
@@ -108,10 +113,8 @@ public class Target
         return this.position;
     }
 
-    private Point findNearestFreePosition(WalkableLayer walkableLayer)
-    {
-        if(walkableLayer.isWalkable(this.position.x, this.position.y))
-        {
+    private Point findNearestFreePosition(WalkableLayer walkableLayer) {
+        if(walkableLayer.isWalkable(this.position.x, this.position.y)) {
             return this.position;
         }
 
@@ -123,20 +126,19 @@ public class Target
 
         Point[] offsets = {new Point(1, 0), new Point(-1, 0), new Point(0, 1), new Point(0, -1)};
 
-        while (!queue.isEmpty()) {
+        while(!queue.isEmpty()) {
             Point current = queue.remove();
 
-            for (Point offset : offsets) {
+            for(Point offset : offsets) {
                 Point point = new Point(current.x + offset.x, current.y + offset.y);
-                if (point.x < 0 || point.x > walkableLayer.getWidth() - 1 || point.y < 0 || point.y > walkableLayer.getHeight() - 1) {
+                if(point.x < 0 || point.x > walkableLayer.getWidth() - 1 || point.y < 0 || point.y > walkableLayer.getHeight() - 1) {
                     continue;
                 }
-                if (visitedPoints.contains(point)) {
+                if(visitedPoints.contains(point)) {
                     continue;
                 }
 
-                if(walkableLayer.isWalkable(point.x, point.y))
-                {
+                if(walkableLayer.isWalkable(point.x, point.y)) {
                     return point;
                 }
 

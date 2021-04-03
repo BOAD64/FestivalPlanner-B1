@@ -6,12 +6,13 @@ import b1.schedule.Schedule;
 import b1.school.person.Person;
 import b1.school.person.Student;
 import b1.school.person.Teacher;
+import b1.simulation.NPC.CallbackNPC;
 import b1.simulation.NPC.NPC;
 
 import java.time.LocalTime;
 import java.util.*;
 
-public class ScheduleManager {
+public class ScheduleManager implements CallbackNPC {
     private ArrayList<AppointmentAbstract> appointmentsSortedByBeginTime;
     private ArrayList<AppointmentAbstract> appointmentsSortedByEndTime;
     private int nextStartingAppointmentIndex;
@@ -32,6 +33,7 @@ public class ScheduleManager {
 
         for(NPC npc : npcs) {
             this.npcs.put(npc.getPerson(), npc);
+            npc.setCallbackNPC(this);
         }
     }
 
@@ -85,6 +87,13 @@ public class ScheduleManager {
 
         this.lastHour = currentTime.getHour();
         this.lastMinute = currentTime.getMinute();
+    }
+
+    @Override
+    public void hasArrived(NPC npc, Target target) {
+        if(target.equals(this.targets.get("LoadingZone"))) {
+            npc.setIsHome(true);
+        }
     }
 
     private void summonNPCS(ArrayList<AppointmentAbstract> appointments) {
