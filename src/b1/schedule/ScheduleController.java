@@ -9,6 +9,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -134,5 +135,10 @@ public class ScheduleController implements Controller {
             this.setSorter(appointmentSorter);
             this.refresh();
         }
+    }
+
+    @Override
+    public void onClose(EventHandler<WindowEvent> eventEventHandler) {
+        this.view.getStage().setOnHidden(eventEventHandler);
     }
 }

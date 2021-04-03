@@ -10,8 +10,10 @@ import b1.school.group.Group;
 import b1.school.group.GroupController;
 import b1.school.person.Student;
 import b1.school.person.Teacher;
+import javafx.event.EventHandler;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.util.ArrayList;
 
@@ -153,5 +155,10 @@ public class SchoolController implements Controller {
 
     private void onDeleteTeacherButtonClicked() {
         this.schoolView.getTeacherListView().getItems().remove(this.schoolView.getTeacherListView().getSelectionModel().getSelectedItem());
+    }
+
+    @Override
+    public void onClose(EventHandler<WindowEvent> eventEventHandler) {
+        this.schoolView.getStage().setOnHidden(eventEventHandler);
     }
 }

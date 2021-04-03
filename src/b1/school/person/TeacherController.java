@@ -3,8 +3,10 @@ package b1.school.person;
 import b1.Controller;
 import b1.ErrorMessage;
 import b1.io.SchoolFile;
+import javafx.event.EventHandler;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class TeacherController extends PersonController implements Controller {
 
@@ -79,5 +81,10 @@ public class TeacherController extends PersonController implements Controller {
             this.view.getAgeField().setText(this.teacher.getAge() + "");
             this.view.getGenderField().setText(this.teacher.getGender());
         }
+    }
+
+    @Override
+    public void onClose(EventHandler<WindowEvent> eventEventHandler) {
+        this.view.getStage().setOnHidden(eventEventHandler);
     }
 }
