@@ -11,16 +11,13 @@ import b1.school.room.ClassroomController;
 import b1.simulation.Simulation;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-public class MainController implements Controller
-{
+public class MainController implements Controller {
 
     private MainView view;
     private School school;
@@ -92,10 +89,8 @@ public class MainController implements Controller
         //this.show();
     }
 
-    private void onReloadSimulationButtonClick(ActionEvent event)
-    {
-        if(this.simulation == null)
-        {
+    private void onReloadSimulationButtonClick(ActionEvent event) {
+        if (this.simulation == null) {
             return;
         }
         this.simulation.reloadSimulation();

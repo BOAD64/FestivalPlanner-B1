@@ -11,8 +11,7 @@ import b1.school.room.Room;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class School implements Serializable
-{
+public class School implements Serializable {
 
     private String schoolName;
     private ArrayList<Room> rooms;
@@ -52,11 +51,9 @@ public class School implements Serializable
 
     public ArrayList<Classroom> getClassrooms() {
         ArrayList<Classroom> result = new ArrayList<>();
-        for(Room room : this.rooms)
-        {
-            if(room instanceof Classroom)
-            {
-                result.add((Classroom)room);
+        for (Room room : this.rooms) {
+            if (room instanceof Classroom) {
+                result.add((Classroom) room);
             }
         }
 
@@ -87,7 +84,7 @@ public class School implements Serializable
         ArrayList<Student> students = new ArrayList<>();
         for (Person person : this.persons) {
             if (person instanceof Student) {
-                students.add((Student)person);
+                students.add((Student) person);
             }
         }
         return students;
@@ -111,7 +108,7 @@ public class School implements Serializable
         ArrayList<Teacher> teachers = new ArrayList<>();
         for (Person person : this.persons) {
             if (person instanceof Teacher) {
-                teachers.add((Teacher)person);
+                teachers.add((Teacher) person);
             }
         }
         return teachers;
@@ -148,7 +145,7 @@ public class School implements Serializable
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return this.schoolName;
     }
 }

@@ -8,8 +8,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Map
-{
+public class Map {
     private int width;
     private int height;
 
@@ -67,9 +66,7 @@ public class Map
                 if (layerObject.getString("name").equals("walkable")) {
                     layer = new WalkableLayer(tiles.toArray(new Tile[0]), layerObject.getString("name"), this.width, this.height, this.tileWidth, this.tileHeight);
                     this.walkableLayer = (WalkableLayer) layer;
-                }
-                else
-                {
+                } else {
                     layer = new Layer(tiles.toArray(new Tile[0]), layerObject.getString("name"), this.width, this.height, this.tileWidth, this.tileHeight);
                 }
                 layers.add(layer);

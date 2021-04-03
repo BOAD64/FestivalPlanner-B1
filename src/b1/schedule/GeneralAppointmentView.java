@@ -10,8 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class GeneralAppointmentView extends AppointmentViewAbstract
-{
+public class GeneralAppointmentView extends AppointmentViewAbstract {
     private Stage stage;
     private ListView<Person> participantsList;
     private Button saveButton;
@@ -25,7 +24,7 @@ public class GeneralAppointmentView extends AppointmentViewAbstract
     }
 
     public Stage getStage() {
-        if(this.stage == null) {
+        if (this.stage == null) {
             this.stage = new Stage();
             this.createStage();
         }
@@ -33,7 +32,7 @@ public class GeneralAppointmentView extends AppointmentViewAbstract
         return this.stage;
     }
 
-    private void createStage(){
+    private void createStage() {
         VBox vBox = new VBox();
         this.saveButton = new Button("Opslaan");
         this.cancelButton = new Button("Annuleren");

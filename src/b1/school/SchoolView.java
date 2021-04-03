@@ -52,7 +52,7 @@ public class SchoolView implements View {
         return this.stage;
     }
 
-    private void createStage(){
+    private void createStage() {
         BorderPane borderPane = new BorderPane();
         Label schoolNameLabel = new Label("Schoolnaam:");
         this.schoolNameField = new TextField(this.school.getSchoolName());
@@ -125,41 +125,41 @@ public class SchoolView implements View {
         this.stage.setMaxHeight(700);
     }
 
-    private void createListViews(){
+    private void createListViews() {
         this.createClassroomListView();
         this.createGroupListView();
         this.createStudentListView();
         this.createTeacherListView();
     }
 
-    public void createClassroomListView(){
+    public void createClassroomListView() {
         this.classroomListView = new ListView<>();
         this.classroomListView.setPrefHeight(200);
-        for (Classroom classroom : this.school.getClassrooms()){
+        for (Classroom classroom : this.school.getClassrooms()) {
             this.classroomListView.getItems().add(classroom);
         }
     }
 
-    public void createGroupListView(){
+    public void createGroupListView() {
         this.groupListView = new ListView<>();
         this.groupListView.setPrefHeight(200);
-        for (Group group : this.school.getGroups()){
+        for (Group group : this.school.getGroups()) {
             this.groupListView.getItems().add(group);
         }
     }
 
-    public void createStudentListView(){
+    public void createStudentListView() {
         this.studentListView = new ListView<>();
         this.studentListView.setPrefHeight(200);
-        for (Student student : this.school.getStudents()){
+        for (Student student : this.school.getStudents()) {
             this.studentListView.getItems().add(student);
         }
     }
 
-    public void createTeacherListView(){
+    public void createTeacherListView() {
         this.teacherListView = new ListView<>();
         this.teacherListView.setPrefHeight(200);
-        for (Teacher teacher : this.school.getTeachers()){
+        for (Teacher teacher : this.school.getTeachers()) {
             this.teacherListView.getItems().add(teacher);
         }
     }

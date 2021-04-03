@@ -1,15 +1,10 @@
 package b1.io;
 
-import javafx.scene.image.Image;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
 import java.net.URL;
 
-public class TilesetFile
-{
+public class TilesetFile {
 
     private static BufferedImage tileset;
     private static URL path;
@@ -21,11 +16,10 @@ public class TilesetFile
      */
     public static BufferedImage getTileset() {
         if (tileset == null) {
-            if(path != null) {
+            if (path != null) {
                 try {
                     tileset = ImageIO.read(path);
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

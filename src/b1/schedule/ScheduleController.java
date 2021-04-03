@@ -11,7 +11,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-import javax.swing.*;
 import java.util.ArrayList;
 
 public class ScheduleController implements Controller {
@@ -56,7 +55,7 @@ public class ScheduleController implements Controller {
      */
     public Node getNode() {
         this.view.setAppointments(this.sorter.sort(this.schedule));
-        if(this.view.getCanvas() == null) {
+        if (this.view.getCanvas() == null) {
             this.view.createStage();
         }
         this.view.getSorterComboBox().setItems(FXCollections.observableList(this.appointmentSorters()));
@@ -116,8 +115,7 @@ public class ScheduleController implements Controller {
         this.view.draw();
     }
 
-    private ArrayList<AppointmentSorter> appointmentSorters()
-    {
+    private ArrayList<AppointmentSorter> appointmentSorters() {
         ArrayList<AppointmentSorter> result = new ArrayList<>();
 
         result.add(new AppointmentOnGroupSorter());
@@ -128,10 +126,9 @@ public class ScheduleController implements Controller {
         return result;
     }
 
-    private void onSorterSelect(ActionEvent event)
-    {
+    private void onSorterSelect(ActionEvent event) {
         AppointmentSorter appointmentSorter = this.view.getSorterComboBox().getValue();
-        if(appointmentSorter!= null && !this.sorter.getClass().equals(appointmentSorter.getClass())) {
+        if (appointmentSorter != null && !this.sorter.getClass().equals(appointmentSorter.getClass())) {
             this.setSorter(appointmentSorter);
             this.refresh();
         }

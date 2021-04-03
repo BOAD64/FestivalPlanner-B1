@@ -24,21 +24,18 @@ public class Layer {
         this.tileHeight = tileHeight;
     }
 
-    public void draw(Graphics2D graphics, ArrayList<BufferedImage> images)
-    {
-        if(this.cacheImage == null)
-        {
-            this.cacheImage = new BufferedImage(this.width*this.tileWidth, this.height*this.tileHeight, BufferedImage.TYPE_INT_ARGB);
+    public void draw(Graphics2D graphics, ArrayList<BufferedImage> images) {
+        if (this.cacheImage == null) {
+            this.cacheImage = new BufferedImage(this.width * this.tileWidth, this.height * this.tileHeight, BufferedImage.TYPE_INT_ARGB);
             Graphics2D cacheGraphics = this.cacheImage.createGraphics();
-            for(Tile tile : this.tiles)
-            {
-                if(images.size() < tile.getTileSetIndex()-1) {
+            for (Tile tile : this.tiles) {
+                if (images.size() < tile.getTileSetIndex() - 1) {
                     continue;
                 }
                 cacheGraphics.drawImage(images.get(tile.getTileSetIndex()), AffineTransform.getTranslateInstance(tile.getX() * this.tileWidth, tile.getY() * this.tileHeight), null);
             }
         }
-        graphics.drawImage(this.cacheImage, new AffineTransform(),null);
+        graphics.drawImage(this.cacheImage, new AffineTransform(), null);
     }
 
     public String getName() {

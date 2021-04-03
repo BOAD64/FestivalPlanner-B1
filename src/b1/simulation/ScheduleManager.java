@@ -3,14 +3,13 @@ package b1.simulation;
 import b1.schedule.AppointmentAbstract;
 import b1.schedule.Schedule;
 import b1.school.person.Person;
-import b1.simulation.NPC.CallbackNPC;
-import b1.simulation.NPC.NPC;
+import b1.simulation.npc.CallbackNPC;
+import b1.simulation.npc.NPC;
 
 import java.time.LocalTime;
 import java.util.*;
 
-public class ScheduleManager implements CallbackNPC
-{
+public class ScheduleManager implements CallbackNPC {
     private ArrayList<AppointmentAbstract> appointmentsSortedByBeginTime;
     private ArrayList<AppointmentAbstract> appointmentsSortedByEndTime;
     private int lastStartedAppointmentIndex;
@@ -46,10 +45,14 @@ public class ScheduleManager implements CallbackNPC
         this.lastMinute = this.clock.getCurrentTime().getMinute();
     }
 
+    /**
+     * Checks whether NPC's have to go to a new position on the map. This new position can be an appointment, break, etc.
+     *
+     * @param deltaTime
+     */
     public void update(double deltaTime) {
 
-        if(this.appointmentsSortedByBeginTime.size() == 0)
-        {
+        if (this.appointmentsSortedByBeginTime.size() == 0) {
             return;
         }
 
@@ -76,8 +79,7 @@ public class ScheduleManager implements CallbackNPC
                 AppointmentAbstract appointment = this.appointmentsSortedByBeginTime.get(index);
                 if (this.isLocalDateTimeEqual(appointment.getStartTime(), currentTime)) {
                     appointmentsStartingNow.add(appointment);
-                }
-                else {
+                } else {
                     break;
                 }
                 this.lastStartedAppointmentIndex = index;
@@ -85,8 +87,7 @@ public class ScheduleManager implements CallbackNPC
 
             if (timeDirection == 1) {
                 this.summonNPCS(appointmentsStartingNow);
-            }
-            else {
+            } else {
                 this.dismiss(appointmentsStartingNow);
             }
         }
@@ -100,8 +101,7 @@ public class ScheduleManager implements CallbackNPC
                 AppointmentAbstract appointment = this.appointmentsSortedByEndTime.get(index);
                 if (this.isLocalDateTimeEqual(appointment.getEndTime(), currentTime)) {
                     appointmentsEndingNow.add(appointment);
-                }
-                else {
+                } else {
                     break;
                 }
                 this.lastEndedAppointmentIndex = index;
@@ -110,8 +110,7 @@ public class ScheduleManager implements CallbackNPC
 
             if (timeDirection == 1) {
                 this.dismiss(appointmentsEndingNow);
-            }
-            else {
+            } else {
                 this.summonNPCS(appointmentsEndingNow);
             }
         }

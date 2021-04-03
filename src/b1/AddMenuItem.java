@@ -35,7 +35,7 @@ public class AddMenuItem {
     public void onclick() {
         try {
             Controller controller = this.controller.getConstructor().newInstance();
-            if(this.eventEventHandler != null) {
+            if (this.eventEventHandler != null) {
                 controller.onClose(this.eventEventHandler);
             }
             controller.show(this.ownerStage);

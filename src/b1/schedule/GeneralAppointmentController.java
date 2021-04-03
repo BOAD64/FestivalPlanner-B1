@@ -33,6 +33,7 @@ public class GeneralAppointmentController extends AppointmentControllerAbstract 
 
     /**
      * The stage is built and EventHandlers are set for the elements on the stage from view.
+     *
      * @param ownerStage is the stage that called for this stage to open.
      */
     @Override

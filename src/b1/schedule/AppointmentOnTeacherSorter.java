@@ -2,13 +2,18 @@ package b1.schedule;
 
 import b1.io.SchoolFile;
 import b1.school.person.Teacher;
-import b1.school.room.Room;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class AppointmentOnTeacherSorter implements AppointmentSorter
-{
+public class AppointmentOnTeacherSorter implements AppointmentSorter {
+
+    /**
+     * This method sorts the appointments on Teacher
+     *
+     * @param schedule is the schedule that need its appointments sorted
+     * @return the sorted appointments
+     */
     @Override
     public HashMap<Object, ArrayList<AppointmentAbstract>> sort(Schedule schedule) {
         HashMap<Object, ArrayList<AppointmentAbstract>> result = new HashMap<>();
@@ -26,13 +31,11 @@ public class AppointmentOnTeacherSorter implements AppointmentSorter
             }
 
             ArrayList<AppointmentAbstract> appointments;
-            if(appointment.getClass().equals(Lesson.class)) {
+            if (appointment.getClass().equals(Lesson.class)) {
                 appointments = result.get(((Lesson) appointment).getTeacher());
-            }
-            else{
+            } else {
                 appointments = result.get("Rest");
-                if(appointments == null)
-                {
+                if (appointments == null) {
                     result.put("Rest", new ArrayList<>());
                     appointments = result.get("Rest");
                 }

@@ -1,10 +1,8 @@
 package b1.school.person;
 
 import java.io.Serializable;
-import java.util.Comparator;
 
-public abstract class Person  implements Serializable, Comparable<Person>
-{
+public abstract class Person implements Serializable, Comparable<Person> {
     String name;
     short age;
     String gender;
@@ -12,7 +10,7 @@ public abstract class Person  implements Serializable, Comparable<Person>
     Person(String name, short age, String gender) {
         this.name = name;
 
-        if(age > 0) {
+        if (age > 0) {
             this.age = age;
         } else {
             this.age = -1;
@@ -43,7 +41,7 @@ public abstract class Person  implements Serializable, Comparable<Person>
     }
 
     public void setAge(short age) {
-        if(age > 0) {
+        if (age > 0) {
             this.age = age;
         } else {
             this.age = -1;
@@ -66,15 +64,13 @@ public abstract class Person  implements Serializable, Comparable<Person>
     @Override
     public int compareTo(Person o) {
         int nameCompareResult = this.getName().compareTo(o.getName());
-        if(nameCompareResult != 0)
-        {
+        if (nameCompareResult != 0) {
             return nameCompareResult;
         }
 
         int ageCompareResult = Integer.compare(this.age, o.age);
 
-        if(ageCompareResult != 0)
-        {
+        if (ageCompareResult != 0) {
             return ageCompareResult;
         }
 

@@ -1,4 +1,4 @@
-package b1.simulation.NPC;
+package b1.simulation.npc;
 
 import b1.io.SpriteFile;
 import b1.school.person.Teacher;

@@ -6,8 +6,14 @@ import b1.school.room.Room;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class AppointmentOnRoomSorter implements AppointmentSorter
-{
+public class AppointmentOnRoomSorter implements AppointmentSorter {
+
+    /**
+     * This method sorts the appointments on Room
+     *
+     * @param schedule is the schedule that need its appointments sorted
+     * @return the sorted appointments
+     */
     @Override
     public HashMap<Object, ArrayList<AppointmentAbstract>> sort(Schedule schedule) {
         HashMap<Object, ArrayList<AppointmentAbstract>> result = new HashMap<>();
