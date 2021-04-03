@@ -23,10 +23,6 @@ public class StudentGenerator {
      * @param amount is the amount of names that are put into the ArrayList with random names.
      */
     public StudentGenerator(short amount) {
-        if (amount > 600){
-
-            throw new IllegalArgumentException();
-        }
         this.names = NameFile.readFile();
         for (int i = 0; i < amount; i +=  50){
             Group group = new Group("Groep " + i / 50);
