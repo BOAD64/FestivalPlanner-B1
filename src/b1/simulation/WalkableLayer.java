@@ -9,6 +9,7 @@ import java.util.Arrays;
 public class WalkableLayer extends Layer
 {
     private final boolean[][] walkable;
+    private BufferedImage cache;
     public WalkableLayer(Tile[] tiles, String name, int width, int height, int tileWidth, int tileHeight) {
         super(tiles, name, width, height, tileWidth, tileHeight);
 
@@ -26,19 +27,24 @@ public class WalkableLayer extends Layer
     @Override
     public void draw(Graphics2D graphics, ArrayList<BufferedImage> images)
     {
-//        super.draw(graphics, images);
-
-        Color walkableColor = new Color(0, 255, 0, 125);
-        Color notWalkableColor = new Color(255, 0, 0, 125);
-
-        for(int x = 0; x < this.walkable.length; x++)
+        if(this.cache == null)
         {
-            for(int y = 0; y < this.walkable[0].length; y++)
+            this.cache = new BufferedImage(super.getWidth()*super.getTileWidth(), super.getHeight()*super.getTileHeight(), BufferedImage.TYPE_INT_ARGB);
+            Graphics2D cacheGraphics = this.cache.createGraphics();
+
+            Color walkableColor = new Color(0, 255, 0, 125);
+            Color notWalkableColor = new Color(255, 0, 0, 125);
+
+            for(int x = 0; x < this.walkable.length; x++)
             {
-                graphics.setColor(this.walkable[x][y]?walkableColor:notWalkableColor);
-                graphics.fill(new Rectangle(x*32, y*32, 32, 32));
+                for(int y = 0; y < this.walkable[0].length; y++)
+                {
+                    cacheGraphics.setColor(this.walkable[x][y]?walkableColor:notWalkableColor);
+                    cacheGraphics.fill(new Rectangle(x*32, y*32, 32, 32));
+                }
             }
         }
+        graphics.drawImage(this.cache, 0, 0, null);
     }
 
 
