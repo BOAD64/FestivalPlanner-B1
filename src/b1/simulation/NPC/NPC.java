@@ -128,8 +128,7 @@ public abstract class NPC {
         } else {
             this.angle = targetAngle;
         }
-//        this.angle = targetAngle;
-        boolean hasCollision = checkCollision(deltaTime);
+        boolean hasCollision = checkCollision(deltaTime, 2);
 
         if (!hasCollision) {
             Point2D nextPos = new Point2D.Double(this.position.getX() + this.speed * Math.cos(this.angle) * deltaTime,
@@ -208,7 +207,7 @@ public abstract class NPC {
      * @param deltaTime declares animation speed
      * @return collision detected or not.
      */
-    private boolean checkCollision(double deltaTime) {
+    private boolean checkCollision(double deltaTime, int iterationAmount) {
         boolean hasCollision = false;
         for (NPC npc : this.collisionNPCs) {
             if (npc != this) {
@@ -227,31 +226,7 @@ public abstract class NPC {
                     npc.pushPositionBack(Math.atan2(
                             this.position.getY() - npc.getPosition().getY(),
                             this.position.getX() - npc.getPosition().getX()) + (Math.random())
-                    , deltaTime);
-                }
-            }
-        }
-        return hasCollision;
-    }
-
-    /*
-     * Same at the checkCollision but without the pushback code to make sure there wil be no stackOverflows
-     */
-    private boolean checkCollisionWithoutPushBack(double deltaTime) {
-        boolean hasCollision = false;
-        for (NPC npc : this.collisionNPCs) {
-            if (npc != this) {
-                double thereSize = npc.getHitBoxSize();
-                if (npc.getPosition().distanceSq(this.position) < this.hitBoxSize * thereSize + 10) {
-                    hasCollision = true;
-                    double angleToNPC = Math.atan2(
-                            npc.getPosition().getY() - this.position.getY(),
-                            npc.getPosition().getX() - this.position.getX());
-                    Point2D nextPos = new Point2D.Double(
-                            this.position.getX() - (this.speed / 2) * Math.cos(angleToNPC) * deltaTime,
-                            this.position.getY() - (this.speed / 2) * Math.sin(angleToNPC) * deltaTime);
-
-                    this.updatePosition(nextPos);
+                    , deltaTime, iterationAmount);
                 }
             }
         }
@@ -264,13 +239,40 @@ public abstract class NPC {
      * @param direction
      * @param deltaTime
      */
-    public void pushPositionBack(double direction, double deltaTime) {
+    public void pushPositionBack(double direction, double deltaTime, int iterationAmount) {
+        iterationAmount--;
         Point2D nextPos = new Point2D.Double(
                 this.position.getX() - (this.speed / 2) * Math.cos(direction) * deltaTime,
                 this.position.getY() - (this.speed / 2) * Math.sin(direction) * deltaTime);
         this.updatePosition(nextPos);
-        checkCollisionWithoutPushBack(deltaTime);
+        if (iterationAmount > 0) {
+            checkCollision(deltaTime, iterationAmount);
+        }
     }
+
+    /*
+     * Same at the checkCollision but without the pushback code to make sure there wil be no stackOverflows
+     */
+//    private boolean checkCollisionWithoutPushBack(double deltaTime) {
+//        boolean hasCollision = false;
+//        for (NPC npc : this.collisionNPCs) {
+//            if (npc != this) {
+//                double thereSize = npc.getHitBoxSize();
+//                if (npc.getPosition().distanceSq(this.position) < this.hitBoxSize * thereSize + 10) {
+//                    hasCollision = true;
+//                    double angleToNPC = Math.atan2(
+//                            npc.getPosition().getY() - this.position.getY(),
+//                            npc.getPosition().getX() - this.position.getX());
+//                    Point2D nextPos = new Point2D.Double(
+//                            this.position.getX() - (this.speed / 2) * Math.cos(angleToNPC) * deltaTime,
+//                            this.position.getY() - (this.speed / 2) * Math.sin(angleToNPC) * deltaTime);
+//
+//                    this.updatePosition(nextPos);
+//                }
+//            }
+//        }
+//        return hasCollision;
+//    }
 
     abstract public void openPerson(Point2D mousePos);
 
