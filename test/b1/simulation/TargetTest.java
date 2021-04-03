@@ -22,7 +22,7 @@ class TargetTest
                         new Tile(6,0, 242)
                 },
                 "WalkableLayer", 10, 10, 32, 32);
-        this.target = new Target(new Point(7, 3));
+        this.target = new Target(new Point(7, 3), 7, 8);
         this.target.build(walkableLayer);
     }
 
