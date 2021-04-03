@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 public class Lesson extends AppointmentAbstract
 {
-
     private Group group;
     private Teacher teacher;
 

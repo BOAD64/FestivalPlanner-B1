@@ -1,5 +1,8 @@
 package b1.schedule;
 
+import b1.school.person.Person;
+import b1.school.person.Teacher;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -12,6 +15,16 @@ public class Schedule implements Serializable {
 
     public ArrayList<AppointmentAbstract> getAppointments() {
         return this.appointments;
+    }
+
+    public ArrayList<Lesson> getLessons() {
+        ArrayList<Lesson> lessons = new ArrayList<>();
+        for (AppointmentAbstract lesson : this.appointments) {
+            if (lesson instanceof Lesson) {
+                lessons.add((Lesson) lesson);
+            }
+        }
+        return lessons;
     }
 
     public void addAppointment(AppointmentAbstract appointment) {
