@@ -3,14 +3,16 @@ package b1.simulation.NPC;
 import b1.io.SpriteFile;
 import b1.school.person.Student;
 import b1.school.person.StudentController;
+import b1.simulation.Camera;
 import b1.simulation.WalkableLayer;
 
 import java.awt.geom.*;
 import java.util.ArrayList;
 
 public class StudentNPC extends NPC {
+    private Camera camera;
 
-    public StudentNPC(Point2D position, double angle, Student student, WalkableLayer walkableLayer) {
+    public StudentNPC(Point2D position, double angle, Student student, WalkableLayer walkableLayer, Camera camera) {
         super(position, angle, student, walkableLayer);
         this.hitBoxSize = 32;
         this.frame = Math.random() * 3;
@@ -18,6 +20,7 @@ public class StudentNPC extends NPC {
         this.speed = 100;
         this.rotationSpeed = 0.1;
         this.getSprites();
+        this.camera = camera;
     }
 
     /*
@@ -66,7 +69,9 @@ public class StudentNPC extends NPC {
      */
     @Override
     public void openPerson(Point2D mousePos) {
-        if (this.position.distanceSq(mousePos) < this.hitBoxSize * this.hitBoxSize) {
+        Point2D correction = new Point2D.Double(mousePos.getX() - 600 / camera.getZoom(),
+                mousePos.getY() - 400 / camera.getZoom());
+        if (this.position.distanceSq(correction) < this.hitBoxSize * this.hitBoxSize) {
             StudentController studentController = new StudentController((Student) this.person);
             studentController.show();
         }
