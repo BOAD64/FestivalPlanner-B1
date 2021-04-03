@@ -6,6 +6,9 @@
   * [Week 5](#week-5)
   * [Week 6](#week-6)
   * [Week 7](#week-7)
+- [Stelling: In het bedrijfsleven wordt steeds meer in software gesimuleerd](#stelling--in-het-bedrijfsleven-wordt-steeds-meer-in-software-gesimuleerd)
+- [JSON in de praktijk](#json-in-de-praktijk)
+- [Bronnen](#bronnen)
 # Reflectie
 ## Week 3
 Deze week heb ik in de eerste plaats de appointmentview afgemaakt. Met deze appointmentview kun je lessen en andere afspraken in het systeem aanpassen of creëren. In het systeem hebben we onderscheid gemaakt tussen twee type appointments: lessen en normale afspraken. Om dit te realiseren hadden we tijdens het het ontwerpen twee klassen bedacht: appointment en lessons die overerfde van appointment. Bij het realiseren van deze klassen kwamen we er achter dat dit niet praktisch was. Qua data klopte die gedachten ook, maar qua view niet. In de lessonview kon je personen koppelen aan een les door een groep toe te voegen aan die les, waar de personen dan weer in zitten. Dit was bij de generalappointmentview niet het geval, hier moest je personen handmatig een voor een toevoegen. Achteraf gezien hadden we de oude overervings structuur wel kunnen behouden, maar de views niet moeten laten overerven. 
