@@ -19,6 +19,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.Button;
@@ -26,6 +27,7 @@ import javafx.scene.layout.*;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.time.LocalTime;
 import java.awt.geom.AffineTransform;
@@ -64,6 +66,10 @@ public class Simulation
         this.NPCs = new ArrayList<>();
         this.pathfinding = new Pathfinding(this.map);
 
+        //Uncomment to test NPCs
+        //addSingleStudentTestNPCs();
+        addNPCs();
+
         this.scheduleManager = new ScheduleManager(this.school.getSchedule(), this.clock, this.NPCs, this.pathfinding.getTargets());
         this.scheduleManager.init();
         this.mousePos = new Point2D.Double(500, 500);
@@ -73,7 +79,7 @@ public class Simulation
         TileObject loadingZone = this.map.getTileObject().get("LoadingZone");
         for (Student student : this.school.getStudents()) {
             StudentNPC studentNPC = new StudentNPC(new Point2D.Double(loadingZone.getLocation().getX() + 16 + Math.random() * (loadingZone.getWidth() - 32),
-                    loadingZone.getLocation().getY() + 16 + Math.random() * (loadingZone.getHeight() - 16)), 0, student, this.map.getWalkableLayer(), this.camera);
+                    loadingZone.getLocation().getY() + 16 + Math.random() * (loadingZone.getHeight() - 16)), 0, student, this.map.getWalkableLayer());
             studentNPC.setCollisionNPCS(this.NPCs);
             studentNPC.setStandardTarget(this.pathfinding.getTargets().get("StudentRoom"));
             studentNPC.sendToStandardTarget();
@@ -82,7 +88,7 @@ public class Simulation
         }
         for (Teacher teacher : this.school.getTeachers()) {
             TeacherNPC teacherNPC = new TeacherNPC(new Point2D.Double(loadingZone.getLocation().getX() + 16 + Math.random() * (loadingZone.getWidth() - 32),
-                    loadingZone.getLocation().getY() + 16 + Math.random() * (loadingZone.getHeight() - 16)), 0, teacher, this.map.getWalkableLayer(), this.camera);
+                    loadingZone.getLocation().getY() + 16 + Math.random() * (loadingZone.getHeight() - 16)), 0, teacher, this.map.getWalkableLayer());
             teacherNPC.setCollisionNPCS(this.NPCs);
             teacherNPC.setStandardTarget(this.pathfinding.getTargets().get("TeacherRoom"));
             teacherNPC.sendToStandardTarget();
@@ -92,7 +98,7 @@ public class Simulation
 
     //test only one student npc
     private void addSingleStudentTestNPCs() {
-        StudentNPC studentNPC = new StudentNPC(new Point2D.Double(200, 200), 0, new Student("testBoy", (short) 34, "Bird", (short) 1, new Group("Birdy Boys")), this.map.getWalkableLayer(), this.camera);
+        StudentNPC studentNPC = new StudentNPC(new Point2D.Double(200, 200), 0, new Student("testBoy", (short) 34, "Bird", (short) 1, new Group("Birdy Boys")), this.map.getWalkableLayer());
         studentNPC.setCollisionNPCS(this.NPCs);
         this.NPCs.add(studentNPC);
     }
@@ -114,10 +120,6 @@ public class Simulation
         FXGraphics2D g2d = new FXGraphics2D(canvas.getGraphicsContext2D());
         this.camera = new Camera(this.canvas, this::draw, g2d);
         draw(g2d);
-
-        //Uncomment to test NPCs
-        //addSingleStudentTestNPCs();
-        addNPCs();
 
         new AnimationTimer()
         {
@@ -143,7 +145,9 @@ public class Simulation
             }
 
         });
-        canvas.setOnMouseClicked(e -> CheckIfNPCclicked(e));
+        canvas.setOnMouseClicked(e -> {
+            if (e.getButton() == MouseButton.SECONDARY)CheckIfNPCclicked(e);
+        });
 
         //add keyboard functionality:
         //F3 shows debug
@@ -217,7 +221,7 @@ public class Simulation
             exeption.printStackTrace();
         }
         for (NPC npc : this.NPCs) {
-            npc.openPerson(this.mousePos);
+            npc.openPerson(this.mousePos, this.camera);
         }
     }
 
@@ -241,7 +245,13 @@ public class Simulation
             for (NPC npc : this.NPCs) {
                 npc.update(newDeltaTime);
             }
-            this.NPCs.sort((p1, p2) -> (int)(p1.getPosition().getY() - p2.getPosition().getY()));
+
+            //should not give an exception. yet it does
+            try {
+                this.NPCs.sort((p1, p2) -> (int)(p1.getPosition().getY() - p2.getPosition().getY()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

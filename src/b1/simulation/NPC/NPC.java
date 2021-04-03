@@ -1,6 +1,7 @@
 package b1.simulation.NPC;
 
 import b1.school.person.Person;
+import b1.simulation.Camera;
 import b1.simulation.Target;
 import b1.simulation.WalkableLayer;
 import javafx.collections.FXCollections;
@@ -101,6 +102,7 @@ public abstract class NPC {
 
             this.hasArrived();
 
+            checkCollision(deltaTime, 2);
             //ToDo change visible?
             return;
         }
@@ -135,7 +137,7 @@ public abstract class NPC {
         } else {
             this.angle = targetAngle;
         }
-        boolean hasCollision = checkCollision(deltaTime, 2);
+        boolean hasCollision = checkCollision(deltaTime, 3);
 
         if(!hasCollision) {
             Point2D nextPos = new Point2D.Double(this.position.getX() + this.speed * Math.cos(this.angle) * deltaTime,
@@ -256,14 +258,32 @@ public abstract class NPC {
 
                     this.updatePosition(nextPos);
 
-                    npc.pushPositionBack(Math.atan2(
-                            this.position.getY() - npc.getPosition().getY(),
-                            this.position.getX() - npc.getPosition().getX()) + (Math.random())
-                    , deltaTime, iterationAmount);
+                    if (iterationAmount > 0) {
+                        npc.pushPositionBack(Math.atan2(
+                                this.position.getY() - npc.getPosition().getY(),
+                                this.position.getX() - npc.getPosition().getX()) + 3
+                                , deltaTime, iterationAmount);
+                    }
                 }
             }
         }
         return hasCollision;
+    }
+
+    /**
+     * Used only by the collision check.
+     * Pushes the NPC back in the direction given.
+     *
+     * @param direction
+     * @param deltaTime
+     */
+    public void pushPositionBack(double direction, double deltaTime, int iterationAmount) {
+        iterationAmount--;
+        Point2D nextPos = new Point2D.Double(
+                this.position.getX() - (this.speed / 2) * Math.cos(direction) * deltaTime,
+                this.position.getY() - (this.speed / 2) * Math.sin(direction) * deltaTime);
+        this.updatePosition(nextPos);
+        checkCollision(deltaTime, iterationAmount);
     }
 
     /*
@@ -290,49 +310,7 @@ public abstract class NPC {
         return hasCollision;
     }
 
-    /**
-     * Used only by the collision check.
-     * Pushes the NPC back in the direction given.
-     *
-     * @param direction
-     * @param deltaTime
-     */
-    public void pushPositionBack(double direction, double deltaTime, int iterationAmount) {
-        iterationAmount--;
-        Point2D nextPos = new Point2D.Double(
-                this.position.getX() - (this.speed / 2) * Math.cos(direction) * deltaTime,
-                this.position.getY() - (this.speed / 2) * Math.sin(direction) * deltaTime);
-        this.updatePosition(nextPos);
-        if (iterationAmount > 0) {
-            checkCollision(deltaTime, iterationAmount);
-        }
-    }
-
-    /*
-     * Same at the checkCollision but without the pushback code to make sure there wil be no stackOverflows
-     */
-//    private boolean checkCollisionWithoutPushBack(double deltaTime) {
-//        boolean hasCollision = false;
-//        for (NPC npc : this.collisionNPCs) {
-//            if (npc != this) {
-//                double thereSize = npc.getHitBoxSize();
-//                if (npc.getPosition().distanceSq(this.position) < this.hitBoxSize * thereSize + 10) {
-//                    hasCollision = true;
-//                    double angleToNPC = Math.atan2(
-//                            npc.getPosition().getY() - this.position.getY(),
-//                            npc.getPosition().getX() - this.position.getX());
-//                    Point2D nextPos = new Point2D.Double(
-//                            this.position.getX() - (this.speed / 2) * Math.cos(angleToNPC) * deltaTime,
-//                            this.position.getY() - (this.speed / 2) * Math.sin(angleToNPC) * deltaTime);
-//
-//                    this.updatePosition(nextPos);
-//                }
-//            }
-//        }
-//        return hasCollision;
-//    }
-
-    abstract public void openPerson(Point2D mousePos);
+    abstract public void openPerson(Point2D mousePos, Camera camera);
 
     @Override
     public boolean equals(Object obj) {
