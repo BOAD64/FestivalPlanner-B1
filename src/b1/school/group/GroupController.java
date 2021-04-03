@@ -5,8 +5,10 @@ import b1.io.SchoolFile;
 import b1.school.person.Student;
 import b1.school.person.StudentController;
 import javafx.collections.FXCollections;
+import javafx.event.EventHandler;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class GroupController implements Controller {
 
@@ -65,5 +67,10 @@ public class GroupController implements Controller {
         this.onApplyButtonClick();
         //exit window
         this.groupView.getStage().close();
+    }
+
+    @Override
+    public void onClose(EventHandler<WindowEvent> eventEventHandler) {
+        this.groupView.getStage().setOnHidden(eventEventHandler);
     }
 }

@@ -4,12 +4,22 @@ import java.io.Serializable;
 
 public abstract class Room implements Serializable
 {
+    private String name;
     private double width;
     private double length;
 
-    public Room(double width, double length) {
+    public Room(String name, double width, double length) {
+        this.name = name;
         this.width = width;
         this.length = length;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public double getWidth() {

@@ -3,8 +3,10 @@ package b1.school.room;
 import b1.Controller;
 import b1.ErrorMessage;
 import b1.io.SchoolFile;
+import javafx.event.EventHandler;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class ClassroomController implements Controller {
     private ClassroomView classroomView;
@@ -57,6 +59,11 @@ public class ClassroomController implements Controller {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void onClose(EventHandler<WindowEvent> eventEventHandler) {
+        this.classroomView.getStage().setOnHidden(eventEventHandler);
     }
 
 }

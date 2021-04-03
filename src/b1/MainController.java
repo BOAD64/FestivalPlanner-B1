@@ -9,6 +9,7 @@ import b1.schedule.ScheduleController;
 import b1.school.School;
 import b1.school.room.ClassroomController;
 import b1.simulation.Simulation;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -18,7 +19,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-public class MainController implements Controller {
+public class MainController implements Controller
+{
 
     private MainView view;
     private School school;
@@ -45,6 +47,7 @@ public class MainController implements Controller {
 
         this.view.getGoToScheduleButton().setOnAction(e -> this.onGoToScheduleClick());
         this.view.getGoToSimulationButton().setOnAction(e -> this.onGoToSimulationClick());
+        this.view.getReloadSimulationButton().setOnAction(this::onReloadSimulationButtonClick);
         this.view.getSchoolEditButton().setOnAction(e -> this.onSchoolEditButtonClick());
 
         if (this.showingSchedule) {
@@ -60,12 +63,12 @@ public class MainController implements Controller {
     }
 
     private void fillAddMenuList(ListView<AddMenuItem> addMenu, Stage stage) {
-        addMenu.getItems().add(new AddMenuItem(GroupController.class, "Groep", stage));
-        addMenu.getItems().add(new AddMenuItem(ClassroomController.class, "Klaslokaal", stage));
-        addMenu.getItems().add(new AddMenuItem(StudentController.class, "Student", stage));
-        addMenu.getItems().add(new AddMenuItem(TeacherController.class, "Docent", stage));
-        addMenu.getItems().add(new AddMenuItem(LessonController.class, "Les", stage));
-
+        addMenu.getItems().add(new AddMenuItem(GroupController.class, "Groep", stage).onClose(this::onAddMenuItemClose));
+        addMenu.getItems().add(new AddMenuItem(ClassroomController.class, "Klaslokaal", stage).onClose(this::onAddMenuItemClose));
+        addMenu.getItems().add(new AddMenuItem(StudentController.class, "Student", stage).onClose(this::onAddMenuItemClose));
+        addMenu.getItems().add(new AddMenuItem(TeacherController.class, "Docent", stage).onClose(this::onAddMenuItemClose));
+        addMenu.getItems().add(new AddMenuItem(LessonController.class, "Les", stage).onClose(this::onAddMenuItemClose));
+        addMenu.getItems().add(new AddMenuItem(StudentGeneratorController.class, "Genereer Studenten", stage).onClose(this::onAddMenuItemClose));
     }
 
     private void onAddListClicked(MouseEvent event) {
@@ -89,6 +92,15 @@ public class MainController implements Controller {
         //this.show();
     }
 
+    private void onReloadSimulationButtonClick(ActionEvent event)
+    {
+        if(this.simulation == null)
+        {
+            return;
+        }
+        this.simulation.reloadSimulation();
+    }
+
     private void onSchoolEditButtonClick() {
         SchoolController schoolController = new SchoolController(SchoolFile.getSchool());
         schoolController.show(this.view.getStage());
@@ -96,5 +108,9 @@ public class MainController implements Controller {
 
     public void onClose(EventHandler<WindowEvent> eventEventHandler) {
         this.view.getStage().setOnHidden(eventEventHandler);
+    }
+
+    private void onAddMenuItemClose(WindowEvent event) {
+        this.scheduleController.refresh();
     }
 }
