@@ -3,15 +3,15 @@ Studentnummer: 2167072
 <br/>Groep: B1
 
 # Inhoud
-- [Inleiding](#inleiding)
-- [Algemeen](#algemeen)
-- [Week 3](#week-3)
-- [Week 4](#week-4)
-- [Week 5](#week-5)
-- [Week 6](#week-6)
-- [Week 7](#week-7)
-- [Conclusie](#conclusie)
-- [JSON applicaties](#JSON-applicaties)
+* [Inleiding](#inleiding)
+* [Algemeen](#algemeen)
+* [Week 3](#week-3)
+* [Week 4](#week-4)
+* [Week 5](#week-5)
+* [Week 6](#week-6)
+* [Week 7](#week-7)
+* [Conclusie](#conclusie)
+* [JSON applicaties](#JSON-applicaties)
 
 
 ## Inleiding
