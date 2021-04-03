@@ -69,7 +69,7 @@ public class Simulation
         //Uncomment to test NPCs
         //addSingleStudentTestNPCs();
         addNPCs();
-        
+
         this.scheduleManager = new ScheduleManager(this.school.getSchedule(), this.clock, this.NPCs, this.pathfinding.getTargets());
         this.scheduleManager.init();
         this.mousePos = new Point2D.Double(500, 500);

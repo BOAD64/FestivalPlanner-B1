@@ -102,7 +102,7 @@ public abstract class NPC {
 
             this.hasArrived();
 
-            checkCollision(deltaTime, 1);
+            checkCollision(deltaTime, 2);
             //ToDo change visible?
             return;
         }
@@ -137,7 +137,7 @@ public abstract class NPC {
         } else {
             this.angle = targetAngle;
         }
-        boolean hasCollision = checkCollision(deltaTime, 1);
+        boolean hasCollision = checkCollision(deltaTime, 3);
 
         if(!hasCollision) {
             Point2D nextPos = new Point2D.Double(this.position.getX() + this.speed * Math.cos(this.angle) * deltaTime,
