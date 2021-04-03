@@ -6,7 +6,6 @@ import b1.io.SchoolFile;
 import b1.io.TilesetFile;
 import b1.school.School;
 import b1.school.group.Group;
-import b1.school.person.Person;
 import b1.school.person.Student;
 import b1.school.person.Teacher;
 import b1.simulation.NPC.NPC;
@@ -63,10 +62,12 @@ public class Simulation
         this.speedValueField = new TextField("Snelheid: 1x");
         this.pauseButton = new Button("Pauze");
         this.NPCs = new ArrayList<>();
-        //test NPCs
-//        addTestNPCs();
         this.pathfinding = new Pathfinding(this.map);
+
+        //Uncomment to test NPCs
+        //addSingleStudentTestNPCs();
         addNPCs();
+
         this.scheduleManager = new ScheduleManager(this.school.getSchedule(), this.clock, this.NPCs, this.pathfinding.getTargets());
         this.scheduleManager.init();
         this.mousePos = new Point2D.Double(500, 500);
@@ -93,7 +94,8 @@ public class Simulation
         }
     }
 
-    private void addTestNPCs() {
+    //test only one student npc
+    private void addSingleStudentTestNPCs() {
         StudentNPC studentNPC = new StudentNPC(new Point2D.Double(200, 200), 0, new Student("testBoy", (short) 34, "Bird", (short) 1, new Group("Birdy Boys")), this.map.getWalkableLayer());
         studentNPC.setCollisionNPCS(this.NPCs);
         this.NPCs.add(studentNPC);
