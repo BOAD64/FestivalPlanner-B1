@@ -360,7 +360,7 @@ Als je eenmaal een goed werkend prototype van een product wilt hebben, dan moet 
 Dit zijn een aantal voorbeelden waarbij simulaties in het bedrijfsleven ideaal zijn. Simulaties zijn een zeer goedkoop alternatief. Bovendien kun je met een simulatie makkelijk veel verschillende situaties testen. Daarnaast kun je met simulaties makkelijk situaties simuleren die in het echt weinig voorkomen of lastig in het echt te simuleren zijn. Daarom denk ik dat er in de toekomst meer en meer gesimuleerd gaat worden in het bedrijfsleven.
 
 # JSON in de praktijk
-Json is een dataformaat dat in deze dagen veel gebruikt wordt om in digitale communictaie data in een voor mensen en computers een makkelijk formaat over te sturen. Bovendien wordt JSON ook wel gebruikt voor het opslaan van data of van instellingen. Het JSON-formaat presenteert zich als een vervanging van het xml-formaat. De meest gebruikte plek waar JSON wordt gebruikt, is in ajax calls en api calls. De reden dat JSON vaak gebruikt wordt is dat JSON een licht gewicht en simppele manier is van formateren van data. Dit is ideaal voor snelle stateless communicaties tussen computers. 
+Json is een dataformaat dat in deze dagen veel gebruikt wordt om in digitale communictaie data in een voor mensen en computers een makkelijk formaat over te sturen. Bovendien wordt JSON ook wel gebruikt voor het opslaan van data of van instellingen. Het JSON-formaat presenteert zich als een vervanging van het xml-formaat. De meest gebruikte plek waar JSON wordt gebruikt, is in ajax calls en api calls. De reden dat JSON vaak gebruikt wordt is dat JSON een licht gewicht en simppele manier is van formateren van data. Dit is ideaal voor snelle stateless communicaties tussen computers. Bovendien kent JSON, integenstelling tot xml, type-safety, wat voor data altijd een groot pluspunt is. 
 
 Voorbeelden van software die JSON gebruiken.
 * OBS Studio, voor het opslaan van alle data, zoals de profielen en de scene structuur.
@@ -370,3 +370,7 @@ Voorbeelden van software die JSON gebruiken.
 * Newtek NDI Studio Monitor, voor het opslaan van alle instellingen.
 * Arduino Editor, voor het opslaan van alle instellingen.
 * Tiled, voor het exporteren van tile maps.
+
+# Bronnen
+* https://www.anylogic.com/use-of-simulation/
+* https://www.ovpro.nl/bus/2017/11/02/simulator-mooie-aanvulling-op-opleiding-tot-buschauffeur/
