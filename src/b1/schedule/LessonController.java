@@ -18,8 +18,7 @@ import java.awt.*;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
-public class LessonController extends AppointmentControllerAbstract
-{
+public class LessonController extends AppointmentControllerAbstract {
     private Lesson lesson;
     private LessonView view;
     private School school;
@@ -70,12 +69,10 @@ public class LessonController extends AppointmentControllerAbstract
             if (this.lesson.getDescription() != null) {
                 this.view.getDescriptionField().setText(this.lesson.getDescription());
             }
-            if(this.lesson.getTeacher() != null)
-            {
+            if (this.lesson.getTeacher() != null) {
                 this.view.getTeacherComboBox().getSelectionModel().select(this.lesson.getTeacher());
             }
-            if(this.lesson.getGroup() != null)
-            {
+            if (this.lesson.getGroup() != null) {
                 this.view.getGroupComboBox().getSelectionModel().select(this.lesson.getGroup());
             }
 
@@ -86,8 +83,7 @@ public class LessonController extends AppointmentControllerAbstract
     }
 
     private EventHandler<ActionEvent> onCancelClicked() {
-        return new EventHandler<ActionEvent>()
-        {
+        return new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 view.getStage().close();
@@ -96,8 +92,7 @@ public class LessonController extends AppointmentControllerAbstract
     }
 
     private EventHandler<ActionEvent> onSaveClicked() {
-        return new EventHandler<ActionEvent>()
-        {
+        return new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 String name = view.getNameField().getText();
@@ -158,7 +153,7 @@ public class LessonController extends AppointmentControllerAbstract
         alert.setContentText("Weet u zeker dat u deze afspraak wilt verwijderen?");
         Toolkit.getDefaultToolkit().beep();
         alert.showAndWait();
-        if(alert.getResult().getText().equals("OK")) {
+        if (alert.getResult().getText().equals("OK")) {
             this.school.getSchedule().getAppointments().remove(this.lesson);
             this.view.getStage().close();
         }

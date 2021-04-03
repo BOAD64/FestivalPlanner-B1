@@ -2,8 +2,7 @@ package b1.school.room;
 
 import java.io.Serializable;
 
-public abstract class Room implements Serializable
-{
+public abstract class Room implements Serializable {
     private String name;
     private double width;
     private double length;

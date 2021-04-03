@@ -1,6 +1,5 @@
 package b1.school.room;
 
-
 public class Classroom extends Room {
     private int capacity;
 

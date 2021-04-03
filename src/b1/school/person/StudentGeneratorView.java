@@ -20,8 +20,7 @@ public class StudentGeneratorView implements View {
 
     @Override
     public Stage getStage() {
-        if(this.stage == null)
-        {
+        if (this.stage == null) {
             this.createStage();
         }
         return this.stage;
@@ -57,7 +56,7 @@ public class StudentGeneratorView implements View {
         this.createButtons();
     }
 
-    private void createButtons(){
+    private void createButtons() {
         this.saveButton = new Button("Opslaan");
         this.cancelButton = new Button("Annuleren");
 

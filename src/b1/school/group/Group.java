@@ -1,12 +1,11 @@
 package b1.school.group;
 
-import b1.Data;
 import b1.school.person.Student;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Group implements Data, Serializable {
+public class Group implements Serializable {
     private String groupCode;
     private ArrayList<Student> students;
 

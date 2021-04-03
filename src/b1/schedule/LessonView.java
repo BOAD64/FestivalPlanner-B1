@@ -15,7 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class LessonView extends AppointmentViewAbstract{
+public class LessonView extends AppointmentViewAbstract {
 
     private Stage stage;
     private ComboBox<Group> groupComboBox;
@@ -29,14 +29,14 @@ public class LessonView extends AppointmentViewAbstract{
     }
 
     public Stage getStage() {
-        if(this.stage == null) {
+        if (this.stage == null) {
             this.stage = new Stage();
             this.createStage();
         }
         return this.stage;
     }
 
-    private void createStage(){
+    private void createStage() {
         VBox vBox = new VBox();
         this.saveButton = new Button("Opslaan");
         this.cancelButton = new Button("Annuleren");

@@ -1,8 +1,5 @@
 package b1.schedule;
 
-import b1.school.person.Person;
-import b1.school.person.Teacher;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 

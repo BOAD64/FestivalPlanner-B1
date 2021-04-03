@@ -21,7 +21,7 @@ public class StudentGeneratorController implements Controller {
 
     @Override
     public void show(Stage ownerStage) {
-        if(!this.view.getStage().isShowing()) {
+        if (!this.view.getStage().isShowing()) {
             Stage stage = this.view.getStage();
             this.view.getCancelButton().setOnAction(e -> this.view.getStage().close());
             this.view.getSaveButton().setOnAction((e -> this.generate()));
@@ -36,7 +36,7 @@ public class StudentGeneratorController implements Controller {
             short amount = Short.parseShort(this.view.getTextField().getText());
             StudentGenerator generator = new StudentGenerator(amount);
             this.view.getStage().close();
-        } catch (Exception e){
+        } catch (Exception e) {
             ErrorMessage.show();
         }
     }

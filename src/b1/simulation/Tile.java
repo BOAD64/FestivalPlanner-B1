@@ -1,8 +1,6 @@
 package b1.simulation;
 
-import java.awt.*;
-
-public class Tile{
+public class Tile {
     private final int x;
     private final int y;
     private final int tileSetIndex;

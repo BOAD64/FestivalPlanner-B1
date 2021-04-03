@@ -1,6 +1,5 @@
 package b1.io;
 
-import b1.schedule.Schedule;
 import b1.school.School;
 
 import java.io.*;

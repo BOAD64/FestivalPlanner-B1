@@ -3,7 +3,6 @@ package b1.schedule;
 import b1.View;
 import b1.io.ImageFile;
 import javafx.beans.value.ChangeListener;
-import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -125,7 +124,7 @@ public class ScheduleView implements View {
         this.canvas.setWidth(this.stage.getWidth());
         this.canvas.setOnScroll(this::onScroll);
         sorterComboBoxLabel.setTextFill(javafx.scene.paint.Color.WHITE);
-        sorterComboBoxLabel.setPadding(new Insets(0,10,0,10));
+        sorterComboBoxLabel.setPadding(new Insets(0, 10, 0, 10));
 
         topBox.getChildren().addAll(sorterComboBoxLabel, this.sorterComboBox);
         this.borderPane.setTop(topBox);
@@ -186,9 +185,8 @@ public class ScheduleView implements View {
         return Math.max(460.0, columnWidth);
     }
 
-    private double getScheduleWidth()
-    {
-        return this.getColumnWidth()*this.appointments.size();
+    private double getScheduleWidth() {
+        return this.getColumnWidth() * this.appointments.size();
     }
 
     private int getAppointmentY(AppointmentAbstract appointment) {
@@ -209,8 +207,8 @@ public class ScheduleView implements View {
     }
 
     private void onScroll(ScrollEvent event) {
-        this.scroll+=event.getDeltaY();
-        this.scroll = Math.max(Math.min(this.scroll, 0), -this.getColumnWidth()*(this.appointments.size()-(this.canvas.getWidth() / this.getColumnWidth())));
+        this.scroll += event.getDeltaY();
+        this.scroll = Math.max(Math.min(this.scroll, 0), -this.getColumnWidth() * (this.appointments.size() - (this.canvas.getWidth() / this.getColumnWidth())));
         this.draw();
     }
 }

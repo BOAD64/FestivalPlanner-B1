@@ -8,9 +8,9 @@ import b1.school.School;
 import b1.school.group.Group;
 import b1.school.person.Student;
 import b1.school.person.Teacher;
-import b1.simulation.NPC.NPC;
-import b1.simulation.NPC.StudentNPC;
-import b1.simulation.NPC.TeacherNPC;
+import b1.simulation.npc.NPC;
+import b1.simulation.npc.StudentNPC;
+import b1.simulation.npc.TeacherNPC;
 import javafx.animation.AnimationTimer;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
@@ -32,8 +32,7 @@ import java.time.LocalTime;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
-public class Simulation
-{
+public class Simulation {
     private School school;
     private ResizableCanvas canvas;
     private Camera camera;
@@ -120,8 +119,7 @@ public class Simulation
         this.camera = new Camera(this.canvas, this::draw, g2d);
         draw(g2d);
 
-        new AnimationTimer()
-        {
+        new AnimationTimer() {
             long last = -1;
 
             @Override
@@ -138,8 +136,7 @@ public class Simulation
         canvas.setOnMouseMoved(e -> {
             try {
                 this.mousePos = camera.getTransform().inverseTransform(new Point2D.Double(e.getX(), e.getY()), null);
-            }
-            catch (Exception exeption) {
+            } catch (Exception exeption) {
                 exeption.printStackTrace();
             }
 
@@ -155,19 +152,19 @@ public class Simulation
         //J slows time
         //L speeds up time
         this.pane.setOnKeyPressed(event -> {
-            if(event.getCode().getName().equals("F3")){
-                this.debug=!this.debug;
+            if (event.getCode().getName().equals("F3")) {
+                this.debug = !this.debug;
             }
-            if (event.getCode().equals(KeyCode.K)){
+            if (event.getCode().equals(KeyCode.K)) {
                 this.clock.pause();
             }
-            if (event.getCode().equals(KeyCode.J)){
-                if (slider.getValue() > 0){
+            if (event.getCode().equals(KeyCode.J)) {
+                if (slider.getValue() > 0) {
                     slider.setValue(slider.getValue() - 0.5);
                 }
             }
-            if (event.getCode().equals(KeyCode.L)){
-                if (slider.getValue() <= 19.5){
+            if (event.getCode().equals(KeyCode.L)) {
+                if (slider.getValue() <= 19.5) {
                     slider.setValue(slider.getValue() + 0.5);
                 }
             }
@@ -213,8 +210,7 @@ public class Simulation
         StackPane.setAlignment(zoomButtons, Pos.TOP_RIGHT);
     }
 
-    public void reloadSimulation()
-    {
+    public void reloadSimulation() {
         this.NPCs.clear();
         this.addNPCs();
         this.clock.setCurrentTime(LocalTime.of(8, 0));
@@ -225,8 +221,7 @@ public class Simulation
     private void CheckIfNPClicked(MouseEvent e) {
         try {
             this.mousePos = camera.getTransform().inverseTransform(new Point2D.Double(e.getX(), e.getY()), null);
-        }
-        catch (Exception exeption) {
+        } catch (Exception exeption) {
             exeption.printStackTrace();
         }
         for (NPC npc : this.NPCs) {
@@ -241,7 +236,7 @@ public class Simulation
      */
     public void update(double deltaTime) {
         this.speedValueField.setText("Snelheid: " + (Math.round(slider.getValue() * 100) / 100.0) + "x");
-        if (!this.clock.isPaused()){
+        if (!this.clock.isPaused()) {
             this.clock.setSpeedMultiplier(slider.getValue());
         }
 
@@ -257,7 +252,7 @@ public class Simulation
 
             //should not give an exception. yet it does
             try {
-                this.NPCs.sort((p1, p2) -> (int)(p1.getPosition().getY() - p2.getPosition().getY()));
+                this.NPCs.sort((p1, p2) -> (int) (p1.getPosition().getY() - p2.getPosition().getY()));
             } catch (Exception e) {
                 e.printStackTrace();
             }

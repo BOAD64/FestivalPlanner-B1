@@ -18,10 +18,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-import java.util.ArrayList;
-
-public class SchoolController implements Controller
-{
+public class SchoolController implements Controller {
 
     private School school;
     private SchoolView schoolView;
@@ -153,8 +150,7 @@ public class SchoolController implements Controller
         }
         if (isSaveToDelete) {
             this.schoolView.getClassroomListView().getItems().remove(selectedClassroom);
-        }
-        else {
+        } else {
             ErrorMessage.show("Het klaslokaal kan niet worden verwijderd aangezien het nog gebruikt wordt.");
         }
     }
@@ -180,8 +176,7 @@ public class SchoolController implements Controller
 
         if (isSaveToDelete) {
             this.schoolView.getGroupListView().getItems().remove(selectedGroup);
-        }
-        else {
+        } else {
             ErrorMessage.show("De groep kan niet worden verwijderd aangezien het nog gebruikt wordt.");
         }
     }
@@ -199,8 +194,7 @@ public class SchoolController implements Controller
 
         if (isSaveToDelete) {
             this.schoolView.getStudentListView().getItems().remove(selectedStudent);
-        }
-        else {
+        } else {
             ErrorMessage.show("De student kan niet worden verwijderd aangezien het nog gebruikt wordt.");
         }
     }
@@ -218,8 +212,7 @@ public class SchoolController implements Controller
 
         if (isSaveToDelete) {
             this.schoolView.getTeacherListView().getItems().remove(selectedTeacher);
-        }
-        else {
+        } else {
             ErrorMessage.show("De docent kan niet worden verwijderd aangezien het nog gebruikt wordt.");
         }
     }

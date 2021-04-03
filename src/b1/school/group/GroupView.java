@@ -31,7 +31,7 @@ public class GroupView implements View {
 
     @Override
     public Stage getStage() {
-        if(this.stage == null) {
+        if (this.stage == null) {
             this.createStage();
         }
 

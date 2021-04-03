@@ -8,6 +8,12 @@ public class SpriteFile {
     private static ArrayList<BufferedImage> sprites;
     private static String path;
 
+    /**
+     * Checks whether sprites and/or path have a value. If sprites has no value, but there is a path,
+     * sprites is assigned the value of the contents of the file at the path with the method fillSprites. Then, sprites is returned.
+     *
+     * @return either school or null.
+     */
     public static ArrayList<BufferedImage> getSprites() {
         if (sprites == null) {
             if (path == null || path.isEmpty()) {

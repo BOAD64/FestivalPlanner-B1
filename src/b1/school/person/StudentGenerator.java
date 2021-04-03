@@ -6,8 +6,7 @@ import b1.school.group.Group;
 
 import java.util.ArrayList;
 
-public class StudentGenerator
-{
+public class StudentGenerator {
 
     private ArrayList<String> names;
     private ArrayList<Group> groups = new ArrayList<>();
@@ -23,7 +22,7 @@ public class StudentGenerator
      * @param amount is the amount of names that are put into the ArrayList with random names.
      */
     public StudentGenerator(short amount) {
-        if (amount > 600){
+        if (amount > 600) {
             throw new IllegalArgumentException();
         }
         this.names = NameFile.readFile();

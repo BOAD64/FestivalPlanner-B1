@@ -1,4 +1,4 @@
-package b1.simulation.NPC;
+package b1.simulation.npc;
 
 import b1.school.person.Person;
 import b1.simulation.Camera;
@@ -8,19 +8,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.awt.*;
-import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-
-//todo: place as many posible shared functions from studentNPC > NPC
-//todo: Implement actual sprites
-//todo: try finding out how we want to implement States
-//todo: maybe already implement a idle state and going to class state.(if we use state as a target setter)
-//todo: copy studentNPC to teacherNPC
 
 public abstract class NPC {
     Point2D position;
@@ -51,15 +44,6 @@ public abstract class NPC {
         this.walkableLayer = walkableLayer;
         this.font = new Font("Rockwell", Font.PLAIN, 10);
     }
-
-//    /**
-//     * Set target position for NPC to walk to.
-//     *
-//     * @param position target position.
-//     */
-//    public void setTarget(Point2D position) {
-//        this.target = position;
-//    }
 
     public void setTarget(Target target) {
         this.target = target;
@@ -92,12 +76,12 @@ public abstract class NPC {
      * @param deltaTime declares animation speed.
      */
     public void update(double deltaTime) {
-        if(this.target == null || this.isHome) {
+        if (this.target == null || this.isHome) {
             return;
         }
 //        deltaTime = Math.abs(deltaTime);
 //        int distance = this.target.getDistance(new Point((int)this.position.getX() / 32, (int)this.position.getY() / 32));
-        if(this.target.hasArrived(new Point((int) this.position.getX() / 32, (int) this.position.getY() / 32))) {
+        if (this.target.hasArrived(new Point((int) this.position.getX() / 32, (int) this.position.getY() / 32))) {
             this.standStill = true;
 
             this.hasArrived();
@@ -110,7 +94,7 @@ public abstract class NPC {
         this.hasArrived = false;
         this.standStill = false;
         this.frame += deltaTime * 10;
-        if(this.frame >= 3) {
+        if (this.frame >= 3) {
             this.frame = 0;
         }
 
@@ -123,23 +107,23 @@ public abstract class NPC {
         //turnspeed
         double targetAngle = Math.atan2(targetPos.getY() - this.position.getY(), targetPos.getX() - this.position.getX());
         double rotation = targetAngle - this.angle;
-        while(rotation < -Math.PI) {
+        while (rotation < -Math.PI) {
             rotation += 2 * Math.PI;
         }
-        while(rotation > Math.PI) {
+        while (rotation > Math.PI) {
             rotation -= 2 * Math.PI;
         }
 
-        if(rotation < -(this.rotationSpeed * 100 * deltaTime)) {
+        if (rotation < -(this.rotationSpeed * 100 * deltaTime)) {
             this.angle -= this.rotationSpeed * 100 * deltaTime;
-        } else if(rotation > this.rotationSpeed * 100 * deltaTime) {
+        } else if (rotation > this.rotationSpeed * 100 * deltaTime) {
             this.angle += this.rotationSpeed * 100 * deltaTime;
         } else {
             this.angle = targetAngle;
         }
         boolean hasCollision = checkCollision(deltaTime, 3);
 
-        if(!hasCollision) {
+        if (!hasCollision) {
             Point2D nextPos = new Point2D.Double(this.position.getX() + this.speed * Math.cos(this.angle) * deltaTime,
                     this.position.getY() + this.speed * Math.sin(this.angle) * deltaTime);
             this.updatePosition(nextPos);
@@ -147,7 +131,7 @@ public abstract class NPC {
     }
 
     private void updatePosition(Point2D nextPos) {
-        if(this.walkableLayer.isWalkable((int) (nextPos.getX() / 32.0), (int) (nextPos.getY() / 32.0))) {
+        if (this.walkableLayer.isWalkable((int) (nextPos.getX() / 32.0), (int) (nextPos.getY() / 32.0))) {
             this.position = nextPos;
         }
     }
@@ -158,7 +142,7 @@ public abstract class NPC {
      * @param graphics
      */
     public void draw(Graphics2D graphics, boolean debug) {
-        if(this.isHome) {
+        if (this.isHome) {
             return;
         }
 
@@ -167,16 +151,16 @@ public abstract class NPC {
         AffineTransform tx = new AffineTransform();
         tx.translate(this.position.getX() - centerX, this.position.getY() - centerY);
 
-        if(this.standStill) {
+        if (this.standStill) {
             graphics.drawImage(this.sprites.get(1), tx, null);
 
-        } else if(this.angle < Math.toRadians(45) && this.angle > Math.toRadians(-45)) {
+        } else if (this.angle < Math.toRadians(45) && this.angle > Math.toRadians(-45)) {
             graphics.drawImage(this.sprites.get(6 + (int) this.frame), tx, null);
 
-        } else if(this.angle > Math.toRadians(45) && this.angle < Math.toRadians(135)) {
+        } else if (this.angle > Math.toRadians(45) && this.angle < Math.toRadians(135)) {
             graphics.drawImage(this.sprites.get((int) this.frame), tx, null);
 
-        } else if(this.angle < Math.toRadians(-45) && this.angle > Math.toRadians(-135)) {
+        } else if (this.angle < Math.toRadians(-45) && this.angle > Math.toRadians(-135)) {
             graphics.drawImage(this.sprites.get(9 + (int) this.frame), tx, null);
 
         } else {
@@ -197,7 +181,7 @@ public abstract class NPC {
 
 
         //Draw hitBox and target
-        if(this.target != null && debug) {
+        if (this.target != null && debug) {
             this.target.draw(graphics);
             graphics.setColor(Color.white);
             graphics.draw(new Ellipse2D.Double(this.position.getX() - this.hitBoxSize / 2, this.position.getY() - this.hitBoxSize / 2, this.hitBoxSize, this.hitBoxSize));
@@ -206,7 +190,7 @@ public abstract class NPC {
     }
 
     private void hasArrived() {
-        if(this.callbackNPC != null) {
+        if (this.callbackNPC != null) {
             this.callbackNPC.hasArrived(this, this.target);
         }
 
@@ -240,14 +224,14 @@ public abstract class NPC {
      */
     private boolean checkCollision(double deltaTime, int iterationAmount) {
         boolean hasCollision = false;
-        for(NPC npc : this.collisionNPCs) {
-            if(npc.isHome) {
+        for (NPC npc : this.collisionNPCs) {
+            if (npc.isHome) {
                 continue;
             }
 
-            if(npc != this) {
+            if (npc != this) {
                 double thereSize = npc.getHitBoxSize();
-                if(npc.getPosition().distanceSq(this.position) < this.hitBoxSize * thereSize + 10) {
+                if (npc.getPosition().distanceSq(this.position) < this.hitBoxSize * thereSize + 10) {
                     hasCollision = true;
                     double angleToNPC = Math.atan2(
                             npc.getPosition().getY() - this.position.getY(),
@@ -314,7 +298,7 @@ public abstract class NPC {
 
     @Override
     public boolean equals(Object obj) {
-        if(!obj.getClass().equals(this.getClass())) {
+        if (!obj.getClass().equals(this.getClass())) {
             return false;
         }
         return ((NPC) obj).getPerson().equals(this.getPerson());

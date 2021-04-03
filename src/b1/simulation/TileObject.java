@@ -2,8 +2,7 @@ package b1.simulation;
 
 import java.awt.geom.Point2D;
 
-public class TileObject
-{
+public class TileObject {
     private int height;
     private int id;
     private String name;
