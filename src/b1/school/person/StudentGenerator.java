@@ -63,9 +63,9 @@ public class StudentGenerator {
             String gender = this.genders[(int)(Math.random() * this.genders.length)];
             short id = 0;
 
-            Student student = new Student(name, age, gender, id, null);
-            SchoolFile.getSchool().addStudent(student);
             Group selectedGroup = this.groups.get((int)(Math.random() * this.groups.size()));
+            Student student = new Student(name, age, gender, id, selectedGroup);
+            SchoolFile.getSchool().addStudent(student);
             SchoolFile.getSchool().getGroups().get(SchoolFile.getSchool().getGroups().indexOf(selectedGroup)).
                     addStudent(student);
         }
